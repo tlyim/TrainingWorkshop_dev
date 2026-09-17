@@ -1,10 +1,10 @@
 # ============================================================
-# rebuild source for Docker image ghcr.io/tlyim/rpython 
-# ============================================================
 # Dockerfile — Python + Marimo + R + Quarto environment
 # Based on .devcontainer/devcontainer.json
 # ============================================================
-LABEL org.opencontainers.image.source https://github.com/tlyim/rpython 
+## rebuild source for Docker image ghcr.io/tlyim/rpython 
+#LABEL org.opencontainers.image.source https://github.com/tlyim/rpython 
+# ============================================================
 
 FROM ubuntu:24.04
 
@@ -48,6 +48,7 @@ RUN apt-get install -y --no-install-recommends \
         libqpdf-dev \
         libxslt1-dev \
         pandoc \
+        nano \
         python3-pip \
         # Playwright system dependencies
         libnss3 \
@@ -67,6 +68,13 @@ RUN apt-get install -y --no-install-recommends \
         libpango-1.0-0 \
         libpangocairo-1.0-0 \
     && rm -rf /var/lib/apt/lists/*
+
+# ── bun + opencode-ai ─────────────────────────────────────────
+ENV BUN_INSTALL=/usr/local/bun
+ENV PATH="${BUN_INSTALL}/bin:${PATH}"
+RUN curl -fsSL https://bun.sh/install | bash \
+    && bun add -g opencode-ai \
+    && bun --version && opencode --version
 
 # ── Quarto ───────────────────────────────────────────────────
 RUN curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb \
@@ -127,12 +135,47 @@ RUN grep -qxF 'qpreview() {' /etc/bash.bashrc || printf '\nqpreview() {\n    qua
 # Still need the forwardPorts speciification in devcontainer.json
 EXPOSE 2718 8000 3000
 
+
+ARG USERNAME=codespace
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN existing_user="$(getent passwd "${USER_UID}" | cut -d: -f1)" \
+    && if [ -n "$existing_user" ] && [ "$existing_user" != "${USERNAME}" ]; then \
+        usermod --login "${USERNAME}" "$existing_user" \
+        && usermod --move-home --home "/home/${USERNAME}" "${USERNAME}"; \
+      elif [ -z "$existing_user" ]; then \
+        existing_group="$(getent group "${USER_GID}" | cut -d: -f1)" \
+        && if [ -z "$existing_group" ]; then \
+            groupadd --gid "${USER_GID}" "${USERNAME}"; \
+          fi \
+        && useradd --uid "${USER_UID}" --gid "${USER_GID}" \
+            --create-home --shell /bin/bash "${USERNAME}"; \
+      fi \
+    && usermod --gid "${USER_GID}" --shell /bin/bash "${USERNAME}" \
+    && usermod -aG sudo "${USERNAME}" \
+    && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" \
+         > "/etc/sudoers.d/${USERNAME}" \
+    && chmod 0440 "/etc/sudoers.d/${USERNAME}"
+
+# RUN groupadd --gid ${USER_GID} ${USERNAME} \
+#     && useradd --uid ${USER_UID} --gid ${USER_GID} \
+#        --create-home --shell /bin/bash ${USERNAME} \
+#     && usermod -aG sudo ${USERNAME} \
+#     && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" \
+#        > /etc/sudoers.d/${USERNAME} \
+#     && chmod 0440 /etc/sudoers.d/${USERNAME}
+
+
+ENV HOME=/home/${USERNAME}
+USER ${USERNAME}
+WORKDIR /workspaces
 # ── Default working directory ─────────────────────────────────
-WORKDIR /workspace
+#WORKDIR /workspace
 
 # ── Default command: launch Marimo ───────────────────────────
 CMD ["marimo", "edit", "--host", "0.0.0.0", "--port", "2718", "--no-token"]
 
 # Final step: use setup.sh to copy settings.json
-# COPY .devcontainer/setup.sh /tmp/setup.sh
+# COPY setup.sh /tmp/setup.sh
 # RUN bash /tmp/setup.sh
