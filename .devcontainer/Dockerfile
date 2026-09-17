@@ -129,7 +129,8 @@ RUN Rscript -e "\
 RUN grep -qxF 'qpreview() {' /etc/bash.bashrc || printf '\nqpreview() {\n    quarto preview "$1" --no-browser --no-watch-inputs\n}\n' \
         >> /etc/bash.bashrc
 
-RUN cat >> /etc/bash.bashrc <<'EOF'
+# Install this in /etc/skel so useradd copies it into the user's ~/.bashrc.
+RUN cat >> /etc/skel/.bashrc <<'EOF'
 # bash theme - partly inspired by https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/robbyrussell.zsh-theme
 __bash_prompt() {
     local userpart='`export XIT=$? \
@@ -196,9 +197,8 @@ RUN existing_user="$(getent passwd "${USER_UID}" | cut -d: -f1)" \
 
 ENV HOME=/home/${USERNAME}
 USER ${USERNAME}
-WORKDIR /workspaces
 # ── Default working directory ─────────────────────────────────
-#WORKDIR /workspace
+WORKDIR /workspaces
 
 # ── Default command: launch Marimo ───────────────────────────
 CMD ["marimo", "edit", "--host", "0.0.0.0", "--port", "2718", "--no-token"]
