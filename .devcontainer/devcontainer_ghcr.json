@@ -4,7 +4,7 @@
     // Pull pre-built image
     //"image": "ghcr.io/tlyim/rpython:latest",
     
-    // Wrap ghcr.io image in Dockerfile_ghcr to set up user and install bun
+    // Wrap ghcr.io image in Dockerfile_ghcr to set up the user and tools
     "build": {
         "dockerfile": "Dockerfile_ghcr",
         "args": {
@@ -41,8 +41,6 @@
         "BUN_INSTALL": "/usr/local/bun",
         "PATH": "/usr/local/bun/bin:${containerEnv:PATH}"
     },
-
-    "onCreateCommand": "sudo apt update && sudo apt install -y nano && sudo mkdir -p /usr/local/bun && sudo chown -R \"$USER\":\"$(id -gn)\" /usr/local/bun && export BUN_INSTALL=/usr/local/bun && export PATH=\"$BUN_INSTALL/bin:$PATH\" && curl -fsSL https://bun.sh/install | bash && bun add -g opencode-ai && echo 'Running onCreateCommand ...'",
 
     "postCreateCommand": "git config --global user.name 'Tl Yim (Codespaces)' && if [ \"${GITHUB_USER}\" = \"tlyim\" ]; then GIT_COMMITTER_EMAIL=$(curl -s https://gist.githubusercontent.com/tlyim/ebbea2d6ac7e91a8f24505000df00271/raw/email_alias.txt); [ -n \"$GIT_COMMITTER_EMAIL\" ] && git config --global user.email \"$GIT_COMMITTER_EMAIL\" || echo \"WARNING: git user.email not set\" >&2; fi && CONFIGURED=$(git config --global user.email 2>/dev/null); if [ -n \"$CONFIGURED\" ]; then echo \"git user.email set to: $CONFIGURED\"; else echo \"WARNING: git user.email is not set - required for commits\" >&2; fi && bash .devcontainer/setup.sh",
 
