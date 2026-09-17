@@ -1,9 +1,23 @@
 {
     "name": "Python + Marimo Container",
 
-    // No need to build locally — pulls pre-built image
-    "image": "ghcr.io/tlyim/rpython:latest",
-        
+    // Pull pre-built image
+    //"image": "ghcr.io/tlyim/rpython:latest",
+    
+    // Wrap ghcr.io image in Dockerfile_ghcr to set up user and install bun
+    "build": {
+        "dockerfile": "Dockerfile_ghcr",
+        "args": {
+            "USERNAME": "codespace",
+            "USER_UID": "1000",
+            "USER_GID": "1000"
+        }
+    },
+
+    "remoteUser": "codespace",
+    "containerUser": "codespace",
+    "updateRemoteUserUID": true,
+
     "customizations": {
         "vscode": {
             "extensions": [

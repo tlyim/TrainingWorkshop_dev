@@ -1,10 +1,10 @@
 {
     "name": "Python + Marimo Container",
 
-    // No need to build locally — pulls pre-built image
+    // Pull pre-built image
     //"image": "ghcr.io/tlyim/rpython:latest",
 
-    // Build locally with the Dockerfile in this repository
+    // Alternatively, build locally with Dockerfile in this repository
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
