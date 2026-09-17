@@ -1,0 +1,40 @@
+{
+    "name": "Python + Marimo Container",
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter", 
+                "marimo-team.vscode-marimo",
+                "shd101wyy.markdown-preview-enhanced",
+                "ms-vscode.live-server",
+                "mechatroner.rainbow-csv",
+                "bierner.markdown-mermaid",
+                "quarto.quarto",
+                "REditorSupport.r",
+                "REditorSupport.r-syntax"
+            ]
+        }
+    },
+
+    "image": "ghcr.io/tlyim/rpython:latest",
+    // No need to build locally — pulls pre-built image
+    
+    "onCreateCommand": "sudo apt update && echo 'Running onCreateCommand ...'",
+
+    "postCreateCommand": "git config --global user.name 'Tl Yim (Codespaces)' && if [ \"${GITHUB_USER}\" = \"tlyim\" ]; then GIT_COMMITTER_EMAIL=$(curl -s https://gist.githubusercontent.com/tlyim/ebbea2d6ac7e91a8f24505000df00271/raw/email_alias.txt); [ -n \"$GIT_COMMITTER_EMAIL\" ] && git config --global user.email \"$GIT_COMMITTER_EMAIL\" || echo \"WARNING: git user.email not set\" >&2; fi && CONFIGURED=$(git config --global user.email 2>/dev/null); if [ -n \"$CONFIGURED\" ]; then echo \"git user.email set to: $CONFIGURED\"; else echo \"WARNING: git user.email is not set - required for commits\" >&2; fi && bash .devcontainer/setup.sh",
+
+    // Actually instructs VS Code/Codespaces to forward the port
+    "forwardPorts": [2718, 8000, 3000],
+    "portsAttributes": {
+        // "2718": {
+        // "label": "Marimo App",
+        // "onAutoForward": "openBrowser"
+        // },
+        "8000": {
+        "label": "directory lising",
+        "onAutoForward": "openBrowser"
+        }
+    }
+}

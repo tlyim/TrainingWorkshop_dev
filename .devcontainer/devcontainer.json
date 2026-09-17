@@ -11,6 +11,8 @@
                 "ms-vscode.live-server",
                 "mechatroner.rainbow-csv",
                 "bierner.markdown-mermaid",
+                "sst-dev.opencode",
+                "ltmoerdani.opencode-copilot-chat",
                 "quarto.quarto",
                 "REditorSupport.r",
                 "REditorSupport.r-syntax"
@@ -18,14 +20,30 @@
         }
     },
 
-    "image": "ghcr.io/tlyim/rpython:latest",
-    // No need to build locally — pulls pre-built image
+    // 1. Force the Runtime (Marimo/uv) to stick to the system python
+    //"remoteEnv": {
+    //    "UV_PYTHON_PREFERENCE": "only-system"
+    //},
     
-    "onCreateCommand": "sudo apt update && echo 'Running onCreateCommand ...'",
+    // 2. Prepare the environment using that same python3
+    // Note: To fix the Yarn GPG key error, we need to remove the offending source list entry and update the package lists before installing Playwright dependencies.
 
-    "postCreateCommand": "git config --global user.name 'Tl Yim (Codespaces)' && if [ \"${GITHUB_USER}\" = \"tlyim\" ]; then GIT_COMMITTER_EMAIL=$(curl -s https://gist.githubusercontent.com/tlyim/ebbea2d6ac7e91a8f24505000df00271/raw/email_alias.txt); [ -n \"$GIT_COMMITTER_EMAIL\" ] && git config --global user.email \"$GIT_COMMITTER_EMAIL\" || echo \"WARNING: git user.email not set\" >&2; fi && CONFIGURED=$(git config --global user.email 2>/dev/null); if [ -n \"$CONFIGURED\" ]; then echo \"git user.email set to: $CONFIGURED\"; else echo \"WARNING: git user.email is not set - required for commits\" >&2; fi && bash .devcontainer/setup.sh",
+    "onCreateCommand": "sudo sh -c \"grep -rl 'dl.yarnpkg.com' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null | xargs -r rm -f\" && sudo apt update && sudo apt install --no-install-recommends -y software-properties-common dirmngr && wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && sudo add-apt-repository -y \"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/\" && sudo apt update && sudo apt install -y --no-install-recommends tesseract-ocr 'r-base=4.6.*' libharfbuzz-dev libfribidi-dev libcairo2-dev libmagick++-dev librsvg2-dev libqpdf-dev libxslt1-dev pandoc nano && curl -fsSL https://bun.sh/install | bash && export PATH=\"$HOME/.bun/bin:$PATH\" && ~/.bun/bin/bun add -g opencode-ai && curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb && sudo apt install -y ./quarto-linux-amd64.deb && rm quarto-linux-amd64.deb && pip install radian && sudo sh -c 'printf \"#!/bin/sh\\nradian \\\"\\$@\\\"\\ntrue\\n\" > /usr/local/bin/r && chmod +x /usr/local/bin/r' && python3 -m pip install uv && uv pip install --system --python python3 marimo ipykernel",
 
-    // Actually instructs VS Code/Codespaces to forward the port
+    //"postCreateCommand": "python3 -m pip install uv && uv pip install --system --python python3 marimo ipykernel pandas plotly statsmodels micropip groq python-dotenv dspy-ai playwright pymupdf pillow pytesseract nltk spacy wordcloud && playwright install chromium && sudo sh -c \"grep -rl 'dl.yarnpkg.com' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null | xargs -r rm -f\" && sudo apt update && playwright install-deps && sudo apt install -y tesseract-ocr r-base=4.3.3-* libharfbuzz-dev libfribidi-dev libcairo2-dev libmagick++-dev librsvg2-dev libqpdf-dev libxslt1-dev && pip install radian && sudo Rscript -e \"dir.create('R_library', showWarnings=FALSE); .libPaths(c('R_library', .libPaths())); install.packages(c(    ), lib = 'R_library', repos='https://packagemanager.posit.co/cran/__linux__/noble/latest', dependencies=TRUE)\" && sudo sh -c 'printf \"#!/bin/sh\\nradian \\\"\\$@\\\"\\ntrue\\n\" > /usr/local/bin/r && chmod +x /usr/local/bin/r' ",
+    
+    "postCreateCommand": "uv pip install --system --python python3 pandas plotly statsmodels micropip groq python-dotenv dspy-ai playwright pymupdf pillow pytesseract nltk spacy wordcloud && playwright install-deps && playwright install chromium && Rscript -e \"dir.create('R_library', showWarnings=FALSE); .libPaths(c('R_library', .libPaths())); pak::pak(c('languageserver', 'httpgd'))\" && git config --global user.name 'Tl Yim (Codespaces)' && if [ \"${GITHUB_USER}\" = \"tlyim\" ]; then GIT_COMMITTER_EMAIL=$(curl -s https://gist.githubusercontent.com/tlyim/ebbea2d6ac7e91a8f24505000df00271/raw/email_alias.txt); [ -n \"$GIT_COMMITTER_EMAIL\" ] && git config --global user.email \"$GIT_COMMITTER_EMAIL\" || echo \"WARNING: git user.email not set\" >&2; fi && CONFIGURED=$(git config --global user.email 2>/dev/null); if [ -n \"$CONFIGURED\" ]; then echo \"git user.email set to: $CONFIGURED\"; else echo \"WARNING: git user.email is not set - required for commits\" >&2; fi && grep -qxF 'qpreview() {' ~/.bashrc || printf '\\nqpreview() {\\n    quarto preview \"$1\" --no-browser --no-watch-inputs \\n}\\n' >> ~/.bashrc && bash .devcontainer/setup.sh",
+    //
+    // 'r-base=4.6.*' 'languageserver', 'jsonlite', 'rlang', 'dplyr', 'readr', 'modelsummary', 'rstudioapi', 'correlation', 'stargazer'
+    // Note: Remove corrupted R_library and add the packages above for first-time installation if required packages have not been installed in R_library and included in the GitHub repo properly  
+    // Must also have .Rprofile containing: .libPaths(c(normalizePath('R_library', mustWork = FALSE), .libPaths())); message("Loading .Rprofile...")
+    // And also include the below to ensure compiled .so files in R_library are synced to the GitHub repo
+    //   
+    //     *.so
+    //
+    //     # Exception: keep compiled R package binaries for faster Codespace startup
+    //     !R_library/**/*.so
+    
     "forwardPorts": [2718, 8000, 3000],
     "portsAttributes": {
         // "2718": {
