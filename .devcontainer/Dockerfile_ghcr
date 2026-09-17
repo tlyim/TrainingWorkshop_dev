@@ -19,5 +19,14 @@ RUN existing_user="$(getent passwd "${USER_UID}" | cut -d: -f1)" \
        > "/etc/sudoers.d/$USERNAME" \
     && chmod 0440 "/etc/sudoers.d/$USERNAME"
 
+ENV BUN_INSTALL=/usr/local/bun
+ENV PATH="${BUN_INSTALL}/bin:${PATH}"
+
+RUN mkdir -p "${BUN_INSTALL}" \
+   && curl -fsSL https://bun.sh/install | bash \
+   && bun add -g opencode-ai \
+   && bun --version \
+   && opencode --version
+
 ENV HOME=/home/codespace
 WORKDIR /workspaces
