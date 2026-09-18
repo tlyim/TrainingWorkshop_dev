@@ -229,8 +229,10 @@ devbox.lock
 .vscode/settings.json   # only if you want this ignored
 #.lightning_studio
 
+.copilot/ide/*.lock
 
 *Zone.Identifier
 *.png
 !BayesCityStGeorges_logoNoBkgd.png
 !GitHubEcosystem.png
+
