@@ -88,42 +88,15 @@ install_bun_opencode() {
   export BUN_INSTALL="/usr/local/bun"
   export PATH="$BUN_INSTALL/bin:$PATH"
 
-  local bun_bin="$BUN_INSTALL/bin/bun"
-  local bunx_bin="$BUN_INSTALL/bin/bunx"
-  local opencode_bin="$BUN_INSTALL/bin/opencode"
-
-  if [ ! -x "$bun_bin" ]; then
+  if ! command -v bun >/dev/null 2>&1; then
     sudo mkdir -p "$BUN_INSTALL"
     sudo chown -R "$(id -u):$(id -g)" "$BUN_INSTALL"
     curl -fsSL https://bun.sh/install | bash
   fi
 
-  if [ ! -x "$bun_bin" ] || [ ! -x "$bunx_bin" ]; then
-    echo "ERROR: Bun installation did not provide bun and bunx in $BUN_INSTALL/bin" >&2
-    return 1
+  if ! command -v opencode >/dev/null 2>&1; then
+    bun add --global opencode-ai
   fi
-
-  if [ ! -x "$opencode_bin" ]; then
-    "$bun_bin" add --global opencode-ai
-  fi
-
-  if [ ! -x "$opencode_bin" ]; then
-    echo "ERROR: OpenCode installation did not provide $opencode_bin" >&2
-    return 1
-  fi
-
-  sudo ln -sfn "$bun_bin" /usr/local/bin/bun
-  sudo ln -sfn "$bunx_bin" /usr/local/bin/bunx
-  sudo ln -sfn "$opencode_bin" /usr/local/bin/opencode
-
-  sudo tee /etc/profile.d/bun.sh >/dev/null <<EOF
-export BUN_INSTALL="$BUN_INSTALL"
-export PATH="$BUN_INSTALL/bin:\$PATH"
-EOF
-
-  echo "Bun installed: $bun_bin ($("$bun_bin" --version))"
-  echo "BunX installed: $bunx_bin"
-  echo "OpenCode installed: $opencode_bin ($("$opencode_bin" --version))"
 }
 
 install_r_packages() {
