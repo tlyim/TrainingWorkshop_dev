@@ -1,5 +1,28 @@
 # pkgcache (development version)
 
+* Better behavior for a corrupt package cache database: better error
+  message, and cleaning the cache does not fail in this case
+  (https://github.com/r-lib/pak/issues/884).
+
+* pkgcache now treats `PACKAGES` entries with `Path` and/or `File`
+  fields correctly (#141, @jeroen).
+
+* pkgcache now drops HTTP query parameter from `Path` and `File`
+  entries in `PACKAGES` when creating the path of the target filename
+  (#141, @jeroen).
+
+* All HTTP requests now honor the `pkgcache_http_version` option and
+  `PKGCACHE_HTTP_VERSION` environment variable. Closes
+  https://github.com/r-lib/pkgcache/issues/140.
+
+* New `PKG_USE_BIOCONDUCTOR` environment variable and new
+  `pkg.use_bioconductor` option to opt out from automatic Bioconductor
+  support.
+
+* Improved Bioconductor version detection. Avoid HTTP requests if
+  the appropriate Bioconductor version can be determined without it.
+  Closes https://github.com/r-lib/pak/issues/879.
+
 # pkgcache 2.2.5
 
 * pkgcache now supports comments in `DESCRIPTION` and `PACKAGES` files.
@@ -61,7 +84,7 @@
 
 * In `repo_add()` and `repo_resolve()` the `MRAN@` prefix is now deprecated
   and resolves to PPM, because MRAN will be retired soon. See more at
-  <https://posit.co/blog/migrating-from-mran-to-posit-package-manager/>.
+  <https://posit.co/blog/migrating-from-mran-to-posit-package-manager>.
 
 * The metadata cache now has `SystemRequirements` information for Bioconductor
   packages.

@@ -55,6 +55,9 @@ ppm_platforms	ppm_platforms
 ppm_repo_url	ppm_repo_url
 ppm_r_versions	ppm_r_versions
 ppm_snapshots	ppm_snapshots
+ppm_sso_login	ppm_sso_login
+ppm_sso_logout	ppm_sso_login
+ppm_sso_status	ppm_sso_login
 repo_add	repo_add
 repo_auth	repo_auth
 repo_auth_key_get	repo_auth_key_get

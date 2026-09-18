@@ -34,4 +34,4 @@ Author: Jay Loden [aut],
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
 Repository: CRAN
 Date/Publication: 2026-03-31 14:40:02 UTC
-Built: R 4.6.0; x86_64-pc-linux-musl; 2026-04-27 11:28:35 UTC; unix
+Built: R 4.6.1; x86_64-pc-linux-gnu; 2026-07-22 17:36:39 UTC; unix

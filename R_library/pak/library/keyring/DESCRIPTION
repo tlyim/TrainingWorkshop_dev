@@ -35,4 +35,4 @@ Author: Gábor Csárdi [aut, cre],
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
 Repository: CRAN
 Date/Publication: 2025-06-15 21:10:02 UTC
-Built: R 4.6.0; x86_64-pc-linux-musl; 2026-04-27 11:29:46 UTC; unix
+Built: R 4.6.1; x86_64-pc-linux-gnu; 2026-07-22 17:37:44 UTC; unix
