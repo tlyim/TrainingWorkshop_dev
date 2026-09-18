@@ -1,0 +1,14 @@
+{
+  "socketPath": "/tmp/mcp-i451YO/mcp.sock",
+  "scheme": "unix",
+  "headers": {
+    "Authorization": "Nonce c3dd3072-c283-4e3e-b560-d944834411d5"
+  },
+  "pid": 1516,
+  "ideName": "Lightning Studio",
+  "timestamp": 1789695930934,
+  "workspaceFolders": [
+    "/teamspace/studios/this_studio"
+  ],
+  "isTrusted": true
+}
