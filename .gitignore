@@ -231,6 +231,13 @@ devbox.lock
 
 .copilot/ide/*.lock
 
+
+# quarto generated files
+**_files/**/libs/**
+**_files/**/mediabag/**
+html
+
+
 *Zone.Identifier
 *.png
 !BayesCityStGeorges_logoNoBkgd.png

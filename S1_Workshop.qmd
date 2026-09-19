@@ -1,0 +1,458 @@
+---
+title: "Data Science and AI Tools for Beginners"
+title-slide-attributes:
+  data-background-image: img/BayesCSG_BunhillRow.jpg
+#  data-background-size: contain # default is cover
+  data-background-opacity: "0.2"   # "0.5"
+#date: "2026-09-30"
+execute:
+  echo: false  # set notebook-wide default; overridable in each chunk
+  output: true # means show code output in output; use '#| output: true' at the start of a chunk to override
+format:
+  revealjs:
+#    logo: "assets/BayesCSG_logoNoBkgd.png"
+    navigation-mode: linear  # vertical   # grid   
+#    controls-layout: bottom-right
+    controls-tutorial: true
+    #width: 1600
+    #height: 900
+    html-math-method: katex  # override Plotly.js's requirement to use mathjax
+    theme: [beige, custom.scss] # night # moon # sky # dark # solarized # simple # default # 
+    #=====================================================
+    # custom.scss vs. custom.css
+    #   custom.scss: Modifies the theme while it is being built by changing its core variables; 
+    #                use Quarto's internal variables (like $presentation-font-size-root)
+    #   custom.css: Forces a change after the theme is built by overriding existing styles.	
+    #=====================================================
+    center: true  # This forces vertical centering
+    transition: slide # convex # concave # zoom # 
+    background-transition: fade # none # slide # convex # concave # zoom # 
+    transition-speed: default # fast # slow # 
+#    template-partials:
+#      - title-slide.html
+    include-in-header: 
+      text: |
+        <style>
+        .center-h {
+        	text-align: center;
+        }
+        </style>
+#lightbox: true
+editor:
+  markdown:
+    wrap: 72  # none to turn off global wrapping default
+  references: 
+    location: document # section # block  #
+    prefix: "mydoc"
+---
+
+
+
+# The problem to solve  {.Xsmaller}
+
+- You have a task that can be _**automated with code**_
+
+- You want to know how an _**AI assistant**_ can help 
+
+
+
+# Why automation with code? {.smaller}
+
+::: {.incremental}
+- **Repetitive tasks** can be automated to _save time and reduce errors_
+- **Scalability**: Automation allows _scaling out in parallel_ if needed
+- **Scheduled tasks** can be automated to run at specific times _without human attention_
+- **Judgment-based tasks** can be automated with _AI acting as your surrogate_
+- **Complex tasks** can be automated by _building workflows incrementally_, with each step validated before moving on to the next
+- **Reproducibility**: Automated workflows can be _reproduced exactly_, verified by others, and shared with others/the future self
+:::
+
+::: {.fragment .fade-up}
+<div style="text-align: center;">[[**Code enables**]{style="color:green;"} **knowledge accumulation and transfer**]{style="margin-top:0;"}</div>
+:::
+
+
+
+# Automation with code: Examples {.Xsmaller}
+
+- **Structured/Unstructured data collection**, such as database queries, web scraping 
+- **Summarization/Categorization** with large language models (LLMs) via API calls
+- **Document/Image processing**, such as text extraction, color correction, watermarking
+
+
+
+# No programming Experience? {.smaller}
+
+::: {.incremental}
+- _**"I don't know how to code!"**_ &emsp; ![Scared2Death]  
+  - [**English**]{style="color:green;"} is the new programming language
+
+- Your productivity is only limited by **how clear** 
+  - you _**explain your problem**_ to AI
+  - you _**specify your requirements**_ for the solution
+
+- A capable AI assistant will fill in the gaps in between 
+  - but you need to **guide** it with clear instructions and feedback
+:::
+
+[Scared2Death]: img/Scared2Death.JPG "Scared to death" {.absolute top=100 right=225 height=120px width=auto max-width=50% }
+
+
+
+# Why GitHub, GitHub Codespace, and GitHub Copilot? {.smaller}
+
+::: {.incremental}
+- **GitHub** provides spaces to _store, manage, and share code_ with others
+  - Code files of a project are organized in a _**repository**_ (_**repo**_) with _**version control**_ to track changes
+
+- GitHub **Codespace** (built on **VS Code**) provides a _**ready-to-use development environment**_ in the cloud,without requiring the setup of VS Code in a local machine
+
+- GitHub **Copilot** is an _**AI assistant**_ sitting inside Codespace/VS Code to 
+  - answer your questions (_**Ask**_ mode)
+  - formulate plans to implement your ideas (_**Plan**_ mode)
+  - act as your agent to execute the plans to generate code and verify the results (_**Agent**_ mode)
+:::
+
+
+
+# GitHub ecosystem {.smaller}
+
+![](img/GitHubEcosystem.png){fig-align="center" width="120%"}
+
+<!--
+{fig-align="center" style="max-width:120%;height:auto;"}
+-->
+
+
+
+# If AI can formulate and execute plans for me, ...  {.Xsmaller}
+
+
+::: {.incremental}
+- Why do I need to learn coding?
+  - As of _**today**_, the AI models affordable to most of us are _**still not smart enough**_ to always deliver the required results without guidance
+
+- The more you know, the better you can stay on top of everything 
+:::
+
+
+
+#
+
+- Image to show paths to treasure site
+  - to cliff if heading in wrong direction
+
+
+
+
+# Why version control is important {.Xsmaller}
+
+::: {.incremental}
+- Version control (by **Git**) tracks changes to your code over time
+
+- To **commit** changes (i.e., save them for the long term), you must give a _commit message_ to describe the changes made
+
+- This sets a checkpoint that allows _**reverting to a previous version**_ of the code,
+  - protecting you from losing the original work after _**failed experimentation**_ or accidental deletion by you or your **AI assistant**.
+:::
+
+
+
+# Branches of a repo on GitHub {.Xsmaller}
+
+- **Main branch**: The default branch of a repo, where the _**stable version**_ of the code is stored
+
+- **Feature/Development branch**: A branch created to develop a new feature or experiment with code changes, without affecting the main branch
+
+
+
+# DS {.Xsmaller}
+
+- _**Data science**_ (**DS**) is an interdisciplinary field that combines math, statistics, programming, and business knowledge to _**turn raw, messy data into useful insights**_. 
+
+- Traditional DS courses provide systematic and [**comprehensive** coverage](https://www.udemy.com/course/python-core-and-advanced/) of a programming language (such as **Python** or R)
+  - building knowledge firmly from the ground up
+
+- _**Downside**_:
+  - Buried into details, students can easily **lose the big picture**, 
+    - forgetting why it is worth learning a DS programming language
+
+
+
+# Our Strategy 
+
+- _**One day is too short**_ for developing the knowledge comprehensively in the traditional manner
+  
+- Instead, this workshop simply 
+  - showcases some <span style="color:green;">code examples with which students can _**modify and experiment**_</span> to turn them into _**their own projects**_ through learn by doing 
+    - using _**AI as their <span style="color:green;">learning and research partner</span>**_
+
+
+
+# Why Python? {.Xsmaller}
+
+- Python has become the undisputed industry standard due to an  _**unmatched ecosystem of pre-built tools**_. 
+
+- In late 1990s, the scientific and academic computing communities adopted Python for mathematics and research.
+
+- As the "Big Data" and AI boom later took off, researchers naturally built their new machine learning tools on top of the Python code they already knew.  
+
+
+
+# Why marimo? {.Xsmaller}
+
+
+
+
+
+
+
+
+
+# Unstructured data collection & Document processing: Code example {.Xsmaller}
+
+Web scraping 
+Web crawling 
+
+
+
+# Natural Language Processing (NLP): Code example {.Xsmaller}
+
+N-grams 
+Lemmatization 
+
+
+
+
+
+
+
+
+
+# Why R? {.Xsmaller}
+
+
+
+# Open-source packages on GitHub {.smaller}
+
+- Image to find oysters with pearls
+
+
+
+# 
+
+
+
+
+
+
+---
+
+
+# The goal {.smaller}
+
+- Is NOT to turn students into proficient coders
+
+- Rather, the module aims to:
+
+  - Inspire students to independently explore selected tools, driven by their **own interests and motivation**
+  - Support students' **self-directed exploration** through signposting closely related resources
+
+- These are achieved by 
+  - sharing <span style="color:green;">code templates with which students can _**modify and experiment**_ to turn them into _**their own projects**_</span> through learn by doing
+  - providing guidance through the signposting _**Read/Watch in Advance and After**_ documents
+
+
+
+## Two weeks into the module ...
+
+- You learned how to 
+  - **automate** the **computation** and **visualization** of an important financial measure (Altman Z-Score) 
+    - using **panel data** of S&P 500 firms fetched from Yahoo Finance 
+
+
+
+## Four weeks into the module ...
+
+- You learned how to 
+  - **prepare and clean data** for analysis
+  - conduct basic data analysis and present results with **interactive visualizations**
+  - deploy a **dashboard app** and publish a **multi-tabbed webpage** to the world
+
+
+
+## Week 5 Key takeaways
+
+- _**AI is an integral part of your learning journey**_ 
+  - _**for this module — and beyond**_
+- Don't wait for others to help you. 
+  - Engage in an _**active learning**_ journey assisted by AI to  
+  _**<span style="color: green;">give yourself a brighter future!</span> **_
+
+
+
+## Week 6 & 7 Key takeaways {.smaller}
+
+- Data science provides tools and techniques for _web scraping_, _webcrawling_, and _natural language processing_ (NLP), 
+  - allowing collecting and analyzing unstructured data with **minimal human intervention**
+
+- The **<span style="color: green;">automation pipeline</span>** can handle large volumes of data efficiently  
+(e.g., multiple years of the S&P 500 companies' unstructured data), 
+  - **conserving** your time, energy, and attention **for more value-adding tasks** such as 
+    - learning from each identified page with a high frequency of the matched keywords (e.g., water pollution)
+
+
+
+## Week 8 & 9 Key takeaways
+
+- LLMs are powerful tools for a variety of tasks 
+  - but **hallucination** is a major risk
+- Techniques such as _prompt engineering_ and _grounding_ can be used to 
+  - guide LLMs towards more accurate and reliable outputs
+- API access to LLMs enables the **automation** and **scalability** 
+  - required for large volumes of **judgment-based** analysis tasks, such as financial sentiment analysis
+
+
+
+## Week 10 Key takeaways  
+
+- _**No single tool solves every problem**_
+  - Use Python for AI/Machine Learning (ML) tasks, but leverage R for rigorous statistical modeling 
+  - Selecting the "_**right tool for the job**_" is a key skill for data professionals
+
+- The landscape of data science and AI **changes rapidly**
+  - Continuous **self-learning and exploration** is the key to always choosing the right tool for the job
+
+
+
+# Week 1-10 Packages used {.smaller}
+
+![](img/Packages_WordCloud.png){fig-align="center" width="120%"}
+
+
+
+# Individual Project:  {.smaller}
+
+::: {.slide-subtitle style="font-size:180%;margin-top:-0.3em;"}
+Launching Your Professional Portfolio
+:::
+
+<!--
+### Launching Your Professional Portfolio {style="font-size:180%;"}
+-->
+
+* **The Core Goal:** Create the first draft of your personal portfolio webpage. 
+  * *The Long Game:* Polish this over the next 3 years so you have a professional, job-ready showcase by graduation.
+
+* **Creative Freedom & Requirements:** You have total freedom to design your page, provided it:
+  * Builds on the Week 4 code template.
+  * Meets the assignment Guide requirements (Sections 3, 4, and 7.2).
+
+
+
+# AI and Data Science Skills {.smaller}
+
+[![](img/UKGradJosAreDown.png){fig-align="center" width="70%"  style="display:block; margin-top:0; margin-bottom:-30px;"}](https://www.ft.com/content/99b6acb7-a079-4f57-a7bd-8317c1fbb728?shareType=nongift)
+
+[_In the age of AI, accountants are expected to have skills in areas like data analytics. [... a] survey noted that 58% of finance teams were using AI by 2024, mainly for anomaly and error detection, process **automation**, and analytics, but also found common hurdles such as “limited **data skills**” within firms ... proficiency in **programming language**, analytics tools, and cybersecurity are now **seen as crucial** for accountants to improve efficiency and provide strategic insights_](https://www.cpajournal.com/2025/10/29/alternatives-in-accounting-education/){style="font-size:80%;line-height:0.9;"} 
+
+
+
+# To conclude
+
+- This module was designed to equip you with the **data literacy** to 
+  - **adapt to** any new tool **the future** of finance and accounting throws at you
+
+<div style="text-align: center;">[Helping you to [**stand out**]{.gold-glow} in the talent pool!]{.sp .fragment .fade-up style="font-size:150%;margin-top:0;"}</div>
+
+<!-- 3. CSS for this specific effect -->
+<style>
+/* 
+   Style for the container to remove extra gaps 
+   and center the text 
+*/
+.gold-glow {
+  text-align: center;
+  margin-top: 0 !important; /* Removes the gap above */
+  padding-top: 10px;
+  
+  /* Text Styling */
+  font-family: lato;  
+  font-size: 1.8em; /* Large but fits on slide */
+  line-height: 1.2;
+  color: #3f3530; /* Dark Brown (matches Beige theme text) */
+  
+  /* The Animation */
+  animation: pulse-gold 0.65s infinite alternate;
+}
+
+/* 
+   Keyframes for a "Gold/Bronze" Pulse 
+   Optimized for Light Backgrounds
+*/
+@keyframes pulse-gold {
+  0% {
+    /* Subtle Gold Halo */
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.2); 
+    transform: scale(1.0);
+  }
+  100% {
+    /* Intense Gold Glow */
+    text-shadow: 0 0 70px rgba(184, 134, 11, 0.6), 
+                 0 0 10px rgba(218, 165, 32, 0.8);
+    transform: scale(1.9); /*  "breathing" effect */
+  }
+}
+</style>
+
+
+
+<!--
+
+for staying till now
+
+[• Master this module to &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; &nbsp; &nbsp; &thinsp; &thinsp; ]{.sp .fragment .fade-in-then-out style="margin-top:0; margin-bottom:-10px;"} 
+
+
+- **Polars:** Next-generation data processing for high-performance and "big data" tasks (beyond Pandas)
+
+
+
+## Free computing platforms {.smaller}
+
+- _GitHub Codespaces_ has **VS Code** as its GUI
+  - native for Python and **GitHub Copilot**; can be set up for R too
+  - provided by **GitHub**, a home for numerous _**open-source**_ codes
+
+- _Posit cloud_ has **RStudio** as its GUI
+  - mainly for R; can use **GitHub Copilot**
+
+- Google _Colab_ has a **Jupyter notebook** GUI
+  - native for Python and **Gemini** (AI assistant developed by Google)
+  - (unspecified) **GPU access** for free-tier users
+
+- _Lightning.ai_ has **VS Code** and **Jupyter Lab** as its GUIs
+  - The VS Code interface has **GitHub Copilot** 
+  - [35 hours**/month** free](https://lightning.ai/pricing)  **GPU access** 
+
+
+
+## DS vs AI 
+
+- _**Data science**_ (**DS**) and _**machine learning**_ (**ML**) provide key foundations for _**artificial intelligence**_ (**AI**)
+
+  - ML is a core subfield of AI and underpins most modern AI systems.
+
+  - DS supplies the data handling, statistical analysis, and modeling practices that make ML and AI practical and effective.
+
+
+
+## The Answer 
+
+[• You will not be replaced by AI]{.sp .fragment .fade-in-then-out}  
+
+[• You will be replaced by someone who can **use AI better** &emsp; &nbsp; &nbsp; &nbsp; &thinsp; **than you**]{.sp .fragment .fade-up}
+
+
+-->
+
