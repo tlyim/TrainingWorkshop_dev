@@ -240,6 +240,5 @@ html
 
 *Zone.Identifier
 *.png
-!BayesCityStGeorges_logoNoBkgd.png
-!GitHubEcosystem.png
+!img/*.png
 

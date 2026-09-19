@@ -321,129 +321,321 @@ Lemmatization
 
 
 
-# Open-source packages on GitHub {.smaller}
+
+
+
+
+# Free computing platforms  
+
+- _GitHub Codespaces_ has [**VS Code**](https://code.visualstudio.com/) as its GUI
+  - native for **GitHub Copilot**
+<!--  - provided by **GitHub**, a home of numerous _**open-source**_ packages
+-->
+
+- _**Lightning.ai**_ has **VS Code** and **JupyterLab** as its GUIs
+  - The VS Code interface has **GitHub Copilot** 
+  - [75 hours**/month** free](https://lightning.ai/pricing)  **GPU access** 
+
+<!--
+<ul>
+  <li style="opacity: 0;">Posit cloud has RStudio and JupyterLab as its GUIs
+    <ul>
+      <li style="opacity: 0;">mainly for R</li> 
+      <li style="opacity: 0;">can use GitHub Copilot
+        <ul>
+          <li style="opacity: 0;">but only for inline queries and code generation in the editor</li> 
+        </ul>
+      </li> 
+    </ul>
+  </li>
+</ul>
+
+- [[_**Posit cloud**_](https://posit.cloud/) has [**RStudio**](https://posit.co/download/rstudio-desktop/) and **JupyterLab** as its GUIs]{style="color: transparent;"}
+  - [mainly for R]{style="color: transparent;"}
+  - [can use **GitHub Copilot**]{style="color: transparent;"}
+    - [but only for inline queries and code generation in the editor]{style="color: transparent;"}
+-->
+
+
+
+## Lightning.ai 
+
+:::: {.columns style="display: flex; align-items: center;"}
+::: {.column width="50%"}
+![](img/Lightning.AI_free4students1.png){style="display: block; margin-left: auto; margin-right: 0;"}
+:::
+::: {.column width="50%"}
+![](img/Lightning.AI_free4students2.png){style="display: block; margin-left: 0; margin-right: auto;"}
+:::
+::::
+
+- How much can a GPU accelerate?
+  - Let's look at an application example  
+
+
+
+## Bigram cloud
+
+- _**Word cloud**_ 
+  - visual representation of text data with
+    - each word's **size** indicating its **frequency**/**importance** 
+  - _Bigram cloud_ extends the concept to pairs of words (_**bigrams**_) instead of single words  
+
+- Application example:
+  - What **risk factors** are mentioned in _Item 1A_ of _**Magnificent 7**_'s 10-K filings (2015 vs. 2025)?
+    - `AAPLE`, `MSFT`, `GOOGL`, `AMZN`, `NVDA`, `META`, and `TSLA`
+
+
+
+## Identifying bigrams in text {.smaller}
+
+- _**Stop** words_ (e.g., "of", "the", "is", "and") 
+  - removed to focus on more meaningful content
+
+- Older approaches focused on _**stemmed** words_
+  - reduced to their _root form_  
+  (e.g., "vis" for vision, visions, visionary, and visibility)
+
+- Newer approaches use _**lemmatized** words_
+  - reduced to their _base form_  
+  (e.g., "vision" for vision and visions; "visionary" for visionary)
+
+- Lemmatization is computationally intensive, which benefits greatly from **GPU acceleration**
+
+
+
+## Studio on Lightning.ai 
+
+- **Studio** in Teamspace on _Lightning.ai_ 
+  - is like **Codespace** on GitHub
+
+- See the shared Studio template: [**BigramCloud_GPUorCPU**](https://lightning.ai/tlyim-1city/templates/bigramcloud-gpuorcpu)
+
+
+
+## Free computing platforms {.smaller}
+
+- [_GitHub Codespaces_ has **VS Code** as its GUI]{style="color: silver;"}
+  - [native for Python and **GitHub Copilot**]{style="color: silver;"}
+  - [provided by **GitHub**, a home of numerous _**open-source**_ codes]{style="color: silver;"}
+
+- [_**Lightning.ai**_ has **VS Code** and **JupyterLab** as its GUIs]{style="color: silver;"}
+  - [The VS Code interface has **GitHub Copilot**]{style="color: silver;"}
+  - [75 hours**/month** free **GPU access**]{style="color: silver;"}
+
+- [_**Posit cloud**_](https://posit.cloud/) has [**RStudio**](https://posit.co/download/rstudio-desktop/) (for **R**) as its GUI
+  - free-tier users can use **GitHub Copilot** 
+    - but only for inline queries and code generation in the editor
+  - What is **R**?
+
+
+
+## Story behind Jupyter notebook
+- _**Jupyter**_ notebook was introduced in Week 1 to kick off this module
+- [Embedded in the name](https://blog.jupyter.org/i-python-you-r-we-julia-baf064ca1fb6) <span style="font-size: 1.2em;">**<span style="color: #1f77b4;">Ju</span>****<span style="color: #ff7f0e;">py</span>**te**<span style="color: #2ca02c;">r</span>**</span> are letters representing 
+  - three major data science programming languages: 
+    - <span style="color: #ff7f0e;">Python</span>, <span style="color: #2ca02c;">R</span>, and <span style="color: #1f77b4;">Julia</span>
+- [**Julia**](https://julialang.org/) is a high-performance language a bit too advanced for this module
+  - but **R** since its [**tidyverse**](https://tidyverse.org/) era is very approachable
+
+
+
+## R vs Python {.smaller} 
+
+- **Python**
+  - a general-purpose programming language widely used for data analysis and **machine learning** (**ML**)
+
+- **R**
+  - a programming language specially designed for **statistical computing** and data analysis 
+  
+- Their capability can be significantly expanded through importing
+  - **libraries** (aka. **packages**) specialized in performing certain functions with commands outside the base language  
+
+
+
+## R and Python {.smaller} 
+
+- Today, the data science related functionalities of the two languages have become very similar
+  - Can often find similar libraries for both languages
+    - e.g., **dplyr** for R and **pandas** for Python are powerful libraries for working with dataframes  
+  - Can _call R from Python_ using the **rpy2** library 
+    - can also _call Python from R_ using the **reticulate** package
+
+
+
+## Shell vs GUI  
+
+- Code development in Python/R is often done in a _click-and-select_ interface, i.e., **graphical user interface** (**GUI**)
+
+- A **shell / terminal** lets you 
+  - interact with the computing environment using a **command line interface** (**cli**) 
+  
+- A cli is not as user-friendly as a GUI
+    - but can chain code in script files together for _**automated/batch processing**_
+
+
+
+## File formats of code {.smaller}
+
+`myscript` below refers to a script file containing programming code
+
+- **Python**: 
+  - `.ipynb`: Python code in **Jupyter notebook** format
+    - convenient for code development (not for shell use)
+  - `.py`: Python code in script format (or marimo notebook as a script)
+    - command to execute in shell: &emsp; `python3 myscript.py`
+  - **<span style="color:green;">marimo</span>** notebook offers the _**<span style="color:green;">best of both worlds</span>**_
+
+- **R**: 
+  - `.rmd`: R code in **Rmarkdown** notebook format
+    - convenient for code development (not for shell use)
+  - `.r`: R code in script format
+    - command to execute in shell: &emsp; `Rscript myscript.r`
+
+
+
+## RStudio project on Posit cloud
+
+- **Project** in Workspace on _Posit cloud_ 
+  - is like **Codespace** on GitHub
+
+- See the shared Project: 
+  - [**AF1204 - Week 10: Result Tables Using R**](https://posit.cloud/content/12144701)
+
+
+
+## Strengths of R ecosystem {#Recosystem_1}
+
+- R's syntax is often more _**concise**_ and _**expressive**_ for data manipulation and analysis tasks  
+
+::: {layout-ncol=2}
+![](img/Rmd_globalLineNumbering.png){}
+
+![](img/PyNB_globalLineNumbering.png){}
+:::
+
+
+
+## Strengths of R ecosystem {.smaller #Recosystem_3}
+
+:::: {.columns}
+
+::: {.column width="65%"}
+- _**Rmardown**_ notebooks are **plain-text** files 
+  - easy to version-control
+  - readable and editable even _on the go with only a phone_
+- Structured in **JSON** format, _**Jupyter**_ notebooks are 
+  - difficult to version-control effectively
+  - **not** as _human-readable_ or _edit-friendly_  
+  outside of the notebook interface
+    - Similarly for _**marimo**_ notebooks, despite being Python scripts (in plain text) 
+  - Next slide shows the **source code structures** of Jupyter and marimo notebooks
+:::
+
+::: {.column width="35%"}
+![](img/Rmd_SourceCode.jpeg)
+:::
+
+::::
+
+
+
+## Strengths of R ecosystem {#Recosystem_4}
+
+::: {layout-ncol=2}
+![Jupyter](img/ipynb_SourceCode.png){}
+
+![marimo](img/marimo_SourceCode.png){}
+:::
+
+
+
+## Strengths of R ecosystem {#Recosystem_1_5}
+
+- Jupyter notebooks (and marimo notebooks in the notebook interface) **cannot show gobally unique line numbers** for the entire notebook,
+  - hard to reference specific code lines for **debugging** and documentation
+- Not a problem for Rmarkdown notebooks as plain-text files
+
+
+
+## Strengths of R ecosystem {#Recosystem_2}
+
+- Packages _**specialized**_ for statistical analysis and econometrics are more likely to be available in R than Python 
+
+- For example, 
+  - _**difference-in-differences**_ (**DiD**) analysis is an important methodology for measuring **causal effects**
+  - This [DiD](https://asjadnaqvi.GitHub.io/DiD/) website maintains a comprehensive list of packages for DiD analysis:  
+    - [Over 15 packages in **R**](https://asjadnaqvi.GitHub.io/DiD/docs/02_R/) vs. [only 1 in **Python**](https://asjadnaqvi.GitHub.io/DiD/docs/03_python/)
+
+
+
+## Expanding Your DS Toolkit
+
+- No single tool solves every problem
+  - Understanding the "right tool for the job" is a key skill 
+- The landscape of Data Science and AI **changes rapidly**
+  - Knowing where to find resources is essential for continuous **self-learning and exploration**
+- For example,
+  - see the newsletter `The Batch` and courses on [**DeepLearning.AI**](https://www.deeplearning.ai/)
+  - also, [AlphaSignal](https://alphasignal.ai)'s daily newsletter on _AI, machine learning and cutting-edge language models_
+
+
+
+## Open-source packages on GitHub {.smaller}
 
 - Image to find oysters with pearls
 
 
 
-# 
+
+## Adopting Open-source Resources { #Adopting_1 }
+
+- **Availability** of open-source packages / data?
+    - free vs. freemium vs. paid
+- **Reliance** considerations:
+    - Abandoned projects? 
+    - **Organizational backing** (e.g., [polars](https://GitHub.com/pola-rs))  
+    vs. Individual developer
+    - **Active development**:
+        - Last commit
+        - Watch | Custom | Releases, Issues, Security alerts
 
 
 
+## Adopting Open-source Resources { #Adopting_2 }
+
+ - Reliance considerations (cont'd):       
+    - **Maintenance** commitment:
+        - Issues tab: Open vs. Closed
+    - Usefulness
+        - Stars, Used by, Contributors
+        - [**Star History** graph](https://GitHub.com/star-history/star-history), [GitHub **Trending ranking**](https://trendshift.io)
+    - **Documentation** quality
+        - README, docs/doc, Vignettes, Wiki, Website
 
 
 
----
+# Thank you!
 
 
-# The goal {.smaller}
-
-- Is NOT to turn students into proficient coders
-
-- Rather, the module aims to:
-
-  - Inspire students to independently explore selected tools, driven by their **own interests and motivation**
-  - Support students' **self-directed exploration** through signposting closely related resources
-
-- These are achieved by 
-  - sharing <span style="color:green;">code templates with which students can _**modify and experiment**_ to turn them into _**their own projects**_</span> through learn by doing
-  - providing guidance through the signposting _**Read/Watch in Advance and After**_ documents
-
-
-
-## Two weeks into the module ...
-
-- You learned how to 
-  - **automate** the **computation** and **visualization** of an important financial measure (Altman Z-Score) 
-    - using **panel data** of S&P 500 firms fetched from Yahoo Finance 
-
-
-
-## Four weeks into the module ...
-
-- You learned how to 
-  - **prepare and clean data** for analysis
-  - conduct basic data analysis and present results with **interactive visualizations**
-  - deploy a **dashboard app** and publish a **multi-tabbed webpage** to the world
-
-
-
-## Week 5 Key takeaways
-
-- _**AI is an integral part of your learning journey**_ 
-  - _**for this module — and beyond**_
-- Don't wait for others to help you. 
-  - Engage in an _**active learning**_ journey assisted by AI to  
-  _**<span style="color: green;">give yourself a brighter future!</span> **_
-
-
-
-## Week 6 & 7 Key takeaways {.smaller}
-
-- Data science provides tools and techniques for _web scraping_, _webcrawling_, and _natural language processing_ (NLP), 
-  - allowing collecting and analyzing unstructured data with **minimal human intervention**
-
-- The **<span style="color: green;">automation pipeline</span>** can handle large volumes of data efficiently  
-(e.g., multiple years of the S&P 500 companies' unstructured data), 
-  - **conserving** your time, energy, and attention **for more value-adding tasks** such as 
-    - learning from each identified page with a high frequency of the matched keywords (e.g., water pollution)
-
-
-
-## Week 8 & 9 Key takeaways
-
-- LLMs are powerful tools for a variety of tasks 
-  - but **hallucination** is a major risk
-- Techniques such as _prompt engineering_ and _grounding_ can be used to 
-  - guide LLMs towards more accurate and reliable outputs
-- API access to LLMs enables the **automation** and **scalability** 
-  - required for large volumes of **judgment-based** analysis tasks, such as financial sentiment analysis
-
-
-
-## Week 10 Key takeaways  
-
-- _**No single tool solves every problem**_
-  - Use Python for AI/Machine Learning (ML) tasks, but leverage R for rigorous statistical modeling 
-  - Selecting the "_**right tool for the job**_" is a key skill for data professionals
-
-- The landscape of data science and AI **changes rapidly**
-  - Continuous **self-learning and exploration** is the key to always choosing the right tool for the job
-
-
-
-# Week 1-10 Packages used {.smaller}
-
-![](img/Packages_WordCloud.png){fig-align="center" width="120%"}
-
-
-
-# Individual Project:  {.smaller}
-
-::: {.slide-subtitle style="font-size:180%;margin-top:-0.3em;"}
-Launching Your Professional Portfolio
-:::
 
 <!--
-### Launching Your Professional Portfolio {style="font-size:180%;"}
--->
 
-* **The Core Goal:** Create the first draft of your personal portfolio webpage. 
-  * *The Long Game:* Polish this over the next 3 years so you have a professional, job-ready showcase by graduation.
+for staying till now
 
-* **Creative Freedom & Requirements:** You have total freedom to design your page, provided it:
-  * Builds on the Week 4 code template.
-  * Meets the assignment Guide requirements (Sections 3, 4, and 7.2).
+[• Master this module to &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; &nbsp; &nbsp; &thinsp; &thinsp; ]{.sp .fragment .fade-in-then-out style="margin-top:0; margin-bottom:-10px;"} 
 
 
 
-# AI and Data Science Skills {.smaller}
+- **Polars:** Next-generation data processing for high-performance and "big data" tasks (beyond Pandas)
 
-[![](img/UKGradJosAreDown.png){fig-align="center" width="70%"  style="display:block; margin-top:0; margin-bottom:-30px;"}](https://www.ft.com/content/99b6acb7-a079-4f57-a7bd-8317c1fbb728?shareType=nongift)
 
-[_In the age of AI, accountants are expected to have skills in areas like data analytics. [... a] survey noted that 58% of finance teams were using AI by 2024, mainly for anomaly and error detection, process **automation**, and analytics, but also found common hurdles such as “limited **data skills**” within firms ... proficiency in **programming language**, analytics tools, and cybersecurity are now **seen as crucial** for accountants to improve efficiency and provide strategic insights_](https://www.cpajournal.com/2025/10/29/alternatives-in-accounting-education/){style="font-size:80%;line-height:0.9;"} 
 
+## The Answer 
+
+[• You will not be replaced by AI]{.sp .fragment .fade-in-then-out}  
+
+[• You will be replaced by someone who can **use AI better** &emsp; &nbsp; &nbsp; &nbsp; &thinsp; **than you**]{.sp .fragment .fade-up}
 
 
 # To conclude
@@ -453,7 +645,7 @@ Launching Your Professional Portfolio
 
 <div style="text-align: center;">[Helping you to [**stand out**]{.gold-glow} in the talent pool!]{.sp .fragment .fade-up style="font-size:150%;margin-top:0;"}</div>
 
-<!-- 3. CSS for this specific effect -->
+<!-- 3. CSS for this specific effect --\>
 <style>
 /* 
    Style for the container to remove extra gaps 
@@ -492,54 +684,6 @@ Launching Your Professional Portfolio
   }
 }
 </style>
-
-
-
-<!--
-
-for staying till now
-
-[• Master this module to &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; &nbsp; &nbsp; &thinsp; &thinsp; ]{.sp .fragment .fade-in-then-out style="margin-top:0; margin-bottom:-10px;"} 
-
-
-- **Polars:** Next-generation data processing for high-performance and "big data" tasks (beyond Pandas)
-
-
-
-## Free computing platforms {.smaller}
-
-- _GitHub Codespaces_ has **VS Code** as its GUI
-  - native for Python and **GitHub Copilot**; can be set up for R too
-  - provided by **GitHub**, a home for numerous _**open-source**_ codes
-
-- _Posit cloud_ has **RStudio** as its GUI
-  - mainly for R; can use **GitHub Copilot**
-
-- Google _Colab_ has a **Jupyter notebook** GUI
-  - native for Python and **Gemini** (AI assistant developed by Google)
-  - (unspecified) **GPU access** for free-tier users
-
-- _Lightning.ai_ has **VS Code** and **Jupyter Lab** as its GUIs
-  - The VS Code interface has **GitHub Copilot** 
-  - [35 hours**/month** free](https://lightning.ai/pricing)  **GPU access** 
-
-
-
-## DS vs AI 
-
-- _**Data science**_ (**DS**) and _**machine learning**_ (**ML**) provide key foundations for _**artificial intelligence**_ (**AI**)
-
-  - ML is a core subfield of AI and underpins most modern AI systems.
-
-  - DS supplies the data handling, statistical analysis, and modeling practices that make ML and AI practical and effective.
-
-
-
-## The Answer 
-
-[• You will not be replaced by AI]{.sp .fragment .fade-in-then-out}  
-
-[• You will be replaced by someone who can **use AI better** &emsp; &nbsp; &nbsp; &nbsp; &thinsp; **than you**]{.sp .fragment .fade-up}
 
 
 -->
