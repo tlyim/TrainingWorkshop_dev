@@ -133,7 +133,20 @@ editor:
   - As of _**today**_, the AI models affordable to most of us are _**still not smart enough**_ to always deliver the required results without guidance
 
 - The more you know, the better you can stay on top of everything 
+  - Otherwise, you would not know even when AI takes you to a wrong direction and could not correct it in time
 :::
+
+
+
+# How useful is AI? {.Xsmaller}
+
+- Easy to use AI to deliver a _**working solution**_ 
+  - Especially useful when 
+    - you don't know how to code, or
+    - you don't have any precise requirements for the solution
+
+- It is not easy to get AI to deliver a _**solution exactly as you want**_ 
+  - Knowing how to give the _**directional guidance**_ while leveraging AI's capability to _**fill in the gaps**_ is the key to success
 
 
 
@@ -168,24 +181,22 @@ editor:
 
 # DS {.Xsmaller}
 
-- _**Data science**_ (**DS**) is an interdisciplinary field that combines math, statistics, programming, and business knowledge to _**turn raw, messy data into useful insights**_. 
+- _**Data science**_ (**DS**): An interdisciplinary field combining math, statistics, programming, and business knowledge to _**turn raw, messy data into useful insights**_. 
 
-- Traditional DS courses provide systematic and [**comprehensive** coverage](https://www.udemy.com/course/python-core-and-advanced/) of a programming language (such as **Python** or R)
-  - building knowledge firmly from the ground up
+- Traditional DS courses provide [**comprehensive** coverage](https://www.udemy.com/course/python-core-and-advanced/) of a programming language (e.g., **Python** or R), building a solid foundation from the ground up
 
 - _**Downside**_:
-  - Buried into details, students can easily **lose the big picture**, 
-    - forgetting why it is worth learning a DS programming language
+  - Overwhelmed by details, students can lose sight of _**what matters most**_ to formulating and implementing a solution to their problem
 
 
 
 # Our Strategy 
 
-- _**One day is too short**_ for developing the knowledge comprehensively in the traditional manner
+- _**One day is too short**_ for developing the knowledge and know-how comprehensively using the traditional approach 
   
 - Instead, this workshop simply 
-  - showcases some <span style="color:green;">code examples with which students can _**modify and experiment**_</span> to turn them into _**their own projects**_ through learn by doing 
-    - using _**AI as their <span style="color:green;">learning and research partner</span>**_
+  - showcases some <span style="color:green;">code examples</span> with which students can <span style="color:green;">_**modify and experiment**_</span> to turn them into _**their own projects**_ through learn by doing 
+    - using _**AI as a learning and research <span style="color:green;">partner</span>**_
 
 
 
@@ -239,6 +250,47 @@ N-grams
 Lemmatization 
 
 
+
+
+
+
+# Plan vs. Agent mode {.smaller}
+
+- **Plan mode**: You describe a problem for the AI assistant to formulate a plan to solve the problem, which you _can review and agree on **before implementation**_
+  - The AI assistant is not allowed to change any code under this mode
+
+- **Agent mode**: The AI assistant can autonomously generate/alter/delete code as needed to achieve the goal specified by you (or in the agreed plan)
+  - Depending on the configuration, the AI assistant may still need your permissions on taking actions that may have significant consequences, 
+    - e.g., using certain tools such as **bash** commands, accessing the internet, or sending emails
+
+
+
+# Importance of context window size {.smaller}
+
+- The **context window** size determines the amount of information that can be considered at once by an AI model
+
+- The invisible **system prompt** used to guide the model's behavior and responses can already take up a significant portion of the context window, 
+  - leaving less space for user input (**prompts**) and model output (**responses**)
+
+- A larger context window allows the model to understand and generate more _**coherent and contextually relevant responses**_, especially for complex tasks that require understanding of long documents or conversations.
+
+- Models with smaller context windows handle context exhaustion through **compression/compaction** (i.e., truncating or summarizing the input), 
+  - which can lead to loss of important input information and  less accurate output 
+
+
+
+# Rules of thumb {.smaller}
+
+- Avoid long conversations that exceed a model's context window
+
+- At least _**1M tokens**_ context window (e.g., _DeepSeek V4.1 Flash_ on _OpenCode **Go**_) is necessary for a series of related complex tasks emerging from a long conversation
+
+- _**At least 200K tokens**_ context window (e.g., _MiMo V2.5 Free_ on _OpenCode **Zen**_) is needed for serious work other than simple tasks 
+
+- If _**two rounds**_ of prompt-and-response aren't getting you closer to your goal (e.g., fixing a bug), 
+  - consider switching to a more capable (likely more expensive) model but _**more expensive models are not necessarily better **_
+
+- Experiment with different models to find out which ones work well for particular tasks and requirements
 
 
 
