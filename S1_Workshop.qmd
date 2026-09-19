@@ -199,6 +199,23 @@ editor:
 
 
 
+# Jupyter Notebook {.Xsmaller}
+
+- Jupyter Notebook is an industry-standard tool for experimenting with and annotating Python code, 
+  - allowing users to combine code, text, and visualizations in a single document
+
+
+
+# Markdown {.Xsmaller}
+
+- **Markdown** is a lightweight markup language that allows you to write plain text with simple syntax to indicate formatting, such as headings, lists, links, and emphasis.
+
+- It is the native language for AI assistants to understand and generate text, making it a natural choice for documenting code and data analysis workflows.
+
+- **Quarto**, an industry-standard tool for creating reproducible documents, also uses Markdown to format text
+
+
+
 # Why marimo? {.Xsmaller}
 
 
@@ -221,6 +238,25 @@ Web crawling
 N-grams 
 Lemmatization 
 
+
+
+
+
+
+
+
+
+
+# .devcontainer in Codespace
+
+- The .devcontainer folder contains files for setting up the environment of a Codespace
+  - The devcontainer.json file specifies the docker file for building the container of the Codespace, including the software packages to install
+  - It also specifies the extensions to install and other settings for the Codespace environment
+
+- Ask AI to categorize packages installed in devcontainer, listing the most popular/useful Python/R packages with a remark on why they are important
+
+- Homework: 
+  - Ask AI to add the installation of two more packages to the devcontainer, or add certain VS Code extensions
 
 
 
