@@ -55,7 +55,7 @@
     //     !R_library/**/*.so
     
 
-    "postStartCommand": "grep -qxF 'source /workspaces/TrainingWorkshop_dev/.devcontainer/bash_prompt.sh' ~/.bashrc || echo 'source /workspaces/TrainingWorkshop_dev/.devcontainer/bash_prompt.sh' >> ~/.bashrc",
+    "postStartCommand": "grep -qxF 'source ${containerWorkspaceFolder}/.devcontainer/bash_prompt.sh' ~/.bashrc || echo 'source ${containerWorkspaceFolder}/.devcontainer/bash_prompt.sh' >> ~/.bashrc",
 
 
     "forwardPorts": [2718, 8000, 3000],
