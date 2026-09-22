@@ -1,0 +1,54 @@
+project:
+  type: default   # website  #      
+  output-dir: html   # Redirects all HTMLs to the html folder
+  render:
+    - "*.qmd"
+    - "!R_library/"  
+  #render:
+  #  - Slides           # Tells Quarto to look in this subfolder
+#
+# preview:
+#   host: 0.0.0.0
+#   port: 9000
+#  browser: false
+format:
+  revealjs:
+#    css: custom.css
+    html-math-method:
+      method: katex
+#      method: mathjax
+#      url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+    navigation-mode: grid # vertical # linear
+    controls: true              # shows navigation arrows and UI controls
+    controls-layout: bottom-right # edges  # 
+    # 1. VISUALS
+    theme: default      # or your custom theme in assets/theme.scss
+    width: 1280
+    height: 960    # 4:3 aspect ratio (~ Letter size)
+    #height: 720    # 16:9 aspect ratio
+
+    # 2. PORTABILITY (The specific fix for "Bloat")
+    embed-resources: true  # Bundles CSS/JS/Images into ONE file    
+#-------------------------------------
+#    self-contained: true  # not sure if this is correct or standalone is correct
+#    standalone: true
+#-------------------------------------
+    
+    # 3. CODE EXECUTION
+    execute:
+      # Note: 
+      #   echo: true means show code in output
+      #   output: true means show code output in output
+      #echo: true    # Don't set true here, set in each slide deck as needed
+      warning: false
+      #=================================================
+      # 2bedel____ Note: freeze has caused code trunk output issues
+      # don't re-execute slide decks of all weeks every time tweaking a typo in one slide deck
+#      freeze: auto  # Only re-run code if a .qmd source file has changed
+      #freeze: true  # "Never re-run code, even if a .qmd source file has changed"
+      #=================================================
+  
+    # 4. NAVIGATION
+    slide-number: true
+    show-slide-number: print  # speaker # all  # 
+lightbox: true

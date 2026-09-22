@@ -1,0 +1,62 @@
+# This script is only for your user and runs in every shell you open.
+# Use it to personalize your shell.
+#
+# Example: export MY_KEY=abcd-1234
+
+#======================================================================
+
+# !!! Note: eval requires an interactive shell to work properly
+#eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# -----------------------------------------------------
+# Use export instead of eval for non-interactive shells
+export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+
+export GIT_AUTHOR_EMAIL="201466086+DrAYim@users.noreply.github.com"
+export GIT_COMMITTER_EMAIL="201466086+DrAYim@users.noreply.github.com"
+
+# Alias for radian
+alias r="radian"
+
+alias fabric='fabric-ai'
+alias f='fabric-ai'
+
+#======================================================================
+
+#ls -la 
+echo && echo 'use rserver to start RStudio Server' && echo
+chmod +x update_ollama.sh
+echo 'use ./update_ollama.sh to update ollama' && echo
+#fabric -S
+echo 'Wait a few more minutes before starting a new bash shell to confirm that fabric installation is completed ...'
+echo 'Then use fabric -S to setup (incl. downloading patterns and strategies)' && echo
+
+#======================================================================
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+for pattern_file in $HOME/.config/fabric/patterns/*; do
+    # Get the base name of the file (i.e., remove the directory path)
+    pattern_name=$(basename "$pattern_file")
+
+    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
+    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
+
+    # Evaluate the alias command to add it to the current shell
+    eval "$alias_command"
+done
+
+yt() {
+    if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
+        echo "Usage: yt [-t | --timestamps] youtube-link"
+        echo "Use the '-t' flag to get the transcript with timestamps."
+        return 1
+    fi
+
+    transcript_flag="--transcript"
+    if [ "$1" = "-t" ] || [ "$1" = "--timestamps" ]; then
+        transcript_flag="--transcript-with-timestamps"
+        shift
+    fi
+    local video_link="$1"
+    fabric -y "$video_link" $transcript_flag
+}
+

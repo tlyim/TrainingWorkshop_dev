@@ -1,0 +1,200 @@
+---
+title: "Altman Z-Score: Overview"
+title-slide-attributes:
+  data-background-image: img/BayesCSG_BunhillRow.jpg
+#  data-background-size: contain # default is cover
+  data-background-opacity: "0.2"   # "0.5"
+#date: "2025-01-26"
+execute:
+  echo: false  # set notebook-wide default; overridable in each chunk
+  output: true # means show code output in output; use '#| output: true' at the start of a chunk to override
+format:
+  revealjs:
+#    logo: "assets/BayesCSG_logoNoBkgd.png"
+    embed-resources: true
+    #width: 1600
+    #height: 900
+    html-math-method: katex  # override Plotly.js's requirement to use mathjax
+    theme: [beige, custom.scss] # night # moon # sky # dark # solarized # simple # default # 
+    #=====================================================
+    # custom.scss vs. custom.css
+    #   custom.scss: Modifies the theme while it is being built by changing its core variables; 
+    #                use Quarto's internal variables (like $presentation-font-size-root)
+    #   custom.css: Forces a change after the theme is built by overriding existing styles.	
+    #=====================================================
+    center: true  # This forces vertical centering
+    transition: slide # convex # concave # zoom # 
+    background-transition: fade # none # slide # convex # concave # zoom # 
+    transition-speed: default # fast # slow # 
+#    template-partials:
+#      - title-slide.html
+#lightbox: true
+editor:
+  markdown:
+    wrap: 72  # none to turn off global wrapping default
+  references: 
+    location: document # section # block  #
+    prefix: "mydoc"
+---
+
+
+
+## Z-score (Altman 1968) {.smaller}
+
+* A composite score used to predict corporate failure (ie, _bankruptcy probability_) up to 2 years:
+  - Z-score = $a_1$ **(CA-CL)/TA** + $a_2$ **RE/TA** + $a_3$ **EBIT/TA**  
+  &emsp; &emsp; &emsp; \+ $a_4$ **(MV of Stock)/(BV of TL)** + $a_5$ **Sales/TA**
+    - with coefficients: $a_1$ = **1.2**, $a_2$ = **1.4**, $a_3$ = **3.3**,  
+     &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &thinsp; $a_4$ = **0.6**, and $a_5$ = **1.0**
+    - CA = Current assets; CL = Current liabilities; TA = Total assets  
+    RE = Retained earnings;  EBIT = Earnings before interest and taxes  
+    MV of Stock = "combined market value of all shares of stock, preferred and common"  
+    BV = Book value; TL = Total liabilities
+* scores [< 1.81 for high-risk]{color=blue} firms and [> 2.99 for low-risk]{color=green};  
+in-between for unclear indication  
+
+
+
+## Component ratios of Z-score  
+
+* Because $\color{red}{a_i > 0}$,  
+  - a higher component ratio raises the Z-score
+* **Sales/TA**: simply the _asset turnover_
+  - Should [averaging with prior year]{color=blue} be applied on TA before the ratio computation? [No]{color=brown}
+    - To be consistent with Altman (1968) so that _cutoffs at 1.81 and 2.99 are valid_
+  - Similarly for all the component ratios
+* **(CA-CL)/TA**: a _liquidity measure_ like current ratio (CA/CL)
+  - Holding constant either CA or CL, 
+    - larger (CA-CL) difference means higher CA/CL ratio 
+
+
+
+## Component ratios of Z-score {.smaller #ComponentRatios_2}
+
+- **RE/TA** may be viewed as a _cumulative_ version of return on assets (ROA = NP/TA) 
+  - Retained Earnings (RE) accumulates all the net profits (NPs) of the current and past years -- if there has not been any dividend distribution
+-  **EBIT/TA**: a _profitability_ ratio like ROA = NP/TA
+      - can be expressed in other ratios already discussed: $\frac{EBIT}{Sales} \times \frac{Sales}{TA}$ 
+- **(MV of Stock)/(BV of TL)**: a _solvency measure_ like the inverse of debt-to-equity ratio (Total equity/Total debt)
+  - measures how far MV of TA can fall, as a multiple of BV of TL, before a company becomes insolvent
+    - a company becomes _insolvent_ when MV of TA is no longer at least BV of TL -- more likely when MV of Stock drops down to 0 
+
+<!--
+* With **noncontrolling interest** (NCI),
+  - MV of TA - BV of TL > MV of Stock (ie, the difference being MV of NCI)
+  - so the ratio (MV of Stock / BV of TL) represents a lower bound of how much MV of TA can fall before a company becomes insolvent
+
+- {.remarks x.fragment} can be expressed as $\frac{M}{B} \big/ (\frac{TA}{TE} - 1)$ if  
+there is _only common equity_ so that B (of common equity) = TE 
+- {.remarks x.fragment} M/B captures also value due to expected profitability of the _future_, 
+- RE/TA concerns accumulated profitability of the _past_
+-->
+
+
+
+## Z-score - Example {.smaller #Zscore_Example_1}
+
+[Selected financials and stock info of Oshkosh Corporation from its website for FY ended 30/90/2019:]{style="font-size: 68%;"}
+
+::: {#my-table style="font-size: 65%; line-height: 100%;"}
+| (in USD'000, except share price)           | FY 2019   |   | (in USD'000, except share mounts)                                                        | 30/09/2019 |
+|--------------------------------------------|----------:|---|------------------------------------------------------------------------------------------|-----------:|
+| Net sales                                  | 8,382,000 |   | Cash and cash equivalents                                                                | 448,400    |
+| Cost of sales                              | 6,864,600 |   | Total current assets                                                                     | 3,408,300  |
+| Gross profit                               | 1,517,400 |   | Gross property, plant and   equipment                                                    | 1,360,900  |
+| Selling general and administrative         | 683,500   |   | Accumulated depreciation                                                                 | (787,300)  |
+| Total operating expenses                   | 720,400   |   | Total non-current assets                                                                 | 2,158,000  |
+| Operating income                           | 797,000   |   | Total assets                                                                             | 5,566,300  |
+| Interest expense                           | 54,400    |   | Current debt, incl. curr. maturities of LT debt                                          | -          |
+| Interest income                            | 6,800     |   | Taxes payable                                                                            | 73,500     |
+| Income before tax                          | 750,700   |   | Total current liabilities                                                                | 1,741,900  |
+| Provision for income taxes                 | 171,300   |   | Long-term debt, less curr. maturities                                                    | 819,000    |
+| Net income                                 | 579,400   |   | Other long-term liabilities                                                              | 405,600    |
+| Dividends paid                             | 75,500    |   | Total liabilities                                                                        | 2,966,500  |
+| Cash paid for interest                     | 53,600    |   | Preferred Stock (\$.01 par value\; 2,000,000 shares authorized\; none issued & outstanding) | -          |
+| Cash paid for income taxes                 | 117,600   |   | Common stock (\$.01 par value\; 300,000,000 shares authorized\; 75,101,465 shares issued)   | 700        |
+| Depreciation and amortization              | 115,200   |   | Additional paid-in capital                                                               | 808,500    |
+| Capital expenditures                       | 174,200   |   | Retained earnings                                                                        | 2,505,000  |
+|                                            |           |   | Common Stock in treasury, at cost (7,114,349 shares)                                     | (512,800)  |
+| Closing price of common stock (30/09/2019) | 75.8      |   | Total stockholders' equity                                                               | 2,599,800  |
+:::
+
+<style>
+  /* Target the 4th column of the table with ID 'my-table' */
+  #my-table th:nth-child(4),
+  #my-table td:nth-child(4) {
+    width: 49%;
+
+  }  /* Target the 1st column of the table with ID 'my-table' */
+  #my-table th:nth-child(1),
+  #my-table td:nth-child(1) {
+    width: 37%;
+  }
+
+  /* Target the 3rd column header of the table with ID 'tbl-custom' */
+  #my-table th:nth-child(3),
+    #my-table td:nth-child(3)  {
+    border-bottom: none; /* Removes the horizontal line for that column */
+  }   
+  
+  /* 2. Apply Gainsboro background to Odd rows, SKIPPING the 3rd column */
+  /* We target the 'td' directly, using :not() to ignore col 3 */
+  #my-table tbody tr:nth-child(odd) td:not(:nth-child(3)) {
+    background-color: Gainsboro;
+  }
+
+  /* 3. Ensure the text color contrasts well on Gainsboro (optional) */
+  #my-table tbody tr:nth-child(odd) {
+    --bs-table-striped-color: inherit; /* Resets Quarto/Bootstrap defaults if needed */
+  }
+</style>
+
+
+
+## Z-score - Example {.smaller #Zscore_Example_2}
+
+**Q:** What is the company's Z-score for the year?  
+  
+(All figures below [in USD'000]{color=red}, _**except**_ ratios, [share price]{color=red}, and [share amounts]{color=red})
+
+
+* **(CA-CL)/TA** = (3,408,300 - 1,741,900)/5,566,300 = **0.30**  
+**RE/TA** = 2,505,000/5,566,300 = **0.45**  
+
+* [EBIT]{color=brown} = EBT + (Interest expense - Int. income) = 750,700 + (54,400 - 6,800)  
+**EBIT/TA** = [798,300]{color=brown}/5,566,300 = **0.14**  
+
+* [Shares outstanding]{color=blue}  
+= Shares issued - Shares in treasury = 75,101,465 - 7,114,349
+  - Since there's _no preferred shares outstanding_,  <br>
+    [MV of Stock]{color=green} = ($75.8 per share &times; [67,987,116]{color=blue} common shares)/[1,000]{color=red}
+  - **(MV of Stock)/(BV of TL)** = [5,153,423]{color=green}/2,966,500 = **1.74**
+
+*  **Sales/TA** = 8,382,000/5,566,300 = **1.51**  
+
+* **Z-score** = 1.2(0.30) + 1.4(0.45) + 3.3(0.14) + 0.6(1.74)+ 1.0(1.51) = **4.01**
+  - has a _**low risk**_ of bankruptcy (< 1.81 for _high-risk_ and > 2.99 for _low-risk_)  
+
+
+
+## Credit analysis
+
+* Altman Z-score was originally developed to determine which financial ratios are useful in assessing the risk of bankruptcy 
+    - therefore is often used for **credit analysis**
+
+* Credit analysis refers to the evaluation of **credit risk**
+  - i.e., the risk of loss caused by a counterparty’s or debtor’s [_failure to make a promised payment_]{color=brown}
+    - eg, a bond issuer not being able to pay interest and principal as due
+
+
+
+## Credit rating  {.smaller}
+
+* A **credit rating** is an indication of the opinion expressed by a rating agency  
+  - after the process to assess an entity's credit risk  
+    or [_overall creditworhtiness_]{color=blue} (ie, how worthy it is to be granted credit)
+* The rating concerns
+  - the [_probability of default_]{color=brown} by an issuer on its debt obligations (eg, notes and bonds)
+  - or, an entity's [_overall capacity and willingness_]{color=brown} to meet its financial obligations, if it has no debt outstanding
+* Part of the process involves using some financial ratios, referred to as **credit ratios**, to analyze an entity's [_cash flow, leverage, and competitive position_]{color=green} 
+

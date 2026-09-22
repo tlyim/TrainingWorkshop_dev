@@ -1,0 +1,137 @@
+---
+title: "FAQ on GitHub Codespaces, Copilot, and Other Related Topics"
+# Use knit's custom function to specify output directory
+# Note: The code below avoids using a regex with quote characters (which collide when flattened to a single-quoted line),
+    # knit: (function(inputFile, encoding) {
+    #       out_dir <- 'html';
+    #       if(!file.exists(out_dir)) { dir.create(out_dir) };
+    #       base_name <- tools::file_path_sans_ext(basename(inputFile));
+    #       out_file <- paste0(base_name, '.html');
+    #       rmarkdown::render(inputFile,
+    #                         encoding = encoding,
+    #                         output_dir = file.path(dirname(inputFile), out_dir),
+    #                         output_file = out_file)
+    #       })
+output:
+  html_document:
+    theme: null
+    self_contained: true
+
+# 2. QUARTO CONFIGURATION 
+# (Overrules global revealjs default in _quarto.yml)
+format:
+  html:
+    theme: none            # Quarto's equivalent to "theme: null"
+    embed-resources: true  # Quarto's equivalent to "self_contained: true"
+---
+
+<style>
+  /* This hides the title  */
+  h1.title { display: none; }
+  /* This sets the font */
+  body, p, ul, ol, td, th, div {
+    font-family: Helvetica, Arial, sans-serif, "Segoe UI", -apple-system, BlinkMacSystemFont !important;
+    font-size: 12pt !important; /* 16px or 20px or 24px */
+    line-height: 1.5 !important;
+    color: #24292e !important;
+  }
+    h1, h2, h3, h4 {
+    font-family: Helvetica, Arial, sans-serif, "Segoe UI", -apple-system, BlinkMacSystemFont !important;
+  }
+
+@media print {
+body, p, ul, ol, td, th, div {
+    font-size: 16pt !important;   /* standard print size */
+}
+}
+
+/* Without `width: 100%;`, the absolute width of a table is determined by the absolute length of the header divider while the column width is determined by the relative length of the column divider. */
+  table {
+/*    width: 100%; */   
+    border-collapse: collapse;
+  }
+  th, td {
+    /* border: 1px solid black; */
+    border: 3px solid lightgrey;       /* light grey, GitHub table style */
+    padding: 6px 12px;
+  }
+</style>
+
+```{r setup, include=FALSE}
+
+# Note: Ctrl-Shift-K to knit the .Rmd file to a self-contained .html file
+knitr::opts_chunk$set(include=FALSE, echo = FALSE, message = FALSE, warning = FALSE)
+options(scipen = 999) # high penalty for scientific notation
+
+#library(tidyverse)
+
+```
+
+
+```{r set-parameters, include=FALSE}
+
+# groupFormation_deadline <- "23:59, **February 5** Thursday"
+# groupProject_deadline <- "23:59, **March 10** Tuesday"
+# indivProject_deadline <- "23:59, **April 14** Tuesday"
+
+# guide_Group_URL <- "https://moodle4.city.ac.uk/course/section.php?id=301848"
+guide_Indiv_URL <- "https://moodle4.city.ac.uk/course/section.php?id=301847"
+# slides_27_28 <- "slides 27-28"
+Week11_slides_URL <- "https://moodle4.city.ac.uk/course/section.php?id=296122"
+# groupwork_youtube <- "http://www.youtube.com/watch?v=e2dcCtjfD80"
+
+# invitation_group_repo <- "https://classroom.github.com/a/hU2BDDDZ"
+github_ecosystem_section <- "https://moodle4.city.ac.uk/course/section.php?id=303785"
+
+
+marimo_limitations <- "https://docs.marimo.io/guides/wasm/?h=public#limitations"
+
+GPU_machine <- "https://www.google.com/search?q=Is+there+any+consumer+computer+equiped+with+RTX+A2000+%2812GB%29+that+has+similar+capability+as+the+low-end+T4+GPU%3F+Prices+of+computers+with+these+GPUs%3F&udm=50" 
+
+github_eduBenefits_URL <- "https://github.com/settings/education/benefits"
+
+alt_AIs_section <- "https://moodle4.city.ac.uk/course/section.php?id=304770"
+
+```
+
+<hr>
+
+## 7. FAQs on GitHub and Related Topics
+
+
+- _**Is it acceptable to move files in and out of the `.devcontainer` folder of my repo?**_
+    - You should not touch the `.devcontainer` folder or files inside; otherwise, you might screw up the configuration of a Codespace.
+
+
+- _**My GitHub Codespace usage limit has run out, and my account indicates it won't reset until the next calendar month begins. Is there an alternative method or setup you recommend that lets me continue using GitHub Codespaces to work on the module assignments?**_
+    - There's not much you can do when it gets to this stage. All the free GitHub services go under a total credit allowance. When it is exhausted, you have to wait until the allowance is replenished in the next monthly cycle. 
+        - Given the total credit allowance, you cannot use Codespaces as virtual computers beyond certain hours. The total number of hours available is also affected by the sizes of the Codespaces you have created and kept. The storage usage is on a storage-hour basis in terms of how it consumes the credit allowance. Deleting unused Codespaces can stop bleeding but it won't change the fact that previously credits were wasted on keeping unused Codespaces.
+    - Going forward, please consider keeping an eye on the usage from time to time and having a read of the documentation on the pricing for different things: Codespaces storage cost, Copilot, etc. See those pages in the screenshots attached below. I guess some of your slept Codespaces might have taken up a portion of your storage allowance. It is a good practice to actively delete unused Codespaces and refrain from creating new ones unless absolutely necessary.  
+    - Not sure relevant in this particular case but have you followed the advice to apply for [**GitHub Education**](https://github.com/settings/education/benefits) **benefits for verified students**?
+    - Worst comes to worst, you might want to consider the paid subscription option. 
+    - ![](img/GitHubBilling1.png){width=100%}
+    - ![](img/GitHubBilling2.png){width=100%}
+    - ![](img/GitHubBilling3.png){width=100%}
+
+
+- _**I have used up the monthly free credit allowance on GitHub but I am not comfortable providing my bank details to GitHub for purchasing credits. What alternatives do I have?**_
+    - FWIW, I ran into a similar situation and had provided my Revolut card details to pay for a subscription. I paid for a pay-as-you-go subscription and added only as much an amount as necessary in my Revolut account to allow payment to GitHub. Since that incident, I managed my usage very carefully and had not run into the same situation again. I also reverted the budget limit back to zero so that GitHub would stop my usage once I hit the monthly allowance (you must raise the budget limit beyond 0 to allow usage once the monthly allowance is reached, and to raise the limit, you must provide a payment method). But the zero budget limit has not been binding since I learned to manage my allowance well. 
+
+
+- _**I have uncommitted changes in a Codespace created from my repo. Because the credit allowance for this month has been used up, I can no longer reactivate the Codespace to get back the files with the uncommitted changes. The Codespace will be auto-deleted in a few days. What should I do?**_
+    - This situation highlights the importance of committing changes regularly and ensuring all changes have been committed before you let a Codespace sleep. If you had, all the changed files are now in your repo permanently. 
+    - The only potential rescue I could think of is an export option on the Codespaces dashboard page that might be relevant -- though I am not 100% sure it does serve your purpose here. Anyway, give it a try.
+    - ![](img/ExportOption.jpeg){width=50%}
+
+
+- _**Whenever I try to commit changes and sync my work, the error message in the screenshot below pops up. What should I do?**_ ![](img/File_conflicts_redacted.png){width=100%}
+    - The situation could be a consequence of changing the same file through different channels without always committing back to the repo immediately. For example, at 9:00 on a day you changed a file in the Codespace created from a repo without committing the change back to the repo. At 14:00, you went to the GitHub repo page and directly edited the same file. At 18:00, you worked with the Codespace again and decided to sync your changes in that file back to the repo. At that point, the file in the repo was changed at 14:00, whereas the same file in the Codespace was changed at 18:00. The version controlling system (Git) was not sure which version you really want to keep and therefore would require you to take actions to clearly indicate how you would like the changes to be integrated together. Usually, this would require an interaction with the Git system using the command line interface (cli) to handle properly. The Git Log contains hints on the git commands for consideration. Following through this path requires some technical knowledge on your side. 
+    - The exact cause of your case might be different but this is obviously a file conflict situation. A tedious but easy-to-follow approach to resolving the issue is to download all the latest versions of the changed files from the Codespace to your device and then directly upload them back to the GitHub repo. 
+        - In the Explorer panel, you can right-click on each file in concern and select Download from the pop-up dropdown menu to download it to your own pc. 
+        - Open your GitHub repo page, click on the 'Add file' button next to the green 'Code' button and select 'Upload files'. 
+    - When you upload a copy of the same filename to the repo, you give the permission to replace the existing copy. When this is done, all your files in the repo is up-to-date. From thereon, create a new Codespace to continue your work (and delete the old Codespace that could not be synced) and maintain a good practice of always committing changed files back to the repo at the end of each work session. 
+
+
+- _**We already learned how to use GitHub Codespaces. Why is it useful to learn to use Lightning.ai as an alternative cloud computing platform?**_
+    - 4-core CPU sessions on _Lightning.ai_ are entirely free up to the first 4 hours of a session. If you remember to put a Studio (the equivalent of a GitHub Codespace) into sleep at the end of a 4-hour session and then put it back on to refresh the free status, effectively you have free use of 4-core CPU sessions “as long as you want”. 
+

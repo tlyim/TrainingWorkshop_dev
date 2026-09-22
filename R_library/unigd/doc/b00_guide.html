@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Plotting with unigd</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Plotting with unigd</h1>
+
+
+
+<p>This guide walks through the basic features of <code>unigd</code> and
+compares them with the plot rendering methods in base R.</p>
+<div id="plot-rendering-in-base-r" class="section level2">
+<h2>Plot rendering in base R</h2>
+<p>Rendering a plot in base R is done by (1) starting a graphics device,
+(2) calling some plot functions and (3) closing the device:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>temp <span class="ot">&lt;-</span> airquality<span class="sc">$</span>Temp</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>) <span class="co"># (1) Start the &#39;png&#39; device</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)                     <span class="co"># (2) Plot a histogram</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">dev.off</span>()                                      <span class="co"># (3) Close the device</span></span></code></pre></div>
+<p>This has some unfortunate constraints:</p>
+<ul>
+<li>Rendering information must be specified <em>before</em> the plot is
+created: file format, filepath, and dimensions.</li>
+<li>There is no way to render the same plot in multiple formats or
+dimensions without re-running the plotting code.</li>
+<li>No easy way to access the rendered data without writing to a file
+first.</li>
+<li><code>dev.off()</code> must be called every time, even if the
+plotting code errors.</li>
+</ul>
+<p><code>unigd</code> solves these issues with a different graphics
+device architecture.</p>
+</div>
+<div id="plot-rendering-with-unigd" class="section level2">
+<h2>Plot rendering with <code>unigd</code></h2>
+<p>The same render using <code>unigd</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(unigd)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>temp <span class="ot">&lt;-</span> airquality<span class="sc">$</span>Temp</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">ugd</span>()                                                <span class="co"># (1) Start the &#39;ugd&#39; device</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)                           <span class="co"># (2) Plot a histogram</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>)  <span class="co"># Render 600x400 PNG</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">dev.off</span>()                                            <span class="co"># (3) Close the device</span></span></code></pre></div>
+<p>Rendering is an explicit step <em>after</em> plotting. This means you
+can render the same plot to multiple formats and dimensions:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>) <span class="co"># 600x400 PNG</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.pdf&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>) <span class="co"># 300x300 PDF</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div>
+<p>Starting and closing a device can be cumbersome, especially if the
+plotting code errors and leaves the device open. For this reason
+<code>unigd</code> provides <code>ugd_*_inline</code> functions that
+handle device lifecycle automatically:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(unigd)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>temp <span class="ot">&lt;-</span> airquality<span class="sc">$</span>Temp</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">ugd_save_inline</span>({</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>}, <span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>)</span></code></pre></div>
+<p>You can get the full list of included renderers with
+<code>ugd_renderers()</code>.</p>
+</div>
+<div id="in-memory-render-access" class="section level2">
+<h2>In-memory render access</h2>
+<p>For applications like report generation, web services, or interactive
+tools, you may want to access the rendered data directly instead of
+writing to a file. Use <code>ugd_render()</code> instead of
+<code>ugd_save()</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>temp <span class="ot">&lt;-</span> airquality<span class="sc">$</span>Temp</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">ugd</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>my_svg <span class="ot">&lt;-</span> <span class="fu">ugd_render</span>(<span class="at">as=</span><span class="st">&quot;svg&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">cat</span>(my_svg)</span></code></pre></div>
+<p>There is also an inline variant:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>temp <span class="ot">&lt;-</span> airquality<span class="sc">$</span>Temp</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>my_svg <span class="ot">&lt;-</span> <span class="fu">ugd_render_inline</span>({</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>}, <span class="at">as=</span><span class="st">&quot;svg&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">cat</span>(my_svg)</span></code></pre></div>
+</div>
+<div id="more-features" class="section level2">
+<h2>More features</h2>
+<div id="zoom" class="section level3">
+<h3>Zoom</h3>
+<p>All rendering functions offer a <code>zoom</code> parameter that
+scales the size of objects inside a plot independently of the plot
+dimensions. For example, <code>zoom=2</code> doubles all objects to
+200%, <code>zoom=0.5</code> halves them to 50%.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>my_svg_1_0 <span class="ot">&lt;-</span> <span class="fu">ugd_render_inline</span>({</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Zoom 1.0&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>}, <span class="at">as=</span><span class="st">&quot;png-base64&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>, <span class="at">zoom=</span><span class="fl">1.0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>my_svg_1_5 <span class="ot">&lt;-</span> <span class="fu">ugd_render_inline</span>({</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Zoom 1.5&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>}, <span class="at">as=</span><span class="st">&quot;png-base64&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>, <span class="at">zoom=</span><span class="fl">1.5</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>my_svg_0_5 <span class="ot">&lt;-</span> <span class="fu">ugd_render_inline</span>({</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">hist</span>(temp, <span class="at">col=</span><span class="st">&quot;darkblue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Zoom 0.5&quot;</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>}, <span class="at">as=</span><span class="st">&quot;png-base64&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>, <span class="at">zoom=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>alts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Histogram at zoom 1.0&quot;</span>, <span class="st">&quot;Histogram at zoom 1.5&quot;</span>, <span class="st">&quot;Histogram at zoom 0.5&quot;</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">raw_html</span>(<span class="fu">paste0</span>(<span class="fu">sprintf</span>(<span class="st">&quot;&lt;img src=</span><span class="sc">\&quot;</span><span class="st">%s</span><span class="sc">\&quot;</span><span class="st"> alt=</span><span class="sc">\&quot;</span><span class="st">%s</span><span class="sc">\&quot;</span><span class="st"> /&gt;&quot;</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="fu">c</span>(my_svg_1_0, my_svg_1_5, my_svg_0_5), alts)))</span></code></pre></div>
+<img src="data:image/png;base64,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" alt="Histogram at zoom 1.0" />
+<img src="data:image/png;base64,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" alt="Histogram at zoom 1.5" />
+<img src="data:image/png;base64,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" alt="Histogram at zoom 0.5" />
+</div>
+<div id="paging-by-index" class="section level3">
+<h3>Paging (by index)</h3>
+<p>The <code>page</code> parameter selects which plot from the history
+to render. By default it is <code>0</code>, which uses the most recently
+created plot. Values ≥ 1 select by index (oldest first), values ≤ 0
+select newest-first:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ugd</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="dv">1</span>, <span class="at">main=</span><span class="fu">paste0</span>(<span class="st">&quot;Plot #&quot;</span>, i))</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>}</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;plot.png&quot;</span>, <span class="at">page =</span> <span class="dv">3</span>)  <span class="co"># Plot #3</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;plot.png&quot;</span>)            <span class="co"># Plot #10 (latest)</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;plot.png&quot;</span>, <span class="at">page =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="co"># Plot #9</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>Plots can also be removed from history:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ugd_remove</span>()          <span class="co"># Remove last</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">ugd_remove</span>(<span class="at">page =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="co"># Remove second-to-last</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">ugd_clear</span>()           <span class="co"># Remove all</span></span></code></pre></div>
+</div>
+<div id="plot-ids" class="section level3">
+<h3>Plot IDs</h3>
+<p>Plot indices shift when plots are added or removed. If you need to
+refer to a specific plot later, grab its ID with
+<code>ugd_id()</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ugd</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rnorm</span>(<span class="dv">50</span>))           <span class="co"># A</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>id_a <span class="ot">&lt;-</span> <span class="fu">ugd_id</span>()          <span class="co"># Get last ID (A)</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">50</span>))           <span class="co"># B</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sin</span>((<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)<span class="sc">/</span><span class="dv">3</span>))      <span class="co"># C</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>id_b <span class="ot">&lt;-</span> <span class="fu">ugd_id</span>(<span class="sc">-</span><span class="dv">1</span>)        <span class="co"># Second-to-last (B)</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">runif</span>(<span class="dv">100</span>))          <span class="co"># D</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">ugd_remove</span>(<span class="dv">3</span>)             <span class="co"># Remove C</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;plot_a.png&quot;</span>, <span class="at">page =</span> id_a)</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;plot_b.png&quot;</span>, <span class="at">page =</span> id_b)</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>In practice this is usually simpler: just call <code>ugd_id()</code>
+after each plot to capture its ID.</p>
+</div>
+<div id="special-renderers" class="section level3">
+<h3>Special renderers</h3>
+<p><code>unigd</code> ships with a few special renderers beyond image
+formats:</p>
+<ul>
+<li><code>&quot;strings&quot;</code>: All text elements inside a plot, one per
+line. Useful for searching through plots.</li>
+<li><code>&quot;meta&quot;</code>: Plot metadata in JSON format. Includes
+complexity (number of draw calls and clipping planes). Guaranteed O(1)
+render time regardless of plot complexity.</li>
+<li><code>&quot;json&quot;</code>: All information <code>unigd</code> has about a
+plot, in JSON format.</li>
+</ul>
+</div>
+</div>
+<div id="performance-considerations" class="section level2">
+<h2>Performance considerations</h2>
+<blockquote>
+<p>For most applications, readability should be prioritized over
+performance. Unless graphics rendering is bottlenecking your R script,
+you can safely skip this section.</p>
+</blockquote>
+<p>The key thing to understand is when <code>unigd</code> needs to ask
+the R graphics engine to redraw a plot. Rendering happens after drawing,
+and the last drawn dimensions are cached. Two rules follow from
+this:</p>
+<ul>
+<li>Rendering the same plot in different formats: <strong>fast</strong>
+(no redraw needed).</li>
+<li>Rendering the same plot in different dimensions:
+<strong>slower</strong> (triggers a redraw).</li>
+</ul>
+<p>Grouping renders by dimension avoids unnecessary redraws:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Two redraws (dimensions keep changing):</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.pdf&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>) <span class="co"># redraw</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.svg&quot;</span>,  <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>) <span class="co"># redraw</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># One redraw (same dimensions grouped together):</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.svg&quot;</span>,  <span class="at">width=</span><span class="dv">600</span>, <span class="at">height=</span><span class="dv">400</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.pdf&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>) <span class="co"># redraw</span></span></code></pre></div>
+<p>You can also avoid the initial redraw by setting the target
+dimensions at device creation time:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ugd</span>(<span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>, <span class="at">width=</span><span class="dv">300</span>, <span class="at">height=</span><span class="dv">300</span>) <span class="co"># no redraw needed</span></span></code></pre></div>
+<p>If you omit the dimensions when calling rendering functions, the last
+known dimensions are used and no redraw occurs:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ugd_save</span>(<span class="at">file=</span><span class="st">&quot;my_plot.png&quot;</span>)</span></code></pre></div>
+<p>All <code>ugd_*_inline</code> functions also avoid unnecessary
+redraws.</p>
+<p>Note that <code>zoom</code> interacts with dimensions: the cached
+width is <code>width / zoom</code>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

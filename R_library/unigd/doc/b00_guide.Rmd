@@ -1,0 +1,247 @@
+---
+title: "Plotting with unigd"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting with unigd}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(unigd)
+temp <- airquality$Temp
+```
+
+This guide walks through the basic features of `unigd` and compares them with
+the plot rendering methods in base R.
+
+## Plot rendering in base R
+
+Rendering a plot in base R is done by (1) starting a graphics device, (2)
+calling some plot functions and (3) closing the device:
+
+```r
+temp <- airquality$Temp
+
+png(file="my_plot.png", width=600, height=400) # (1) Start the 'png' device
+hist(temp, col="darkblue")                     # (2) Plot a histogram
+dev.off()                                      # (3) Close the device
+```
+
+This has some unfortunate constraints:
+
+- Rendering information must be specified _before_ the plot is created:
+  file format, filepath, and dimensions.
+- There is no way to render the same plot in multiple formats or dimensions
+  without re-running the plotting code.
+- No easy way to access the rendered data without writing to a file first.
+- `dev.off()` must be called every time, even if the plotting code errors.
+
+`unigd` solves these issues with a different graphics device architecture.
+
+## Plot rendering with `unigd`
+
+The same render using `unigd`:
+
+```r
+library(unigd)
+temp <- airquality$Temp
+
+ugd()                                                # (1) Start the 'ugd' device
+hist(temp, col="darkblue")                           # (2) Plot a histogram
+ugd_save(file="my_plot.png", width=600, height=400)  # Render 600x400 PNG
+dev.off()                                            # (3) Close the device
+```
+
+Rendering is an explicit step _after_ plotting. This means you can render
+the same plot to multiple formats and dimensions:
+
+```r
+# ...
+hist(temp, col="darkblue")
+ugd_save(file="my_plot.png", width=600, height=400) # 600x400 PNG
+ugd_save(file="my_plot.pdf", width=300, height=300) # 300x300 PDF
+# ...
+```
+
+Starting and closing a device can be cumbersome, especially if the plotting
+code errors and leaves the device open. For this reason `unigd` provides
+`ugd_*_inline` functions that handle device lifecycle automatically:
+
+```r
+library(unigd)
+temp <- airquality$Temp
+
+ugd_save_inline({
+  hist(temp, col="darkblue")
+}, file="my_plot.png", width=600, height=400)
+```
+
+You can get the full list of included renderers with `ugd_renderers()`.
+
+## In-memory render access
+
+For applications like report generation, web services, or interactive tools, you
+may want to access the rendered data directly instead of writing to a file. Use
+`ugd_render()` instead of `ugd_save()`:
+
+```r
+temp <- airquality$Temp
+
+ugd()
+hist(temp, col="darkblue")
+my_svg <- ugd_render(as="svg")
+dev.off()
+
+cat(my_svg)
+```
+
+There is also an inline variant:
+
+```r
+temp <- airquality$Temp
+
+my_svg <- ugd_render_inline({
+  hist(temp, col="darkblue")
+}, as="svg")
+
+cat(my_svg)
+```
+
+## More features
+
+### Zoom
+
+All rendering functions offer a `zoom` parameter that scales the size of
+objects inside a plot independently of the plot dimensions. For example,
+`zoom=2` doubles all objects to 200%, `zoom=0.5` halves them to 50%.
+
+```{r}
+my_svg_1_0 <- ugd_render_inline({
+  hist(temp, col="darkblue", main = "Zoom 1.0")
+}, as="png-base64", width=300, height=300, zoom=1.0)
+
+my_svg_1_5 <- ugd_render_inline({
+  hist(temp, col="darkblue", main = "Zoom 1.5")
+}, as="png-base64", width=300, height=300, zoom=1.5)
+
+my_svg_0_5 <- ugd_render_inline({
+  hist(temp, col="darkblue", main = "Zoom 0.5")
+}, as="png-base64", width=300, height=300, zoom=0.5)
+
+alts <- c("Histogram at zoom 1.0", "Histogram at zoom 1.5", "Histogram at zoom 0.5")
+knitr::raw_html(paste0(sprintf("<img src=\"%s\" alt=\"%s\" />",
+  c(my_svg_1_0, my_svg_1_5, my_svg_0_5), alts)))
+```
+
+### Paging (by index)
+
+The `page` parameter selects which plot from the history to render.
+By default it is `0`, which uses the most recently created plot. Values
+&ge; 1 select by index (oldest first), values &le; 0 select newest-first:
+
+```r
+ugd()
+for (i in 1:10) {
+  plot(1, main=paste0("Plot #", i))
+}
+
+ugd_save(file="plot.png", page = 3)  # Plot #3
+ugd_save(file="plot.png")            # Plot #10 (latest)
+ugd_save(file="plot.png", page = -1) # Plot #9
+
+dev.off()
+```
+
+Plots can also be removed from history:
+
+```r
+ugd_remove()          # Remove last
+ugd_remove(page = -1) # Remove second-to-last
+ugd_clear()           # Remove all
+```
+
+### Plot IDs
+
+Plot indices shift when plots are added or removed. If you need to refer to a
+specific plot later, grab its ID with `ugd_id()`:
+
+```r
+ugd()
+
+plot(rnorm(50))           # A
+id_a <- ugd_id()          # Get last ID (A)
+
+hist(rnorm(50))           # B
+plot(sin((1:100)/3))      # C
+id_b <- ugd_id(-1)        # Second-to-last (B)
+
+hist(runif(100))          # D
+ugd_remove(3)             # Remove C
+
+ugd_save(file="plot_a.png", page = id_a)
+ugd_save(file="plot_b.png", page = id_b)
+
+dev.off()
+```
+
+In practice this is usually simpler: just call `ugd_id()` after each plot
+to capture its ID.
+
+### Special renderers
+
+`unigd` ships with a few special renderers beyond image formats:
+
+- `"strings"`: All text elements inside a plot, one per line. Useful for
+  searching through plots.
+- `"meta"`: Plot metadata in JSON format. Includes complexity (number of draw
+  calls and clipping planes). Guaranteed O(1) render time regardless of
+  plot complexity.
+- `"json"`: All information `unigd` has about a plot, in JSON format.
+
+## Performance considerations
+
+> For most applications, readability should be prioritized over performance.
+> Unless graphics rendering is bottlenecking your R script, you can safely skip
+> this section.
+
+The key thing to understand is when `unigd` needs to ask the R graphics engine
+to redraw a plot. Rendering happens after drawing, and the last drawn dimensions
+are cached. Two rules follow from this:
+
+- Rendering the same plot in different formats: **fast** (no redraw needed).
+- Rendering the same plot in different dimensions: **slower** (triggers a redraw).
+
+Grouping renders by dimension avoids unnecessary redraws:
+
+```r
+# Two redraws (dimensions keep changing):
+ugd_save(file="my_plot.png", width=600, height=400)
+ugd_save(file="my_plot.pdf", width=300, height=300) # redraw
+ugd_save(file="my_plot.svg",  width=600, height=400) # redraw
+
+# One redraw (same dimensions grouped together):
+ugd_save(file="my_plot.png", width=600, height=400)
+ugd_save(file="my_plot.svg",  width=600, height=400)
+ugd_save(file="my_plot.pdf", width=300, height=300) # redraw
+```
+
+You can also avoid the initial redraw by setting the target dimensions at
+device creation time:
+
+```r
+ugd(width=300, height=300)
+# ...
+ugd_save(file="my_plot.png", width=300, height=300) # no redraw needed
+```
+
+If you omit the dimensions when calling rendering functions, the last known
+dimensions are used and no redraw occurs:
+
+```r
+ugd_save(file="my_plot.png")
+```
+
+All `ugd_*_inline` functions also avoid unnecessary redraws.
+
+Note that `zoom` interacts with dimensions: the cached width is `width / zoom`.

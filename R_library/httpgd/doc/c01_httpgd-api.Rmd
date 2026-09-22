@@ -1,0 +1,196 @@
+---
+title: "httpgd API"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{httpgd API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+httpgd provides an R API and an HTTP/WebSocket API.
+
+## Overview
+
+| R                                   | HTTP                           | Description                         |
+| ----------------------------------- | ------------------------------ | ----------------------------------- |
+| `hgd()`                             |                                | Initialize device and start server. |
+| `hgd_close()`                       |                                | Helper: Close device.               |
+| `hgd_url()`                         |                                | Helper: URL generation.             |
+| `hgd_browse()`                      |                                | Helper: Open browser.               |
+| [`ugd_state()`](#get-state)         | [`/state`](#get-state)         | Get current server state.           |
+| [`ugd_renderers()`](#get-renderers) | [`/renderers`](#get-renderers) | Get list of available renderers.    |
+| [`ugd_render()`](#render-plot)        | [`/plot`](#render-plot)        | Get rendered plot (any format).     |
+| [`ugd_clear()`](#remove-plots)      | [`/clear`](#remove-plots)      | Remove all plots.                   |
+| [`ugd_remove()`](#remove-plots)     | [`/remove`](#remove-plots)     | Remove a single plot.               |
+| [`ugd_id()`](#get-static-ids)       | [`/plots`](#get-static-ids)    | Get static plot IDs.                |
+|                                     | `/live`                        | Live server page.                   |
+
+## Get state
+
+The device state is defined by:
+
+| Field    | Type   | Description                                                                                                  |
+| -------- | ------ | ------------------------------------------------------------------------------------------------------------ |
+| `upid`   | `int`  | Update ID. Changes when plots are added or removed.                                                          |
+| `hsize`  | `int`  | Number of plots in the history.                                                                               |
+| `active` | `bool` | Whether the device is currently active. Inactive devices cannot render uncached plots (e.g. at new sizes). |
+
+State changes can be received in real time via [WebSockets](#from-websockets), or by polling `/state`.
+
+### From R
+
+```R
+unigd::ugd_state()
+```
+Server connection details (`host`, `port`, `token`) are accessed separately via `hgd_details()`.
+
+### From HTTP
+
+```
+/state
+```
+
+| Key     | Value                        | Default                                                 |
+| ------- | ---------------------------- | ------------------------------------------------------- |
+| `token` | [Security token](#security). | (The `X-HTTPGD-TOKEN` header can be set alternatively.) |
+
+### From WebSockets
+
+httpgd accepts WebSocket connections on the same port as the HTTP server. State changes are broadcast to all connected clients as JSON.
+
+## Get Renderers
+
+httpgd can render plots to multiple formats. Available renderers depend on system dependencies and can be queried at runtime.
+
+```{r echo=FALSE}
+df <- unigd::ugd_renderers()
+df <- df[order(df$id), ]
+knitr::kable(data.frame(
+  sprintf("`%s`", df$id),
+  sprintf("`%s`", df$mime),
+  df$descr,
+  ifelse(df$text, "Text", "Binary")
+), col.names = c("ID", "Mime-Type", "Renderer", "Format"))
+```
+
+
+### From R
+
+```R
+unigd::ugd_renderers()
+```
+
+Returns a data frame.
+
+### From HTTP
+
+```
+/renderers
+```
+
+| Key     | Value                        | Default                                                 |
+| ------- | ---------------------------- | ------------------------------------------------------- |
+| `token` | [Security token](#security). | (The `X-HTTPGD-TOKEN` header can be set alternatively.) |
+
+## Render plot
+
+Plots can be rendered from both R and HTTP. httpgd caches the plot at the last requested size, so repeated calls with the same dimensions are fast.
+
+### From R
+
+```R
+unigd::ugd_render(page = 3, width = 800, height = 600)
+unigd::ugd_render() # last plot, cached size
+```
+
+`page` accepts a plot index or a static plot ID (see `ugd_id()`). Returns the plot as a string; use the `file` parameter to save directly to disk.
+
+### From HTTP
+
+```
+/plot?index=2&width=800&height=600
+```
+
+| Key        | Value                        | Default                                                 |
+| ---------- | ---------------------------- | ------------------------------------------------------- |
+| `width`    | Width in pixels.             | Last rendered width. (Initially device width.)          |
+| `height`   | Height in pixels.            | Last rendered height. (Initially device height.)        |
+| `zoom`     | Zoom level.                  | `1` (No zoom). `0.5` would be 50% and `2` 200%.         |
+| `index`    | Plot history index.          | Newest plot.                                            |
+| `id`       | Static plot ID.              | `index` will be used.                                   |
+| `renderer` | Renderer.                    | `svg`.                                                  |
+| `token`    | [Security token](#security). | (The `X-HTTPGD-TOKEN` header can be set alternatively.) |
+
+**Note:** The HTTP API uses 0-based indexing, the R API uses 1-based indexing. The first plot is `/plot?index=0` in HTTP and `ugd_render(page = 1)` in R.
+
+
+
+## Remove plots
+
+### From R
+
+```R
+unigd::ugd_remove(page = 2)
+unigd::ugd_clear()
+```
+
+### From HTTP
+
+```
+/remove?index=2
+/clear
+```
+
+| Key     | Value                        | Default                                                 |
+| ------- | ---------------------------- | ------------------------------------------------------- |
+| `index` | Plot history index.          | Newest plot.                                            |
+| `id`    | Static plot ID.              | `index` will be used.                                   |
+| `token` | [Security token](#security). | (The `X-HTTPGD-TOKEN` header can be set alternatively.) |
+
+
+
+
+## Get static IDs
+
+Plot indices shift when earlier plots are removed. Each plot is also assigned a static ID that remains stable. All APIs that access individual plots accept static IDs as an alternative to indices.
+
+### From R
+
+```R
+unigd::ugd_id(index = 2)
+unigd::ugd_id()
+```
+
+Use the `limit` parameter to obtain multiple plot IDs at once.
+
+### From HTTP
+
+```
+/plots?index=2
+/plots
+```
+
+| Key     | Value                          | Default                                                 |
+| ------- | ------------------------------ | ------------------------------------------------------- |
+| `index` | Plot history index.            | Newest plot.                                            |
+| `limit` | Number of subsequent plot IDs. | 1                                                       |
+| `token` | [Security token](#security).   | (The `X-HTTPGD-TOKEN` header can be set alternatively.) |
+
+
+The `limit` parameter supports pagination. The JSON response includes the current [state](#get-state) for synchronization checks.
+
+## Security
+
+By default, `hgd()` generates a random 8-character alphanumeric token. Every API request must include this token as a header (`X-HTTPGD-TOKEN`) or query parameter (`?token=...`).
+
+```R
+hgd(token = "secret")  # fixed token
+hgd(token = 16)        # random token of length 16
+hgd(token = FALSE)     # disable token
+```
+
+CORS is off by default but can be enabled:
+
+```R
+hgd(cors = TRUE)
+```

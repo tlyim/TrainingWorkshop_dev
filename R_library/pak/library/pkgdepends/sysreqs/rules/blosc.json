@@ -1,0 +1,86 @@
+{
+    "patterns": ["\\bblosc\\b"],
+    "dependencies": [
+      {
+        "packages": ["libblosc-dev"],
+        "constraints": [
+          {
+            "os": "linux",
+            "distribution": "ubuntu"
+          },
+          {
+            "os": "linux",
+            "distribution": "debian"
+          }
+        ]
+      },
+      {
+        "packages": ["blosc-devel"],
+        "constraints": [
+          {
+            "os": "linux",
+            "distribution": "fedora"
+          },
+          {
+            "os": "linux",
+            "distribution": "opensuse"
+          },
+          {
+            "os": "linux",
+            "distribution": "sle"
+          }
+        ]
+      },
+      {
+        "packages": ["blosc-devel"],
+        "pre_install": [
+          {
+            "command": "rpm -q epel-release || yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm"
+          }
+        ],
+        "constraints": [
+          {
+            "os": "linux",
+            "distribution": "redhat",
+            "versions": ["8", "9", "10"]
+          }
+        ]
+      },
+      {
+        "packages": ["blosc-devel"],
+        "pre_install": [
+          { "command": "yum install -y epel-release" }
+        ],
+        "constraints": [
+          {
+            "os": "linux",
+            "distribution": "centos"
+          },
+          {
+            "os": "linux",
+            "distribution": "rockylinux"
+          }
+        ]
+      },
+      {
+        "packages": ["blosc-dev"],
+        "constraints": [
+          {
+            "os": "linux",
+            "distribution": "alpine"
+          }
+        ]
+      },
+      {
+        "packages": [
+          "mingw-w64-x86_64-blosc",
+          "mingw-w64-i686-blosc"
+        ],
+        "constraints": [
+          {
+            "os": "windows"
+          }
+        ]
+      }
+    ]
+  }

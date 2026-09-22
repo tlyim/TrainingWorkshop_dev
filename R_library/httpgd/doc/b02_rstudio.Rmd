@@ -1,0 +1,50 @@
+---
+title: "RStudio"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RStudio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`httpgd` works with RStudio:
+
+![httpgd plot viewer in RStudio](https://user-images.githubusercontent.com/33600480/147690023-0544d9b8-a3a8-4c34-8201-60d1c193b0d8.png)
+
+## Usage
+
+Open the plot viewer in the RStudio Viewer tab:
+
+```R
+library(httpgd)
+hgd()
+hgd_view()
+```
+
+Or open it in an external browser:
+
+```R
+hgd_browse()
+```
+
+## Troubleshooting
+
+Resizing the Viewer tab while a plot exists in the Plots tab can cause RStudio to activate its own graphics device. When this happens, `httpgd` shows _"Device inactive."_ in the Viewer tab.
+
+Check `dev.list()`, you will see an extra `RStudioGD` device:
+
+```R
+> dev.list()
+RStudioGD   agg_png    httpgd
+        2         3         4
+```
+
+Close it with `dev.off()`:
+
+```R
+> dev.off()
+httpgd
+     4
+```
+
+Now only the `httpgd` device remains. The issue should not reappear.

@@ -1,0 +1,25 @@
+---
+title: "Installation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Installation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Install from CRAN:
+
+```R
+install.packages("httpgd")
+```
+
+Or install the development version from GitHub:
+
+```R
+remotes::install_github("nx10/httpgd")
+```
+
+## System requirements
+
+- R &geq; 4.2
+- See also: [`unigd` system requirements](https://nx10.dev/unigd/articles/a00_installation.html#system-requirements)

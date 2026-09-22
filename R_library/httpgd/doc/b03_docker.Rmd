@@ -1,0 +1,74 @@
+---
+title: "Docker"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Docker}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`httpgd` can display R plots from Docker containers without X11 forwarding.
+
+## Basic usage
+
+### Build the image
+
+```Dockerfile
+FROM r-base:latest
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    libfontconfig1-dev \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+    && install2.r --error --skipinstalled --ncpu -1 \
+    httpgd \
+    && rm -rf /tmp/downloaded_packages
+```
+
+```sh
+docker build . -f Dockerfile -t httpgd:test
+```
+
+### Run the container
+
+Bind the `httpgd` port with `-p`:
+
+```sh
+docker run --rm -it -p 8888:8888 httpgd:test R
+```
+
+### Start the device
+
+Inside the container, start `httpgd` bound to all interfaces:
+
+```R
+httpgd::hgd(host = "0.0.0.0", port = 8888)
+```
+
+Open the displayed URL in your browser. To retrieve the URL later:
+
+```R
+httpgd::hgd_url(host = "localhost")
+```
+
+## Advanced usage
+
+### Set defaults in Rprofile
+
+Set `httpgd.host` and `httpgd.port` options in the Rprofile so `hgd()` uses them automatically:
+
+```Dockerfile
+FROM r-base:latest
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    libfontconfig1-dev \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+    && install2.r --error --skipinstalled --ncpu -1 \
+    httpgd \
+    && rm -rf /tmp/downloaded_packages
+
+RUN echo 'options(httpgd.host = "0.0.0.0", httpgd.port = 8888)' >> /etc/R/Rprofile.site
+
+EXPOSE 8888
+```

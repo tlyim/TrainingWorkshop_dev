@@ -1,0 +1,542 @@
+---
+title: "Topics Learned and Takeaways"
+title-slide-attributes:
+  data-background-image: img/BayesCSG_BunhillRow.jpg
+#  data-background-size: contain # default is cover
+  data-background-opacity: "0.2"   # "0.5"
+#date: "2025-01-26"
+execute:
+  echo: false  # set notebook-wide default; overridable in each chunk
+  output: true # means show code output in output; use '#| output: true' at the start of a chunk to override
+format:
+  revealjs:
+#    logo: "assets/BayesCSG_logoNoBkgd.png"
+    navigation-mode: linear  # vertical   # grid   
+#    controls-layout: bottom-right
+    controls-tutorial: true
+    #width: 1600
+    #height: 900
+    html-math-method: katex  # override Plotly.js's requirement to use mathjax
+    theme: [beige, custom.scss] # night # moon # sky # dark # solarized # simple # default # 
+    #=====================================================
+    # custom.scss vs. custom.css
+    #   custom.scss: Modifies the theme while it is being built by changing its core variables; 
+    #                use Quarto's internal variables (like $presentation-font-size-root)
+    #   custom.css: Forces a change after the theme is built by overriding existing styles.	
+    #=====================================================
+    center: true  # This forces vertical centering
+    transition: slide # convex # concave # zoom # 
+    background-transition: fade # none # slide # convex # concave # zoom # 
+    transition-speed: default # fast # slow # 
+#    template-partials:
+#      - title-slide.html
+#lightbox: true
+editor:
+  markdown:
+    wrap: 72  # none to turn off global wrapping default
+  references: 
+    location: document # section # block  #
+    prefix: "mydoc"
+---
+
+
+
+# The goal {.smaller}
+
+- Is NOT to turn students into proficient coders
+
+- Rather, the module aims to:
+
+  - Inspire students to independently explore selected tools, driven by their **own interests and motivation**
+  - Support students' **self-directed exploration** through signposting closely related resources
+
+- These are achieved by 
+  - sharing <span style="color:green;">code templates with which students can _**modify and experiment**_ to turn them into _**their own projects**_</span> through learn by doing
+  - providing guidance through the signposting _**Read/Watch in Advance and After**_ documents
+
+
+
+## Week 1 on GitHub ecosystem {.smaller}
+
+![](img/GitHubEcosystem.png){fig-align="center" width="120%"}
+
+<!--
+{fig-align="center" style="max-width:120%;height:auto;"}
+-->
+
+
+
+## Week 1 on Python Basics {.smaller}
+
+- Primary **data types** in Python
+  - `int` for integers (e.g., 1, 2, 3)
+  - `float` for floating-point numbers (e.g., 3.14, -0.001)
+  - `str` for strings (e.g., "Hello, World!")
+  - `bool` for boolean values (`True` or `False`)
+  - `list` for ordered collections of items  
+  (e.g., [1, 2, 3], ["apple", "banana", "cherry"])
+
+- **Conditional** and **control flow** statements
+  - `if-else` for branching logic
+  - `for` loops for iterating over sequences
+
+- **Indentation** is important in Python!
+
+
+
+## Week 1 & 2 on More Python Basics
+
+- Python uses **zero-based indexing**
+  - so first element of a list is at index 0
+
+- `nan` for representing _undefined, unrepresentable, or missing numerical values_
+  - requires proper handling to avoid **disrupting** code execution
+  - use `try-except` to catch and handle exceptions  
+
+
+
+## Week 2 on First Automated Financial Analysis {.smaller}
+
+- **marimo** notebooks as replacement for Jupyter notebooks
+  - with built-in _interactive features_ 
+  - _automatic updates_ of connected code cells
+
+- Define function to compute **Altman Z-Score** 
+  - first with hypothetical hard-coded data
+  - then with live company data (fetched from Yahoo Finance)
+
+- Extend code to allow **user input** of any ticker symbol
+  - **Visualize** Z-Score relative to Safe and Distress thresholds
+
+- Fetch **panel data** of S&P500 firms via a **child marimo notebook**
+  - **Save** fetched data to a `.csv` file for future access
+
+
+
+## Week 2 on Marimo Don'ts {.smaller}
+
+- Do **not** re-define an object in **another code cell**
+  - Variable names and function names must not be re-used
+  - Or, will cause an error like this:
+
+::: {style="color: red; font-family: monospace; font-size: 55%;background-color: #f0f0f0; padding: 10px; border-radius: 5px;"}
+This cell wasn't run because it has errors
+::: 
+```
+This cell redefines variables from other cells.
+
+SP500_data was also defined by:
+
+cell-75
+
+Why can't I redefine variables?
+marimo requires that each variable is defined in just one cell. This constraint enables reactive and reproducible execution, arbitrary cell reordering, seamless UI elements, execution as a script, and more.
+
+Try merging this cell with the mentioned cells or wrapping it in a function. Alternatively, rename variables to make them private to this cell by prefixing them with an underscore (e.g. _SP500_data).
+
+```
+::: {style="font-family: monospace; font-size: 55%;background-color: #f0f0f0; padding: 10px; border-radius: 5px;"}
+Learn more at our docs ↗: [https://docs.marimo.io/guides/reactivity/#multiple-definition-error](https://docs.marimo.io/guides/reactivity/#multiple-definition-error)
+::: 
+
+
+
+## Two weeks into the module ...
+
+- You learned how to 
+  - **automate** the **computation** and **visualization** of an important financial measure (Altman Z-Score) 
+    - using **panel data** of S&P 500 firms fetched from Yahoo Finance 
+
+
+
+# Week 3 on Interactive Plots {.smaller}
+
+- Code templates for Plotly's
+  - **Violin plot** 
+  - **Joyplot** 
+  - **3D scatter plot**  
+
+- Concepts of 
+  - first and third **quartiles** (Q1 and Q3), **median** (Q2), and **interquartile range** (IQR)
+  - **lower and upper fences** for outlier detection  
+  (i.e., 1.5&times;IQR below Q1 or above Q3)
+
+- To export marimo notebook as self-contained **html** file, use terminal command:
+  - <pre style="font-size:90%;font-family:monospace;background:#f6f8fa;padding:0.5em;border-radius:6px;white-space:pre-wrap;"><code class="language-bash">marimo export html Wk03_InteractivePlots_Plotly.py -o Wk03_InteractivePlots_Plotly.html --sandbox --force</code></pre>
+
+
+
+## Week 3 & 4 on Data Preparation and Cleaning 
+
+- Pandas dataframes
+  - **Read** data into dataframes 
+  - **Filter** rows for specific/missing values in a column  
+  - **Replace** missing values in a column with zero
+  - **Create** new variables by applying functions to existing columns
+    - e.g., creating lagged variables by shifting a column down by one row
+  - **Group** data (e.g., by firm identifier) 
+
+
+
+## Week 4 on Data Analysis and Results Presentation
+
+- _Application example_:
+  - The relationship between **Average cost of debt**  
+  (as a proxy for borrowing costs) and lagged **Z-Score**  
+  (as a proxy for credit risk)
+
+- Code templates for
+  - **Contingency table** by Median Split / Risk Zone
+  - **Pooled regression**
+  - **Risk zones box plot**  
+  - **2D scatter plot** with
+    - interactive selection of observations by sector
+    - reference lines and regression line
+
+
+
+## Week 4 on My First Web App 
+
+- To deploy a dashboard app:
+  - <pre style="font-size:90%;font-family:monospace;background:#f6f8fa;padding:0.5em;border-radius:6px;white-space:pre-wrap;"><code class="language-bash">marimo run Wk04w_Dashboard.py --sandbox</code></pre>
+
+- To publish a multi-tabbed webpage to the world:
+  1. **Export** marimo notebook as a **html-wasm** file
+      - <pre style="font-size:90%;font-family:monospace;background:#f6f8fa;padding:0.5em;border-radius:6px;white-space:pre-wrap;"><code class="language-bash">marimo export html-wasm Wk04x_MyPortfolio.py -o docs --sandbox --force</code></pre>
+  2. **Push** html-wasm and supporting files to **GitHub repo**
+  3. Enable **GitHub Pages** for free hosting of webpages 
+
+
+
+## Four weeks into the module ...
+
+- You learned how to 
+  - **prepare and clean data** for analysis
+  - conduct basic data analysis and present results with **interactive visualizations**
+  - deploy a **dashboard app** and publish a **multi-tabbed webpage** to the world
+
+
+
+# Week 5 on Free AI Resources  {.smaller}
+
+- Through a Moodle announcement post entitled  
+_**When you do not understand something, AI is your friend!**_, 
+  - you were introduced to a variety of high-quality free AI resources beyond the GitHub Copilot sitting inside GitHub Codespaces:
+    - [GitHub Copilot (web interface with **multi-session history**)](https://github.com/copilot)
+      - supporting GPT-5 mini, Grok Code Fast 1, and other models
+    - [**Qwen** 3.5 Plus](https://chat.qwen.ai/)
+    - [**Claude** Sonnet 4.6](https://claude.ai/)
+    - [Gemini 3 Pro (Tools: **Guided Learning**)](https://gemini.google.com/); also, [Gemini 3 Fast](https://gemini.google.com/)
+    - [Gemini 3.1 Pro Preview (on Google **AI Studio**)](https://aistudio.google.com/prompts/new_chat )
+
+
+
+## Week 5 Key takeaways
+
+- _**AI is an integral part of your learning journey**_ 
+  - _**for this module — and beyond**_
+- Don't wait for others to help you. 
+  - Engage in an _**active learning**_ journey assisted by AI to  
+  _**<span style="color: green;">give yourself a brighter future!</span> **_
+
+
+
+# Week 6 on Data analysis workflow {.smaller}
+
+- Following up on the discussion in previous weeks,
+  - the whole pipeline of data analysis workflow was presented: 
+    1. **Data collection** (e.g., web scraping, APIs, databases)
+    2. **Data preparation and cleaning**  
+    (e.g., creating lagged variables, handling missing values)
+    3. **Modeling development** (e.g., pooled OLS regression, panel data regression with year and industry fixed effects)
+    4. **Analysis and Results**  
+    (e.g., correlation analysis, regression results, robustness checks) 
+  - and illustrated with an example on the relationship between 
+    - **Tobin's _q_** (as a proxy for firm value) and  
+    **ESG score** (as a proxy for corporate sustainability performance)
+    - controlling for other factors such as **firm size** and **leverage** 
+
+
+
+## Again, AI is your friend {.smaller}
+
+- You were encouraged to **<span style="color: green;">seek AI assistance</span>** in applying the data analysis workflow, such as by asking AI to:
+  - **Explain** the concepts of Tobin's _q_ and ESG score 
+  - **Provide examples** of Python code for implementing the tables in different steps of the workflow 
+- For example, you can 
+  - **upload the screenshot** of a descriptive statistics table to an AI assistant  
+  - ask it to **generate Python code for creating a similar table** based on your dataset 
+  - _Note:_ Later in **Week 10**, the R and Python code for creating the tables in the Week 6 slides were provided to you
+
+
+
+## Week 6 on Data Collection {#Wk06C .smaller}
+
+- Structured data 
+  - Yahoo Finance has financial and stock data up to **last 5 years only**  
+  (unless you pay for premium access)
+  - **WRDS** has financial and stock data dating back to 1960s:  
+    - **Compustat** and **CRSP** (subscribed by Bayes)
+
+- Unstructured data 
+  - _Application example:_  
+  Collecting company sustainability reports from corporate websites
+
+
+
+## Week 6 & 7 on Web scraping {.smaller}
+
+- **Challenges** in gathering unstructured data with web scraping:  
+  - Human verification triggered by **bot detection** blocks access to a website completely, 
+    - requiring careful handling of the scraping process to avoid detection
+  - **Cookies consent banner** blocks access to the information on a webpage, 
+    - requiring identifying and clicking the _Accept_ button to proceed
+  - Locations of target data are often unknown in advance, 
+    - requiring comprehensive **webcrawling** to find the relevant information
+  - Pdf files might not be text-searchable, 
+    - requiring **optical character recognition (OCR)** to extract text data from images
+
+
+
+## Week 6 & 7 Key takeaways {.smaller}
+
+- Data science provides tools and techniques for _web scraping_, _webcrawling_, and _natural language processing_ (NLP), 
+  - allowing collecting and analyzing unstructured data with **minimal human intervention**
+
+- The **<span style="color: green;">automation pipeline</span>** can handle large volumes of data efficiently  
+(e.g., multiple years of the S&P 500 companies' unstructured data), 
+  - **conserving** your time, energy, and attention **for more value-adding tasks** such as 
+    - learning from each identified page with a high frequency of the matched keywords (e.g., water pollution)
+
+
+
+# Week 8 Introduction to LLMs {.smaller}
+
+- A major risk of using **large language models** (**LLMs**) is **hallucination**
+- Approaches to reducing the risk include:
+  - **Hyperparameter tuning**: Making the model more deterministic (e.g., lower temperature) 
+  - **Prompt engineering**: Crafting prompts to provide guard rails towards finding the right answer, such as by asking the model to 
+    - **Think step by step** and 
+    - **Explain its reasoning** before giving the final answer 
+  - **Grounding**: Connecting the model to some source of truth through, e.g., 
+    - **Internet search** 
+    - **Retrieval-Augmented Generation** (**RAG**)
+    - **Few-shot examples**  
+  - **Using multiple models**: e.g., AI-as-judge 
+
+
+
+## Week 9 API access to LLMs {.smaller}
+
+- Besides using LLMs through a chat interface, 
+  - accessing them through **application programming interfaces** (**APIs**) has the following key benefits:
+    - **Automation** without manual intervention
+    - **Integration** into other applications and workflows
+    - **Scalability** for large volumes of requests (e.g., processing text data for all FTSE 100 companies across multiple years) 
+    - **Flexibility** to choose models and set hyperparameters 
+
+- _Application example:_ 
+  - Determining the **sentiment** of forward-looking statements in FTSE 100 firms' annual reports 
+
+
+
+## Week 8 & 9 Key takeaways
+
+- LLMs are powerful tools for a variety of tasks 
+  - but **hallucination** is a major risk
+- Techniques such as _prompt engineering_ and _grounding_ can be used to 
+  - guide LLMs towards more accurate and reliable outputs
+- API access to LLMs enables the **automation** and **scalability** 
+  - required for large volumes of **judgment-based** analysis tasks, such as financial sentiment analysis
+
+
+
+# Week 10 on Free GPU access {.smaller}
+
+- GPUs are the primary hardware powering modern AI 
+
+- They significantly accelerate computationally intensive tasks, such as
+  - **Lemmatization in NLP:** Requires only 1/6th of the time by CPUs
+  - _Application example:_ **Bigram cloud analysis** of risk factors in _Magnificent 7_ firms' annual reports 
+
+- Compared to GitHub Codespaces, 
+  - _**Lightning.ai**_ provides even more generous free monthly credits sufficient for 75 hours of GPU usage
+    - a GPU matching this compute power would require an incremental upfront investment of over £150
+
+
+
+## Week 10 on R ecosystem {.smaller}
+
+- R is a major programming language for data science, like Python
+
+- R offers a **concise**, **expressive syntax** 
+  - avoiding Python's repetition of `lambda x:` and `x[" "]` 
+
+- R has a **rich ecosystem** of packages specialized for rigorous **statistical** modeling required to establish scientifically sound evidence
+    - e.g., On the [DiD](https://asjadnaqvi.GitHub.io/DiD/) website for **difference-in-differences** analysis,  
+    [over 15 packages in **R**](https://asjadnaqvi.GitHub.io/DiD/docs/02_R/) vs. [only 1 in **Python**](https://asjadnaqvi.GitHub.io/DiD/docs/03_python/)
+
+- Unlike JSON-based Jupyter notebooks, 
+  - **R Markdown** notebooks are plain text files
+    - **highly editable** in low-bandwidth environments 
+    - superior for **version control** and collaboration on platforms like GitHub
+
+
+
+## Week 10 Key takeaways  
+
+- _**No single tool solves every problem**_
+  - Use Python for AI/Machine Learning (ML) tasks, but leverage R for rigorous statistical modeling 
+  - Selecting the "_**right tool for the job**_" is a key skill for data professionals
+
+- The landscape of data science and AI **changes rapidly**
+  - Continuous **self-learning and exploration** is the key to always choosing the right tool for the job
+
+
+
+# Week 1-10 Packages used {.smaller}
+
+![](img/Packages_WordCloud.png){fig-align="center" width="120%"}
+
+
+
+# Individual Project:  {.smaller}
+
+::: {.slide-subtitle style="font-size:180%;margin-top:-0.3em;"}
+Launching Your Professional Portfolio
+:::
+
+<!--
+### Launching Your Professional Portfolio {style="font-size:180%;"}
+-->
+
+* **The Core Goal:** Create the first draft of your personal portfolio webpage. 
+  * *The Long Game:* Polish this over the next 3 years so you have a professional, job-ready showcase by graduation.
+
+* **Creative Freedom & Requirements:** You have total freedom to design your page, provided it:
+  * Builds on the Week 4 code template.
+  * Meets the assignment Guide requirements (Sections 3, 4, and 7.2).
+
+
+
+## Individual Project: Suggested Workflow {.smaller}
+
+* **From Code to Global URL:**
+  * *Start simple:* Swap "Jane Doe's" CV for yours and customize your passions/interests. 
+  * *Publish:* Export as `html-wasm` via `marimo`, push to GitHub, and enable GitHub Pages.
+  * *Result:* A live URL accessible on any device, no Python knowledge required!
+
+* **Need Inspiration?** If you are stuck, step back from the code. Reflect on your strengths, what you care about, and the story you want to tell prospective employers.
+
+
+
+# AI and Data Science Skills {.smaller}
+
+[![](img/UKGradJosAreDown.png){fig-align="center" width="70%"  style="display:block; margin-top:0; margin-bottom:-30px;"}](https://www.ft.com/content/99b6acb7-a079-4f57-a7bd-8317c1fbb728?shareType=nongift)
+
+[_In the age of AI, accountants are expected to have skills in areas like data analytics. [... a] survey noted that 58% of finance teams were using AI by 2024, mainly for anomaly and error detection, process **automation**, and analytics, but also found common hurdles such as “limited **data skills**” within firms ... proficiency in **programming language**, analytics tools, and cybersecurity are now **seen as crucial** for accountants to improve efficiency and provide strategic insights_](https://www.cpajournal.com/2025/10/29/alternatives-in-accounting-education/){style="font-size:80%;line-height:0.9;"} 
+
+
+
+# To conclude
+
+- This module was designed to equip you with the **data literacy** to 
+  - **adapt to** any new tool **the future** of finance and accounting throws at you
+
+<div style="text-align: center;">[Helping you to [**stand out**]{.gold-glow} in the talent pool!]{.sp .fragment .fade-up style="font-size:150%;margin-top:0;"}</div>
+
+<!-- 3. CSS for this specific effect -->
+<style>
+/* 
+   Style for the container to remove extra gaps 
+   and center the text 
+*/
+.gold-glow {
+  text-align: center;
+  margin-top: 0 !important; /* Removes the gap above */
+  padding-top: 10px;
+  
+  /* Text Styling */
+  font-family: lato;  
+  font-size: 1.8em; /* Large but fits on slide */
+  line-height: 1.2;
+  color: #3f3530; /* Dark Brown (matches Beige theme text) */
+  
+  /* The Animation */
+  animation: pulse-gold 0.65s infinite alternate;
+}
+
+/* 
+   Keyframes for a "Gold/Bronze" Pulse 
+   Optimized for Light Backgrounds
+*/
+@keyframes pulse-gold {
+  0% {
+    /* Subtle Gold Halo */
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.2); 
+    transform: scale(1.0);
+  }
+  100% {
+    /* Intense Gold Glow */
+    text-shadow: 0 0 70px rgba(184, 134, 11, 0.6), 
+                 0 0 10px rgba(218, 165, 32, 0.8);
+    transform: scale(1.9); /*  "breathing" effect */
+  }
+}
+</style>
+
+
+
+# Thank you and Best wishes!
+
+
+
+<!--
+
+for staying till now
+
+[• Master this module to &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; &nbsp; &nbsp; &thinsp; &thinsp; ]{.sp .fragment .fade-in-then-out style="margin-top:0; margin-bottom:-10px;"} 
+
+
+- **Polars:** Next-generation data processing for high-performance and "big data" tasks (beyond Pandas)
+
+
+
+## Free computing platforms {.smaller}
+
+- _GitHub Codespaces_ has **VS Code** as its GUI
+  - native for Python and **GitHub Copilot**; can be set up for R too
+  - provided by **GitHub**, a home for numerous _**open-source**_ codes
+
+- _Posit cloud_ has **RStudio** as its GUI
+  - mainly for R; can use **GitHub Copilot**
+
+- Google _Colab_ has a **Jupyter notebook** GUI
+  - native for Python and **Gemini** (AI assistant developed by Google)
+  - (unspecified) **GPU access** for free-tier users
+
+- _Lightning.ai_ has **VS Code** and **Jupyter Lab** as its GUIs
+  - The VS Code interface has **GitHub Copilot** 
+  - [35 hours**/month** free](https://lightning.ai/pricing)  **GPU access** 
+
+
+
+## DS vs AI 
+
+- _**Data science**_ (**DS**) and _**machine learning**_ (**ML**) provide key foundations for _**artificial intelligence**_ (**AI**)
+
+  - ML is a core subfield of AI and underpins most modern AI systems.
+
+  - DS supplies the data handling, statistical analysis, and modeling practices that make ML and AI practical and effective.
+
+
+
+## The Answer 
+
+[• You will not be replaced by AI]{.sp .fragment .fade-in-then-out}  
+
+[• You will be replaced by someone who can **use AI better** &emsp; &nbsp; &nbsp; &nbsp; &thinsp; **than you**]{.sp .fragment .fade-up}
+
+
+-->
+

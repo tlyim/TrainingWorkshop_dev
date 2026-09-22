@@ -1,0 +1,116 @@
+---
+title: "Lightning.ai Account - Setup Instructions"
+title-slide-attributes:
+  data-background-image: img/BayesCSG_BunhillRow.jpg
+#  data-background-size: contain # default is cover
+  data-background-opacity: "0.2"   # "0.5"
+#date: "2026-09-30"
+execute:
+  echo: false  # set notebook-wide default; overridable in each chunk
+  output: true # means show code output in output; use '#| output: true' at the start of a chunk to override
+format:
+  html:
+#    logo: "assets/BayesCSG_logoNoBkgd.png"
+    embed-resources: true
+    html-math-method: katex  # override Plotly.js's requirement to use mathjax
+    #theme: [beige, custom.scss] # simple # default # night # moon # sky # dark # solarized #    
+    theme: [simple, custom.scss] # simple # default # night # moon # sky # dark # solarized #
+    #=====================================================
+    # custom.scss vs. custom.css
+    #   custom.scss: Modifies the theme while it is being built by changing its core variables; 
+    #                use Quarto's internal variables (like $presentation-font-size-root)
+    #   custom.css: Forces a change after the theme is built by overriding existing styles.	
+    #=====================================================
+    center: true  # This forces vertical centering
+    include-in-header: 
+      text: |
+        <style>
+
+        </style>
+#lightbox: true
+editor:
+  markdown:
+    wrap: 72  # none to turn off global wrapping default
+  references: 
+    location: document # section # block  #
+    prefix: "mydoc"
+---
+
+
+<!-- # Lightning.ai Account - Setup Instructions -->
+
+---
+
+
+## 1. Set up Lightning.ai Account
+
+-  Go to: <https://lightning.ai/pricing/>
+-  Click on **Get started free**
+-  Select **Email** (first option), then type in your **university email address**
+-  You will then receive an email to confirm your email address. Click on the **Log in** button in that email, which will take you back to their website. Then click **Next**
+-  On the next page (`How do you want to code:`), click on **Browser**, and click **Next**
+-  On the following page (`What machine do you want to use:`), click on **CPU** (top left option), and click **Next**
+-  On the next page, enter your mobile phone number (this is being used for two-factor authentication), and click on **Request verification code**
+-  You will be sent a 6-digit code by text message (SMS). Enter this code where it says **Enter verification code**. Then click **Verify**
+-  When you see `Congratulations, your account is verified!`: Click **Next**
+-  Then you see `Invite members (optional)`: Click **Next**
+-  For `Select Git integration:`: Choose **Connect later** (right-hand option), and click **Next**, then click **Start building!**
+-  When you see `Welcome to your first Studio ...`: Click **Next**
+-  When you see `You are on the Free tier ...`: Click **I understand**.
+-  You are now in the first **Studio** created on Lightning.ai. On the right-hand side, Lightning.ai's _native credit-consuming **AI copilot** service_ is enabled by default. You can try if you like it. (Clicking the **AI copilot** button near the top right part of the Studio toggles off the services.) 
+-  Alternatively, you can follow the instructions below to enable and use the **GitHub Copilot** chat interface
+
+---
+
+(_Note:_ Use of GitHub Copilot on Lightning.ai will _**consumer your GitHub credit allowance**_, not the credit allowance provided by Lightning.ai.)
+
+## 2. Enable GitHub Copilot on Lightning.ai
+
+- In a Lightning.ai Studio, log into your GitHub account using the **'human head' credentials button** in the lower left corner
+  - This should be sufficient to enable the GitHub Copilot chat interface in the right-hand side panel
+- Once logged in, a window will pop up asking for the permission as follows:
+
+> *The extension 'GitHub Copilot Chat' wants to sign in using GitHub.*  
+> *To show you more relevant Copilot Chat results, we need permission to read the contents of your repository on GitHub.*
+
+- Click the **Allow** button. Then follow the additional instructions on screen to complete the process
+- When completed, click the **Toggle Secondary Side Bar** button in the upper right corner to toggle on the panel with the GitHub Copilot chat interface.
+- If the GitHub Copilot chat interface does not already allow you to select the **Mode** (Ask/Plan/Agent) from a drop-down menu, enter a trivial question like '**hi there**'
+  - This should initialize the default AI model and give you a reply like ‘*What can I help you today?*’. The Mode selector should then be available for selection
+
+---
+
+(*Note*: Teamspace is now called **Organization**)
+
+## 3. Create a Studio in a Teamspace
+
+- Each Studio must belong to a Teamspace, where users can be invited to collaborate on Studios in the Teamspace. 
+  - Even for an individual user, one must select an existing/set up a new Teamspace before a Studio can be created in it 
+- If you are currently inside a Studio, you can shut it down first, which will take you to the **Dashboard** page showing all your Teamspaces and the Studios in each Teamspace
+  - To shut down a Studio when you are in it, click the **CPU button** (or **T4** button) near the top right corner of the Studio, followed by clicking the green **Power** button on the top line of the pop-up window
+  - Then click **Yes, sleep** in the next window
+- The first time you shut down your first Studio, you will see a pop-up window `This is your Lightning teamspace`. Click **CLOSE** in the upper left corner to close it. This will take you to the Dashboard page
+- To create a new Teamspace, click the **‘+’ button** in the lower left corner of the page, followed by clicking the **Next** button to accept the **Default** choice in the pop-up window
+  - In the next window, give a **name** to the new Teamspace to be created, followed by clicking the **Create** button
+- On the next page, click the ‘**+ New Studio**’ button to create a new Studio in the newly created Teamspace.
+  - Select, for example, **Python** in the pop-up window and leave the machine type unchanged (i.e., **Default (CPU)**)
+  - Then click the **Start** button. This will complete the steps to create the new Studio
+- Be patient to wait until the **progress bar** near the top of the newly created Studio to reach **100%** before doing anything in the Studio 
+  - Otherwise, any interruption runs the risk of causing defects in the Studio and unexpected behaviors.
+- The (VS Code) interface of a Lightning.ai **Studio** is highly similar to the (VS Code) interface of a **GitHub Cospace**. 
+  - Additionally, you can switch to Lightning.ai's **JupyterLab** interface by clicking the respective button on the vertical menu bar at the right edge of the Studio.
+- A Studio will get into **Auto sleep after 10 mins of inactivity**, or **after being used continuously for 4 hours**.
+
+---
+
+(*Note*: Below is for use _**during the Workshop**_)
+
+## 4. Clone a Studio shared through a Studio template
+
+- Click the link **BigramCloud_GPUorCPU** provided in the Workshop slides, which will take you to a page with a **Clone button**. 
+  - Click the button to clone the Studio to your Lightning.ai account.
+- In the pop-up window, _**select the Teamspace**_ where you would like to clone the Studio, followed by clicking **Open**.
+- Because the default machine of the shared Studio is **T4**, you must have credits in the selected Teamspace (or transfer some into it) before the shared Studio can be cloned there.
+  - Click the **Transfer credits** link in the pop-up window to transfer in credits (if there is no credit in the chosen Teamspace). Then click the **Confirm** button to confirm the transfer.
+- Click **Open** to open the cloned Studio.
+  - If the value of the transferred-in credits is regarded low, you will see a pop-up window to suggest **Add credits**. You can remove the window by clicking the **‘x’ button**.

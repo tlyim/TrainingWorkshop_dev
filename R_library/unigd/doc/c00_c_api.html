@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>C/C++ API</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">C/C++ API</h1>
+
+
+
+<p><code>unigd</code> exposes a C API that allows other R packages to
+interact with the graphics device from compiled code. This enables
+building applications like plot viewers, web servers, or IDE
+integrations on top of <code>unigd</code>.</p>
+<p>The API has <code>extern &quot;C&quot;</code> linkage, so it can be used from
+both C and C++ client code. It is a versioned vtable (struct of function
+pointers) obtained at runtime through R’s <code>R_GetCCallable</code>
+mechanism. All functions are thread-safe, so clients can call into
+<code>unigd</code> from background threads.</p>
+<p>The examples in this document use C++ for brevity, but the API itself
+is plain C.</p>
+<div id="architecture-overview" class="section level2">
+<h2>Architecture overview</h2>
+<pre><code>R session
+ |
+ |  ugd()           opens a unigd graphics device
+ v
+unigd device        stores plot history, manages renderers
+ |
+ |  C API           function pointer table (unigd_api_v1)
+ v
+client package      attaches via device_attach(), receives callbacks,
+                    renders plots on demand</code></pre>
+<p>The API follows a <strong>client model</strong>: a client package
+registers itself with an open <code>unigd</code> device and receives
+lifecycle callbacks. It can then query device state, browse plot
+history, and render plots to any supported format.</p>
+</div>
+<div id="package-setup" class="section level2">
+<h2>Package setup</h2>
+<div id="description" class="section level3">
+<h3>DESCRIPTION</h3>
+<p>Your package needs to link against <code>unigd</code>:</p>
+<pre><code>Imports: unigd
+LinkingTo: unigd</code></pre>
+<p><code>Imports</code> ensures <code>unigd</code> is loaded (and its
+shared library available) before your package. <code>LinkingTo</code>
+gives your compiler access to the headers in
+<code>unigd/inst/include/</code>.</p>
+</div>
+<div id="include-the-api-header" class="section level3">
+<h3>Include the API header</h3>
+<p>In your C/C++ source files:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unigd_api.h&gt;</span></span></code></pre></div>
+<p>This single header provides <code>unigd_api_v1_create()</code> and
+<code>unigd_api_v1_destroy()</code> (factory functions that obtain the
+API vtable via <code>R_GetCCallable</code>), as well as all type
+definitions from <code>&lt;unigd_api_v1.h&gt;</code> (structs, handle
+types, and typedefs).</p>
+</div>
+</div>
+<div id="initialization" class="section level2">
+<h2>Initialization</h2>
+<p>Obtain the API vtable once when your package is loaded. The
+recommended pattern uses a RAII guard and the
+<code>[[cpp11::init]]</code> attribute (which runs at
+<code>R_init_&lt;pkg&gt;</code> time):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cpp11/R.hpp&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;unigd_api.h&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="kw">namespace</span> mypackage <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">// Global API pointer and client ID</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>unigd_api_v1 <span class="op">*</span>api <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>UNIGD_CLIENT_ID client_id <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="kw">namespace</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="kw">class</span> api_guard <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="op">~</span>api_guard<span class="op">()</span> <span class="op">{</span> destroy<span class="op">();</span> <span class="op">}</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="dt">void</span> create<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>api <span class="op">==</span> <span class="kw">nullptr</span><span class="op">)</span> unigd_api_v1_create<span class="op">(&amp;</span>api<span class="op">);</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="dt">void</span> destroy<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>api <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>      unigd_api_v1_destroy<span class="op">(</span>api<span class="op">);</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      api <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>api_guard guard<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="op">}</span>  <span class="co">// namespace</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="op">}</span>  <span class="co">// namespace mypackage</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="op">[[</span><span class="at">cpp11</span><span class="op">::</span><span class="at">init</span><span class="op">]]</span> <span class="dt">void</span> import_unigd_api<span class="op">(</span>DllInfo <span class="op">*</span>dll<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>  mypackage<span class="op">::</span>guard<span class="op">.</span>create<span class="op">();</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>  mypackage<span class="op">::</span>client_id <span class="op">=</span> mypackage<span class="op">::</span>api<span class="op">-&gt;</span>register_client_id<span class="op">();</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>After this runs, <code>mypackage::api</code> points to the vtable and
+<code>mypackage::client_id</code> holds a unique identifier for your
+package. The guard ensures <code>unigd_api_v1_destroy</code> is called
+when the shared library unloads.</p>
+</div>
+<div id="types" class="section level2">
+<h2>Types</h2>
+<div id="handle-types" class="section level3">
+<h3>Handle types</h3>
+<p>The API uses opaque <code>void *</code> handles for resource
+management. Each <code>*_create</code> / <code>*_find</code> function
+returns a handle that <strong>must</strong> be freed with the
+corresponding <code>*_destroy</code> function.</p>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="30%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Returned by</th>
+<th>Freed by</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>UNIGD_HANDLE</code></td>
+<td><code>device_attach</code></td>
+<td><code>device_destroy</code></td>
+</tr>
+<tr class="even">
+<td><code>UNIGD_RENDER_HANDLE</code></td>
+<td><code>device_render_create</code></td>
+<td><code>device_render_destroy</code></td>
+</tr>
+<tr class="odd">
+<td><code>UNIGD_FIND_HANDLE</code></td>
+<td><code>device_plots_find</code></td>
+<td><code>device_plots_find_destroy</code></td>
+</tr>
+<tr class="even">
+<td><code>UNIGD_RENDERERS_HANDLE</code></td>
+<td><code>renderers</code></td>
+<td><code>renderers_destroy</code></td>
+</tr>
+<tr class="odd">
+<td><code>UNIGD_RENDERERS_ENTRY_HANDLE</code></td>
+<td><code>renderers_find</code></td>
+<td><code>renderers_find_destroy</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="id-types" class="section level3">
+<h3>ID types</h3>
+<table>
+<colgroup>
+<col width="28%" />
+<col width="18%" />
+<col width="52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Underlying</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>UNIGD_PLOT_ID</code></td>
+<td><code>uint32_t</code></td>
+<td>Stable identifier for a plot</td>
+</tr>
+<tr class="even">
+<td><code>UNIGD_PLOT_INDEX</code></td>
+<td><code>uint32_t</code></td>
+<td>Positional index (oldest = 1)</td>
+</tr>
+<tr class="odd">
+<td><code>UNIGD_PLOT_RELATIVE</code></td>
+<td><code>int32_t</code></td>
+<td>Signed offset (0 = latest, -1 = previous)</td>
+</tr>
+<tr class="even">
+<td><code>UNIGD_CLIENT_ID</code></td>
+<td><code>uint32_t</code></td>
+<td>Unique client identifier</td>
+</tr>
+<tr class="odd">
+<td><code>UNIGD_RENDERER_ID</code></td>
+<td><code>const char *</code></td>
+<td>Renderer string ID (e.g. <code>&quot;svg&quot;</code>,
+<code>&quot;png&quot;</code>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="structs" class="section level3">
+<h3>Structs</h3>
+<div id="unigd_graphics_client" class="section level4">
+<h4><code>unigd_graphics_client</code></h4>
+<p>Callback table provided by the client to <code>device_attach</code>.
+All callbacks receive the <code>client_data</code> pointer that was
+passed to <code>device_attach</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="kw">struct</span> unigd_graphics_client <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="dt">void</span> <span class="op">(*</span>start<span class="op">)(</span><span class="dt">void</span> <span class="op">*</span>client_data<span class="op">);</span>        <span class="co">// Device activated</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="dt">void</span> <span class="op">(*</span>close<span class="op">)(</span><span class="dt">void</span> <span class="op">*</span>client_data<span class="op">);</span>        <span class="co">// Device closing</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="dt">void</span> <span class="op">(*</span>state_change<span class="op">)(</span><span class="dt">void</span> <span class="op">*</span>client_data<span class="op">);</span> <span class="co">// Plot state changed</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*(*</span>info<span class="op">)(</span><span class="dt">void</span> <span class="op">*</span>client_data<span class="op">);</span>  <span class="co">// Return client info string</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<ul>
+<li><strong><code>start</code></strong>: Called once after
+<code>device_attach</code> succeeds. Use this to launch background
+threads or initialize resources.</li>
+<li><strong><code>close</code></strong>: Called when the device is
+closed (e.g. <code>dev.off()</code> in R). Clean up resources and call
+<code>device_destroy</code> on the handle here. After this returns, the
+device handle is no longer valid.</li>
+<li><strong><code>state_change</code></strong>: Called whenever a plot
+is created, modified, or removed. Typically used to notify connected
+clients (e.g. push a WebSocket message).</li>
+<li><strong><code>info</code></strong>: Should return a static string
+identifying the client (e.g. <code>&quot;mypkg 1.0.0&quot;</code>).</li>
+</ul>
+</div>
+<div id="unigd_device_state" class="section level4">
+<h4><code>unigd_device_state</code></h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">struct</span> unigd_device_state <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="dt">int</span> upid<span class="op">;</span>                <span class="co">// Update ID, increments on every state change</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    UNIGD_PLOT_INDEX hsize<span class="op">;</span>  <span class="co">// Number of plots in history</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="dt">bool</span> active<span class="op">;</span>             <span class="co">// Whether the device is active</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>The <code>upid</code> field is useful for change detection: if the
+<code>upid</code> hasn’t changed since the last check, no plots have
+been added, removed, or redrawn.</p>
+</div>
+<div id="unigd_render_args" class="section level4">
+<h4><code>unigd_render_args</code></h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">struct</span> unigd_render_args <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="dt">double</span> width<span class="op">;</span>   <span class="co">// Plot width in inches (or pixels for raster)</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="dt">double</span> height<span class="op">;</span>  <span class="co">// Plot height in inches (or pixels for raster)</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="dt">double</span> scale<span class="op">;</span>   <span class="co">// Zoom/scale factor (1.0 = 100%)</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>Pass <code>width = -1</code> and <code>height = -1</code> to use the
+device’s current dimensions.</p>
+</div>
+<div id="unigd_render_access" class="section level4">
+<h4><code>unigd_render_access</code></h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="kw">struct</span> unigd_render_access <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">uint8_t</span> <span class="op">*</span>buffer<span class="op">;</span>  <span class="co">// Pointer to rendered data</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="dt">uint64_t</span> size<span class="op">;</span>          <span class="co">// Size in bytes</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>The buffer is valid until the corresponding
+<code>UNIGD_RENDER_HANDLE</code> is destroyed.</p>
+</div>
+<div id="unigd_find_results" class="section level4">
+<h4><code>unigd_find_results</code></h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="kw">struct</span> unigd_find_results <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    unigd_device_state state<span class="op">;</span>  <span class="co">// Device state at query time</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    UNIGD_PLOT_INDEX size<span class="op">;</span>     <span class="co">// Number of results</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    UNIGD_PLOT_ID <span class="op">*</span>ids<span class="op">;</span>        <span class="co">// Array of plot IDs</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+</div>
+<div id="unigd_renderer_info" class="section level4">
+<h4><code>unigd_renderer_info</code></h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="kw">struct</span> unigd_renderer_info <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    UNIGD_RENDERER_ID id<span class="op">;</span>       <span class="co">// e.g. &quot;svg&quot;, &quot;png&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>mime<span class="op">;</span>           <span class="co">// e.g. &quot;image/svg+xml&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>fileext<span class="op">;</span>        <span class="co">// e.g. &quot;svg&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>name<span class="op">;</span>           <span class="co">// Human-readable name</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>type<span class="op">;</span>           <span class="co">// Renderer category</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>description<span class="op">;</span>    <span class="co">// Short description</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    <span class="dt">bool</span> text<span class="op">;</span>                  <span class="co">// true if output is text, false if binary</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="attaching-to-a-device" class="section level2">
+<h2>Attaching to a device</h2>
+<p>A client attaches to an open <code>unigd</code> device by providing a
+callback struct, its client ID, and an arbitrary data pointer:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="kw">class</span> MyClient <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  unigd_api_v1 <span class="op">*</span><span class="va">m_api</span> <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  UNIGD_HANDLE <span class="va">m_handle</span> <span class="op">=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  unigd_graphics_client <span class="va">m_client</span><span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  MyClient<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    <span class="va">m_client</span><span class="op">.</span>start <span class="op">=</span> <span class="op">[](</span><span class="dt">void</span> <span class="op">*</span>d<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>      <span class="kw">static_cast</span><span class="op">&lt;</span>MyClient <span class="op">*&gt;(</span>d<span class="op">)-&gt;</span>on_start<span class="op">();</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>    <span class="va">m_client</span><span class="op">.</span>close <span class="op">=</span> <span class="op">[](</span><span class="dt">void</span> <span class="op">*</span>d<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>      <span class="kw">static_cast</span><span class="op">&lt;</span>MyClient <span class="op">*&gt;(</span>d<span class="op">)-&gt;</span>on_close<span class="op">();</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>    <span class="va">m_client</span><span class="op">.</span>state_change <span class="op">=</span> <span class="op">[](</span><span class="dt">void</span> <span class="op">*</span>d<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>      <span class="kw">static_cast</span><span class="op">&lt;</span>MyClient <span class="op">*&gt;(</span>d<span class="op">)-&gt;</span>on_state_change<span class="op">();</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>    <span class="va">m_client</span><span class="op">.</span>info <span class="op">=</span> <span class="op">[](</span><span class="dt">void</span> <span class="op">*)</span> <span class="op">{</span> <span class="cf">return</span> <span class="st">&quot;mypkg 1.0.0&quot;</span><span class="op">;</span> <span class="op">};</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  <span class="dt">bool</span> attach<span class="op">(</span><span class="dt">int</span> devnum<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>    <span class="va">m_api</span> <span class="op">=</span> mypackage<span class="op">::</span>api<span class="op">;</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>    <span class="va">m_handle</span> <span class="op">=</span> <span class="va">m_api</span><span class="op">-&gt;</span>device_attach<span class="op">(</span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>        devnum<span class="op">,</span>              <span class="co">// R device number</span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>        <span class="op">&amp;</span><span class="va">m_client</span><span class="op">,</span>           <span class="co">// callback table</span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a>        mypackage<span class="op">::</span>client_id<span class="op">,</span> <span class="co">// from register_client_id()</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>        <span class="kw">this</span>                 <span class="co">// client_data passed to callbacks</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>    <span class="op">);</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">m_handle</span> <span class="op">!=</span> <span class="kw">nullptr</span><span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a>  <span class="dt">void</span> on_start<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a>    <span class="co">// Called after attach succeeds.</span></span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a>    <span class="co">// Launch background work here.</span></span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a>  <span class="dt">void</span> on_state_change<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a>    <span class="kw">auto</span> state <span class="op">=</span> <span class="va">m_api</span><span class="op">-&gt;</span>device_state<span class="op">(</span><span class="va">m_handle</span><span class="op">);</span></span>
+<span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a>    <span class="co">// React to state.upid, state.hsize, etc.</span></span>
+<span id="cb11-39"><a href="#cb11-39" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-40"><a href="#cb11-40" tabindex="-1"></a></span>
+<span id="cb11-41"><a href="#cb11-41" tabindex="-1"></a>  <span class="dt">void</span> on_close<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-42"><a href="#cb11-42" tabindex="-1"></a>    <span class="co">// Device is closing. Clean up.</span></span>
+<span id="cb11-43"><a href="#cb11-43" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span><span class="va">m_api</span> <span class="op">&amp;&amp;</span> <span class="va">m_handle</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-44"><a href="#cb11-44" tabindex="-1"></a>      <span class="va">m_api</span><span class="op">-&gt;</span>device_destroy<span class="op">(</span><span class="va">m_handle</span><span class="op">);</span></span>
+<span id="cb11-45"><a href="#cb11-45" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-46"><a href="#cb11-46" tabindex="-1"></a>    <span class="kw">delete</span> <span class="kw">this</span><span class="op">;</span></span>
+<span id="cb11-47"><a href="#cb11-47" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-48"><a href="#cb11-48" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>The <code>devnum</code> parameter is the R graphics device number,
+typically obtained from <code>dev.cur()</code> after opening a
+<code>ugd()</code> device.</p>
+</div>
+<div id="querying-device-state" class="section level2">
+<h2>Querying device state</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>unigd_device_state state <span class="op">=</span> api<span class="op">-&gt;</span>device_state<span class="op">(</span>handle<span class="op">);</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">// state.upid   incremented on every change</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">// state.hsize  total number of plots in history</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">// state.active false after dev.off()</span></span></code></pre></div>
+</div>
+<div id="browsing-plot-history" class="section level2">
+<h2>Browsing plot history</h2>
+<p>Use <code>device_plots_find</code> to query plot IDs with
+pagination:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>unigd_find_results results<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>UNIGD_FIND_HANDLE fh <span class="op">=</span> api<span class="op">-&gt;</span>device_plots_find<span class="op">(</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    handle<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span>   <span class="co">// offset: 0 = start from latest, negative = relative</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="dv">10</span><span class="op">,</span>  <span class="co">// limit: max number of results (0 = all)</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="op">&amp;</span>results</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="op">);</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span>UNIGD_PLOT_INDEX i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> results<span class="op">.</span>size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  UNIGD_PLOT_ID id <span class="op">=</span> results<span class="op">.</span>ids<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="co">// ... use the plot ID ...</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">// Always free the results</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>api<span class="op">-&gt;</span>device_plots_find_destroy<span class="op">(</span>fh<span class="op">);</span></span></code></pre></div>
+<p>To remove a single plot or clear all history:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>api<span class="op">-&gt;</span>device_plots_remove<span class="op">(</span>handle<span class="op">,</span> plot_id<span class="op">);</span>  <span class="co">// returns true on success</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>api<span class="op">-&gt;</span>device_plots_clear<span class="op">(</span>handle<span class="op">);</span>            <span class="co">// returns true on success</span></span></code></pre></div>
+</div>
+<div id="rendering-plots" class="section level2">
+<h2>Rendering plots</h2>
+<p>Rendering is a two-step process: create the render (which may trigger
+a redraw), then access the buffer.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">// 1. Look up the renderer (optional, useful to get MIME type)</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>unigd_renderer_info rinfo<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="kw">auto</span> rinfo_h <span class="op">=</span> api<span class="op">-&gt;</span>renderers_find<span class="op">(</span><span class="st">&quot;svg&quot;</span><span class="op">,</span> <span class="op">&amp;</span>rinfo<span class="op">);</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">// rinfo.mime == &quot;image/svg+xml&quot;</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">// rinfo.text == true</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">// 2. Render a specific plot</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>unigd_render_access render<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="kw">auto</span> render_h <span class="op">=</span> api<span class="op">-&gt;</span>device_render_create<span class="op">(</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    handle<span class="op">,</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>    <span class="st">&quot;svg&quot;</span><span class="op">,</span>                  <span class="co">// renderer ID</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>    plot_id<span class="op">,</span>                <span class="co">// from device_plots_find</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>    <span class="op">{</span><span class="fl">720.0</span><span class="op">,</span> <span class="fl">576.0</span><span class="op">,</span> <span class="fl">1.0</span><span class="op">},</span>   <span class="co">// {width, height, scale}</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>    <span class="op">&amp;</span>render</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="op">);</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>render_h<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>  <span class="co">// render.buffer contains the SVG data</span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>  <span class="co">// render.size is the byte length</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="bu">std::</span>string svg<span class="op">(</span>render<span class="op">.</span>buffer<span class="op">,</span> render<span class="op">.</span>buffer <span class="op">+</span> render<span class="op">.</span>size<span class="op">);</span></span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a><span class="co">// 3. Free resources</span></span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>api<span class="op">-&gt;</span>device_render_destroy<span class="op">(</span>render_h<span class="op">);</span></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>api<span class="op">-&gt;</span>renderers_find_destroy<span class="op">(</span>rinfo_h<span class="op">);</span></span></code></pre></div>
+<p>To enumerate all available renderers:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>unigd_renderers_list list<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="kw">auto</span> rh <span class="op">=</span> api<span class="op">-&gt;</span>renderers<span class="op">(&amp;</span>list<span class="op">);</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">uint64_t</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> list<span class="op">.</span>size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="at">const</span> <span class="kw">auto</span> <span class="op">&amp;</span>r <span class="op">=</span> list<span class="op">.</span>entries<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="co">// r.id, r.mime, r.fileext, r.name, r.text, ...</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>api<span class="op">-&gt;</span>renderers_destroy<span class="op">(</span>rh<span class="op">);</span></span></code></pre></div>
+</div>
+<div id="retrieving-a-client-from-a-device" class="section level2">
+<h2>Retrieving a client from a device</h2>
+<p>If your R code needs to look up a previously attached client (e.g. to
+expose its state to R), use <code>device_get</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="dt">void</span> <span class="op">*</span>data <span class="op">=</span> api<span class="op">-&gt;</span>device_get<span class="op">(</span>devnum<span class="op">,</span> mypackage<span class="op">::</span>client_id<span class="op">);</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="kw">auto</span> <span class="op">*</span>client <span class="op">=</span> <span class="kw">static_cast</span><span class="op">&lt;</span>MyClient <span class="op">*&gt;(</span>data<span class="op">);</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="co">// ... use client ...</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This returns the <code>client_data</code> pointer that was passed to
+<code>device_attach</code>.</p>
+</div>
+<div id="logging" class="section level2">
+<h2>Logging</h2>
+<p>The API provides a thread-safe logging function that prints to the R
+console:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>api<span class="op">-&gt;</span>log<span class="op">(</span><span class="st">&quot;Something happened&quot;</span><span class="op">);</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">// Output: &quot;unigd client: Something happened&quot;</span></span></code></pre></div>
+<p>Safe to call from any thread.</p>
+</div>
+<div id="memory-management" class="section level2">
+<h2>Memory management</h2>
+<p>Every function that returns a handle allocates memory that must be
+freed by the corresponding destroy function. Failing to do so will leak
+memory.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Allocator</th>
+<th>Deallocator</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>device_attach</code></td>
+<td><code>device_destroy</code></td>
+</tr>
+<tr class="even">
+<td><code>device_render_create</code></td>
+<td><code>device_render_destroy</code></td>
+</tr>
+<tr class="odd">
+<td><code>device_plots_find</code></td>
+<td><code>device_plots_find_destroy</code></td>
+</tr>
+<tr class="even">
+<td><code>renderers</code></td>
+<td><code>renderers_destroy</code></td>
+</tr>
+<tr class="odd">
+<td><code>renderers_find</code></td>
+<td><code>renderers_find_destroy</code></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>unigd_render_access</code> buffer is owned by its
+<code>UNIGD_RENDER_HANDLE</code>. Copy the data out if you need it after
+calling <code>device_render_destroy</code>.</p>
+<p>Similarly, the <code>unigd_find_results.ids</code> array is owned by
+its <code>UNIGD_FIND_HANDLE</code> and becomes invalid after
+<code>device_plots_find_destroy</code>.</p>
+</div>
+<div id="thread-safety" class="section level2">
+<h2>Thread safety</h2>
+<p>All API functions are safe to call from any thread. Internally,
+<code>unigd</code> uses a shared mutex to synchronize access to the plot
+store.</p>
+<p>The <code>state_change</code> callback is invoked from R’s main
+thread (during graphics engine operations). If your callback needs to
+communicate with background threads, use appropriate
+synchronization.</p>
+</div>
+<div id="api-reference" class="section level2">
+<h2>API reference</h2>
+<div id="general" class="section level3">
+<h3>General</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log</code></td>
+<td><code>void (const char *)</code></td>
+<td>Print a message to the R console (thread-safe)</td>
+</tr>
+<tr class="even">
+<td><code>info</code></td>
+<td><code>const char *()</code></td>
+<td>Returns <code>&quot;unigd &lt;version&gt;&quot;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="client-registration" class="section level3">
+<h3>Client registration</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>register_client_id</code></td>
+<td><code>UNIGD_CLIENT_ID ()</code></td>
+<td>Obtain a unique client ID</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="device-operations" class="section level3">
+<h3>Device operations</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>device_attach</code></td>
+<td><code>UNIGD_HANDLE (int devnum, unigd_graphics_client *, UNIGD_CLIENT_ID, void *)</code></td>
+<td>Attach client to device</td>
+</tr>
+<tr class="even">
+<td><code>device_get</code></td>
+<td><code>void *(int devnum, UNIGD_CLIENT_ID)</code></td>
+<td>Retrieve client data</td>
+</tr>
+<tr class="odd">
+<td><code>device_destroy</code></td>
+<td><code>void (UNIGD_HANDLE)</code></td>
+<td>Free device handle</td>
+</tr>
+<tr class="even">
+<td><code>device_state</code></td>
+<td><code>unigd_device_state (UNIGD_HANDLE)</code></td>
+<td>Query device state</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="plot-history" class="section level3">
+<h3>Plot history</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>device_plots_find</code></td>
+<td><code>UNIGD_FIND_HANDLE (UNIGD_HANDLE, UNIGD_PLOT_RELATIVE, UNIGD_PLOT_INDEX, unigd_find_results *)</code></td>
+<td>Query plot IDs</td>
+</tr>
+<tr class="even">
+<td><code>device_plots_find_destroy</code></td>
+<td><code>void (UNIGD_FIND_HANDLE)</code></td>
+<td>Free find results</td>
+</tr>
+<tr class="odd">
+<td><code>device_plots_remove</code></td>
+<td><code>bool (UNIGD_HANDLE, UNIGD_PLOT_ID)</code></td>
+<td>Remove a plot</td>
+</tr>
+<tr class="even">
+<td><code>device_plots_clear</code></td>
+<td><code>bool (UNIGD_HANDLE)</code></td>
+<td>Clear all plots</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="rendering" class="section level3">
+<h3>Rendering</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>device_render_create</code></td>
+<td><code>UNIGD_RENDER_HANDLE (UNIGD_HANDLE, UNIGD_RENDERER_ID, UNIGD_PLOT_ID, unigd_render_args, unigd_render_access *)</code></td>
+<td>Render a plot</td>
+</tr>
+<tr class="even">
+<td><code>device_render_destroy</code></td>
+<td><code>void (UNIGD_RENDER_HANDLE)</code></td>
+<td>Free render data</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="renderers" class="section level3">
+<h3>Renderers</h3>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>renderers</code></td>
+<td><code>UNIGD_RENDERERS_HANDLE (unigd_renderers_list *)</code></td>
+<td>List all renderers</td>
+</tr>
+<tr class="even">
+<td><code>renderers_destroy</code></td>
+<td><code>void (UNIGD_RENDERERS_HANDLE)</code></td>
+<td>Free renderer list</td>
+</tr>
+<tr class="odd">
+<td><code>renderers_find</code></td>
+<td><code>UNIGD_RENDERERS_ENTRY_HANDLE (UNIGD_RENDERER_ID, unigd_renderer_info *)</code></td>
+<td>Look up a renderer</td>
+</tr>
+<tr class="even">
+<td><code>renderers_find_destroy</code></td>
+<td><code>void (UNIGD_RENDERERS_ENTRY_HANDLE)</code></td>
+<td>Free renderer lookup</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

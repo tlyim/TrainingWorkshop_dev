@@ -1,0 +1,14 @@
+---
+title: "VS Code"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{VS Code}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The [R extension](https://github.com/REditorSupport/vscode-R) for [VS Code](https://code.visualstudio.com/) has built-in support for `httpgd`:
+
+![httpgd plot viewer in VS Code](https://user-images.githubusercontent.com/33600480/147694280-c5272f76-6b12-4260-928a-d43565068f09.png)
+
+See the [Plot viewer wiki page](https://github.com/REditorSupport/vscode-R/wiki/Plot-viewer) for setup instructions.

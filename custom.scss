@@ -1,0 +1,306 @@
+/*-- scss:defaults --*/
+
+// 1. FONTS
+// Extracted from body.madoko and .serif classes in the source
+$font-family-sans-serif: 'Lato', sans-serif, serif !default;
+$presentation-heading-font: 'League Gothic', Impact, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, serif !default;
+$presentation-heading-font-weight: 400 !default; /* 400 = Normal. This prevents the 'smear' */
+
+// 2. BASE FONT SIZE (Regular Text)
+// Reveal 2.6.2 (source) used a smaller base than Quarto's default 40px.
+// We set the root to 32px to match the density of the original file.
+$presentation-font-size-root: 48px !default;  // 45px  32px
+$presentation-line-height: 1.2 !default;
+
+// 3. HEADERS (Slide Titles)
+// Source CSS (.madoko .reveal h2) defined this as 2.1em.
+// In Quarto, ## Level 2 headers become slide titles.
+$presentation-h2-font-size: 1.5em !default;  // 2.1em
+
+// 4. MAIN TITLES (Section Breaks)
+// Source CSS (.madoko .reveal h1) defined this as 3.7em.
+$presentation-h1-font-size: 1.5em !default;  // 2.1em
+// $presentation-h1-font-size: 2.4em !default;  // 3.7em
+
+
+/*-- scss:rules --*/
+
+/* --- 0. Per-slide Customization with { data-state="wide" } --- */
+/* do not let the figure container clip */
+.reveal section.slide[data-state="wide"] .cell-output-display {
+  overflow: visible !important;
+  max-width: none !important;
+}
+.reveal section.slide[data-state="wide"] svg.mermaid-js {
+  transform: scale(2) !important;  /* Scale up the diagram */
+  transform-origin: center center;
+}
+
+/* --- 1. Vertical Positioning Exceptions --- */
+.reveal .slides > section.top {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  height: 100% !important;
+  margin-top: 0 !important;
+}
+
+/* --- 2. Horizontal Alignment --- */
+/* Default: Center everything */
+.reveal .slides section {
+  text-align: center;
+}
+
+/* Helper to force images block-centered */
+.reveal .slides section img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Exception: Left Align */
+.reveal .slides section.left {
+  text-align: left;
+}
+
+/* Exception: Justified Align */
+.reveal .slides section.justify {
+  text-align: justify;
+}
+
+
+
+// 5. TITLE PAGE SPECIFICS
+// The source HTML had inline styles on the Title page that differed 
+// from the global CSS. We manually target the title slide to replicate this.
+#title-slide {
+  .title {
+    // Source: <h1 style="font-size:3em">...<span style="font-size:85%">
+    // Net result approx 2.55em to 3em.
+    font-size: 2.5em;     // 3em; 
+    font-weight: bold;
+    margin-bottom: 0.5ex; // From source styles
+  }
+  
+  .subtitle {
+    // Source: <h2 style="font-size:1.8em">
+    font-size: 1.8em;
+    margin-bottom: 0.5ex;
+  }
+}
+
+
+// Slide Headers (h1, h2, h3) with h1 excluding .title class  
+.reveal h1:not(.title), .reveal h2, .reveal h3 {
+//  text-transform: uppercase; /* The old Beige theme forced ALL CAPS */
+  font-weight: 400;
+  text-shadow: none;
+}
+
+
+/* 
+   1. Override Quarto's aggressive scaling for {.smaller} slides.
+      
+      Madoko Logic:
+      - If Root is 48px.
+      - 0.85em = 40.8px.
+      - 0.8em  = 38.4px.
+      
+      Adjust the "0.85em" value below to tune the size.
+*/
+.reveal .slides section.smaller {
+  font-size: 0.8em !important; 
+}
+
+/* 
+   2. Ensure Headers scale PROPORTIONALLY to the new smaller body text.
+      
+      We force the headers to stick to their relative size (2.1em, 3.7em, etc.)
+      relative to the slide's NEW reduced font size.
+      
+      Note: We use !important to stop Quarto from trying to hard-code 
+      pixel sizes or other scaling logic.
+*/
+
+.reveal .slides section.smaller h1,
+.reveal .slides section.smaller h2,
+.reveal .slides section.smaller h3 {
+  font-size: inherit; /* Inherit the relative EM size defined in variables */
+//  font-size: initial; /* Reset specific overrides */
+}
+
+
+            /* Re-apply your global header sizing specifically for smaller slides 
+              to ensure they don't lose the "2.1em" ratio. 
+              
+              Since the parent container (section.smaller) is now 0.85em (smaller),
+              2.1em * 0.85em = ~1.78em (Visual result).
+              1.5em * 0.8em = ~1.2em (Visual result).
+            */
+
+
+            /* 
+            .reveal .slides section.smaller h2 {
+              font-size: 1.8em !important;   // 1.5em
+            }
+            */
+
+
+/* Counter-scale headings inside .smaller slides to restore their intended size */
+.reveal .slides section.smaller h2 {
+  font-size: calc(#{$presentation-h2-font-size} / 0.8) !important;
+}
+.reveal .slides section.smaller h1 {
+  font-size: calc(#{$presentation-h1-font-size} / 0.8) !important;
+//  font-size: calc(#{$presentation-h1-font-size} / 1.25) !important;
+}
+
+
+
+/* Subtitle styled to match h2 automatically */
+.reveal .slide-subtitle,
+.reveal .slide-subtitle p {
+  font-family: $presentation-heading-font;
+  font-weight: $presentation-heading-font-weight;
+  text-align: center !important;
+  text-shadow: none;
+  text-transform: uppercase;
+}
+
+
+// 6. TEXT ALIGNMENT
+// Source (.madoko p) forced justified text.
+.reveal p {
+  text-align: justify;
+}
+
+
+
+// 7. LIST SPACING
+// The source had compact lists. We tighten Quarto's default spacing.
+.reveal ul, .reveal ol {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+}
+
+.reveal li {
+  margin-bottom: 0.2em;
+}
+
+/* 
+   "Breakout" class to simulate a 1600px width 
+   on a specific slide within a 1050px (4:3) presentation.
+*/
+.reveal .slides section.wide-content {
+  width: 100% !important;       /* Expand width by 20% */
+  max-width: 100% !important;   /* Override max-width limits */
+  margin-left: -5% !important; /* Pull back to center (50% extra / 2) */
+  box-sizing: border-box;       /* Ensure padding doesn't break math */
+}
+
+
+
+/* Apply block behavior and vertical spacing to the fragment spans */
+.sp {
+  display: block; 
+  margin-bottom: 0.5em; 
+  margin-top: 0.5em;
+}
+
+
+/* Get lowercase in slide headers*/
+.reveal .slides section.lowercase h2 {
+  text-transform: lowercase !important;
+}
+/*
+.lowercase {
+  text-transform: lowercase !important;
+}
+*/
+
+
+/* Change logo size and location */
+.reveal .slide-logo {
+  /* 1. Reset locks that might prevent growing */
+  max-height: unset !important;
+  max-width: unset !important;
+
+  position: fixed !important;
+  bottom: -0.2em !important;  /*  1em   */
+  left: 1em !important;
+  right: auto !important;
+  top: auto !important;
+
+  /* 3. DIMENSIONS */
+  /* Try increasing the width drastically to see the effect */
+  width: auto !important;   
+  height: 150px !important; 
+  
+  /* 4. Ensure the image sits at the bottom left of this container */
+  background-position: bottom left !important;
+  background-size: contain !important; 
+  background-repeat: no-repeat !important;
+
+}
+
+
+/* 
+   Style for the container to remove extra gaps 
+   and center the text 
+*/
+.gold-glow {
+  text-align: center;
+  margin-top: 0 !important; /* Removes the gap above */
+  padding-top: 10px;
+  
+  /* Text Styling */
+  font-family: lato;  
+  font-size: 1.8em; /* Large but fits on slide */
+  line-height: 1.2;
+  color: #3f3530; /* Dark Brown (matches Beige theme text) */
+  
+  /* The Animation */
+  animation: pulse-gold 0.65s infinite alternate;
+}
+/* 
+   Keyframes for a "Gold/Bronze" Pulse 
+   Optimized for Light Backgrounds
+*/
+@keyframes pulse-gold {
+  0% {
+    /* Subtle Gold Halo */
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.2); 
+    transform: scale(1.0);
+  }
+  100% {
+    /* Intense Gold Glow */
+    text-shadow: 0 0 70px rgba(184, 134, 11, 0.6), 
+                 0 0 10px rgba(218, 165, 32, 0.8);
+    transform: scale(1.9); /*  "breathing" effect */
+  }
+}
+
+
+/* 
+   FIX FOR PDF PRINTING 
+   This forces the fixed container to snap back inside 
+   its specific parent slide when generating a PDF.
+*/
+@media print {
+  .collage-container {
+    position: absolute !important; /* Lock to the slide, not the window */
+    top: 0 !important;
+    left: 0 !important;
+    
+    // /* Reset dimensions to fill the slide, not the viewport */
+    // width: 100% !important; 
+    // height: 100% !important;
+    
+    // /* Remove the centering transform we used for the screen */
+    // transform: none !important;
+  }
+  
+  /* Optional: Ensure the slide clips the images so they don't bleed onto the next page */
+  .reveal .slides section {
+    overflow: hidden !important;
+  }
+}
