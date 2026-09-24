@@ -5,22 +5,19 @@
 
 ### Lightning.ai-specific requirements
 
-To clone a public GitHub repo as a Lightning.ai Studio (/teamspace/studios/this_studio) directly, not as a subfolder of this_studio/, and then publish the cloned repo as a GitHub user's own repo, follow the steps below:
+To clone GitHub repo as a Lightning.ai Studio (/teamspace/studios/this_studio) directly, not as a subfolder of this_studio/, follow the steps below:
 
 - Create a new Lightning.ai Studio
-- In the Explorer, delete all visible files (do NOT delete hidden files via a terminal)
-- Use terminal commands below to clone the GitHub repo to a temp folder and move the whole tree to this_studio/ (_Note:_ Lightning.ai's default shell is zsh, which has no `shopt` command; hence, use bash to execute the below.)
+- In the Explorer, delete all visible files (do NOT delete hidden files with a terminal)
+- Use terminal commands below to clone the GitHub repo:
 
-```zsh
-rm -rf .vscode
-bash -c '
+```bash
 cd /teamspace/studios/this_studio
-git clone https://github.com/DrAYim/TrainingWorkshop.git /tmp/tw_clone
-shopt -s dotglob
-mv -n /tmp/tw_clone/* .
-rm -rf /tmp/tw_clone
-'
-git remote remove origin
+git init
+git remote add origin https://github.com/DrAYim/TrainingWorkshop.git
+git fetch origin
+# replace 'main' with the repo default branch if needed (e.g., master)
+git checkout -f -t origin/main
 ```
 
 - Put the Studio into sleep, then restart it to activate the first-time `on_start.sh`
@@ -152,23 +149,3 @@ git config --global core.editor "nano"
 bash resetGitHist.sh
 ```
 
----
----
-
-
-_**Note:**_ Below is for the case where the Lightning.ai user also owns the GitHub repo and can push changes back to it.
-
-To clone GitHub repo as a Lightning.ai Studio (/teamspace/studios/this_studio) directly, not as a subfolder of this_studio/, follow the steps below:
-
-- Create a new Lightning.ai Studio
-- In the Explorer, delete all visible files (do NOT delete hidden files with a terminal)
-- Use terminal commands below to clone the GitHub repo:
-
-```bash
-cd /teamspace/studios/this_studio
-git init
-git remote add origin https://github.com/DrAYim/TrainingWorkshop.git
-git fetch origin
-# replace 'main' with the repo default branch if needed (e.g., master)
-git checkout -f -t origin/main
-```

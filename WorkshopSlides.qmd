@@ -200,105 +200,54 @@ editor:
 
 
 
-<!--
 
-# DS {.Xsmaller}
+# Why marimo? {#Why_marimo_1 .smaller}
 
-- ***Data science*** (**DS**): An interdisciplinary field combining
-  math, statistics, programming, and business knowledge to ***turn raw,
-  messy data into useful insights***.
+- Often praised features include:
+  - Reactive
+  - DAG-based 
+    - handles **code execution order** automatically, so you don't have to worry about the order of code cells
+  - Dual-mode execution
+    - can be run in an **interactive** interface and in a **shell**, bridging the gap between exploratory **notebook-based** and production-ready **script-based** workflows
 
-- Traditional DS courses provide [**comprehensive**
-  coverage](https://www.udemy.com/course/python-core-and-advanced/) of a
-  programming language (e.g., **Python** or R), building a solid
-  foundation from the ground up
-
-- ***Downside***:
-
-  - Overwhelmed by details, students can lose sight of ***what matters
-    most*** to formulating and implementing a solution to their problem
+- Especially friendly to beginners due to:
+  - useful details provided in the **notebook interface** than Jupyter notebook when exploring data with pandas
+  - using **`uv`** to handle packages installation and environment setup under the hood
 
 
 
-# Our Strategy
+# Pain points of using Python {.smaller}
 
-- ***One day is too short*** for developing the knowledge and know-how
-  comprehensively using the traditional approach
+- The power of Python comes from its **ecosystem of libraries** (aka. packages) that provide pre-built functions for various tasks
+  - Packages are often developed by different authors, and may have **different versions** with **incompatible dependencies**, let alone the **Python version** itself
 
-- Instead, this workshop simply
-
-  - showcases some [code examples]{style="color:green;"} (primarily in **Python**) with which students can [***modify and experiment***]{style="color:green;"} to turn them into ***their own projects*** through learn by doing
-    - using ***AI as a learning and research
-      [partner]{style="color:green;"}***
+- Traditional installation methods use **pip** or **conda** to install packages, which can lead to **dependency conflicts** and **version mismatches**, especially when multiple projects require different versions of the same package
+  - The solution is to use **virtual environments** to isolate dependencies for each project, but this can be cumbersome and error-prone for beginners
+  - The maintenance of virtual environments results in duplicated packages and wasted disk space, especially when multiple projects share similar dependencies
 
 
+# `uv` as the rescue {.smaller}
 
-# Why Python? {.Xsmaller}
-
-- Python has become the undisputed industry standard due to an
-  ***unmatched ecosystem of pre-built tools***
-
-- In late 1990s, 
-  - the scientific and academic computing communities
-  adopted Python for mathematics and research
-
-- As the "Big Data" and AI boom later took off, 
-  - researchers naturally built their new machine learning tools on top of the Python code they already knew
+  - ensure the correct versions of packages are installed and used
+  - avoid duplicated installations and wasted disk space by 
+    - using **symlinks** to point to the shared packages instead of copying them
 
 
 
-# Shell vs GUI
+# Why marimo? {#Why_marimo_2 .smaller}
 
-- Code development in Python/R is often done in a *click-and-select*
-  interface, i.e., **graphical user interface** (**GUI**)
-
-- A **shell / terminal** lets you
-
-  - interact with the computing environment using a **command line
-    interface** (**cli**)
-
-- A cli is not as user-friendly as a GUI
-
-  - but can chain code in script files together for ***automated/batch
-    processing***
+- Other often praised features include:
+  - Reactive
+  - DAG-based 
+    - handles **code execution order** automatically, so you don't have to worry about the order of code cells
+  - Dual-mode execution
+    - can be run in an **interactive** interface and in a **shell**, bridging the gap between exploratory **notebook-based** and production-ready **script-based** workflows
+  - Useful details provided in the **notebook interface** than Jupyter notebook when exploring data with pandas 
 
 
 
-# Jupyter Notebook {.Xsmaller}
-
-- **Jupyter** Notebook/JupyterLab is an industry-standard GUI for
-  _experimenting with and annotating_ Python code,
-  - combining code, text, and visualizations in a single document
-
-- It has two types of **cells**:
-  - **Code** cells contain code that can be executed to produce output
-    (e.g., tables, plots, numerical or textual results)
-  - **Markdown** cells contain text formatted using Markdown syntax
 
 
-
-# Markdown {.smaller}
-
-- A lightweight markup language for creating formatted text, such as
-  headings, lists, links, and emphasis, using simple ***plain-text
-  syntax***
-
-- It is the native language for AI assistants to understand and generate
-  text,
-
-  - making it a natural choice for documenting code and data analysis
-    workflows
-
-- **Quarto**, an industry-standard tool for creating reproducible
-  documents, also uses Markdown to format text
-
-  - e.g., this slidedeck was created with [Quarto using Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html)
-
--->
-
-
-
-# Why marimo? {.Xsmaller}
 
 
 
@@ -547,6 +496,15 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 ------------------------------------------------------------------------
 
 
+# Inline autocompletion
+
+- Inline suggestions for code completion, documentation, and code snippets 
+
+- Useful even for developing slides and writing documents in Quarto/Markdown
+
+- To reject an inline suggestion, 
+  - indicate _Leave me alone for now_ by pressing `Esc`  
+
 
 # Plan vs. Agent mode {.smaller}
 
@@ -562,6 +520,8 @@ ID | Name    | Height (ft.) | Email              | Join_Date
     consequences,
     - e.g., using certain tools such as **bash** commands, accessing the
       internet, or sending emails
+
+
 
 # Importance of context window size {.smaller}
 
@@ -587,6 +547,8 @@ ID | Name    | Height (ft.) | Email              | Join_Date
   - which can lead to loss of important input information and less
     accurate output
 
+
+
 # Rules of thumb {.smaller}
 
 - Avoid long conversations that exceed a model's context window
@@ -606,6 +568,27 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 - Experiment with different models to find out which ones work well for
   particular tasks and requirements
+
+
+
+
+
+
+# OpenCode / GitHub Copilot / Codex / Claude Code
+
+- Among them, switching backend LLMs via third-party APIs is fully supported by **OpenCode** and GitHub Copilot
+  - only Codex **CLI** has similar support
+  - no support for the Codex web app
+
+- The support for third-party APIs is in the blood of **OpenCode** as a community-driven open-source project 
+  - So far, OpenCode **Zen** has a few free models with generous **rate limits** and context window sizes (e.g., *MiMo V2.5 Free* with 200K tokens context window) for users to get started without paying anything.
+  - OpenCode **Go** offers a low-cost monthly subscription plan with a range of serious models (e.g., *DeepSeek V4.1 Flash* with 1M tokens context window) suitable for more complex tasks.
+
+
+
+
+
+
 
 # LLM access via API {.smaller}
 
