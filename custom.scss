@@ -207,15 +207,15 @@ $presentation-h1-font-size: 1.5em !default;  // 2.1em
 }
 
 
-/* Get lowercase in slide headers*/
+/* Get lowercase in slide headers
 .reveal .slides section.lowercase h2 {
   text-transform: lowercase !important;
 }
-/*
+*/
+/* Also for other elements */
 .lowercase {
   text-transform: lowercase !important;
 }
-*/
 
 
 /* Change logo size and location */

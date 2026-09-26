@@ -336,13 +336,11 @@ The following two platforms have free-tier accounts that let you try Python/R co
 
 
   
-::: {style="font-size: 180%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);"}  
-# Data Analysis Workflow
-:::
+# <span style="font-size: 180%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Data Analysis Workflow</span> 
 
 
 
-## Data Workflow Overview { data-state="wide" }
+## Workflow Overview { data-state="wide" }
 
 ::: {style="margin-top:100px;"}
 <!-- Must not wrap mermaid code, or it will not render properly -->
@@ -600,7 +598,9 @@ flowchart LR
 
 
 
-# Thank you!
+# Thank you
+
+- See you at the Workshop!
 
 
 

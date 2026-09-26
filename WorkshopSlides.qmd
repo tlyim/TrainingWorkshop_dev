@@ -474,6 +474,8 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 ## 3[b.]{.lowercase} Download and Extract Relevant Pages {.smaller}
 
+<div style="text-align:center; font-size:95%; margin-top:0px;">
+
 - For each URL in the filtered list (up to the chosen fraction):
   - Check the **download ledger `df_DL.csv`** → Skip if already
     downloaded
@@ -491,108 +493,111 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 - For each page on the list of `[page number, keyword count]` pairs:
   - Extract and save the page to **`pagesExtracted/`**
 
+ </div>
 
 
-------------------------------------------------------------------------
+
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">How AI assists in VS Code environments</span> 
 
 
-# Inline autocompletion
 
-- Inline suggestions for code completion, documentation, and code snippets 
+## Inline autocompletion 
 
-- Useful even for developing slides and writing documents in Quarto/Markdown
+- Inline suggestions for **code completion**, documentation, and code snippets 
+  - Also, useful for _**developing slides**_ and _**writing documents**_ (e.g., in Quarto/Markdown) in editors
 
-- To reject an inline suggestion, 
-  - indicate _Leave me alone for now_ by pressing `Esc`  
+- To _**reject**_ an inline suggestion, 
+  - pressing **`Esc`** to express _"Leave me alone for now"_ 
 
 
-# Plan vs. Agent mode {.smaller}
 
-- **Plan mode**: You describe a problem for the AI assistant to
-  formulate a plan to solve the problem, which you *can review and agree
-  on **before implementation***
-  - The AI assistant is not allowed to change any code under this mode
-- **Agent mode**: The AI assistant can autonomously
-  generate/alter/delete code as needed to achieve the goal specified by
-  you (or in the agreed plan)
-  - Depending on the configuration, the AI assistant may still need your
-    permissions on taking actions that may have significant
-    consequences,
-    - e.g., using certain tools such as **bash** commands, accessing the
-      internet, or sending emails
+## Ask vs. Plan mode {.smaller}
+
+- **Ask mode**: Q&A conversation in a chatbox --- like most people's first experience with chatGPT 
+
+- **Plan mode**: Describe a problem for AI to formulate a solution plan,
+  - which you can _review and agree on **before implementation**_
+
+- Downsides of _**using Plan mode for an Ask-mode question**_
+  - **Wrong output shape** --- producing a plan when you just want a direct explanation
+  - **More overhead** (thorough upfront investigation of the codebase)
+    - wasted effort when you just want an answer
+  - **Nudging toward `Start Implementation`**  
+    - even when you don't intend to make code changes
+
+
+
+## Plan vs. Agent mode {.Xsmaller}
+
+- Under **Plan mode**, the AI assistant is _**not allowed to change**_ any code 
+- **Agent mode**: Can _**autonomously
+  generate/alter/delete**_ code as needed to achieve the goal specified by you (or in the agreed plan)
+  - Depending on the configuration, may still need your permissions on actions with **significant consequences**,
+    - e.g., using certain tools such as **bash** commands, accessing the internet, or sending emails
+
+
+
+# AI assistant in action {.Xsmaller}
+
+- Let's actually see how it works
+  - [??? notebooks on GitHub](https://github.com/codespaces)
+
+![](img/DiveIn.JPG){ fig-align="center" height=500px width=auto max-width=100% }
 
 
 
 # Importance of context window size {.smaller}
 
-- The **context window** size determines the amount of information that
-  can be considered at once by an AI model
+- The **context window** size determines the amount of information that can be considered at once by an AI model
 
-- The invisible **system prompt** used to guide the model's behavior and
-  responses can already take up a significant portion of the context
-  window,
+- The invisible **system prompt** used to guide the model's behavior and responses can already take up a significant portion of the context window,
+  - leaving less space for user input (**prompts**) and model output (**responses**)
 
-  - leaving less space for user input (**prompts**) and model output
-    (**responses**)
+- A larger context window allows the model to understand and generate more ***coherent and contextually relevant responses***, especially for complex tasks that require understanding of long documents or conversations.
 
-- A larger context window allows the model to understand and generate
-  more ***coherent and contextually relevant responses***, especially
-  for complex tasks that require understanding of long documents or
-  conversations.
-
-- Models with smaller context windows handle context exhaustion through
-  **compression/compaction** (i.e., truncating or summarizing the
-  input),
-
-  - which can lead to loss of important input information and less
-    accurate output
+- Models with smaller context windows handle context exhaustion through **compression/compaction** (i.e., truncating or summarizing the input),
+  - which can lead to loss of important input information and less accurate output
 
 
 
-# Rules of thumb {.smaller}
+## Rules of thumb {.smaller}
 
 - Avoid long conversations that exceed a model's context window
 
-- At least ***1M tokens*** context window (e.g., *DeepSeek V4.1 Flash*
-  on *OpenCode **Go***) is necessary for a series of related complex
-  tasks emerging from a long conversation
+- At least ***1M tokens*** context window is necessary for a series of related complex tasks emerging from a long conversation
 
-- ***At least 200K tokens*** context window (e.g., *MiMo V2.5 Free* on
-  *OpenCode **Zen***) is needed for serious work other than simple tasks
+- ***At least 200K tokens*** context window is needed for serious work other than simple tasks
 
-- If ***two rounds*** of prompt-and-response aren't getting you closer
-  to your goal (e.g., fixing a bug),
+- If ***two rounds*** of prompt-and-response aren't getting you closer to your goal (e.g., fixing a bug),
+  - consider switching to a more capable (likely more expensive) model but ***more expensive models are not necessarily better***
 
-  - consider switching to a more capable (likely more expensive) model
-    but ***more expensive models are not necessarily better***
-
-- Experiment with different models to find out which ones work well for
-  particular tasks and requirements
+- Experiment with different models to find out which ones work well for particular tasks and requirements
 
 
 
+## OpenCode / GitHub Copilot / Codex / Claude Code {.smaller}
 
+- Why **OpenCode**?
+  - _**Community-driven open-source**_ project avoiding vendor lock-in
+    - unlike **Claude Code** and **GitHub Copilot**, which are closed-source
+  - Similarly _**wide support for LLM providers**_ as GitHub Copilot
+    - unlike **Codex**, which requires API translation via OpenRouter for certain LLM providers
+  - _**Comparable harness performance**_ to other agents for third-party LLMs
 
-
-# OpenCode / GitHub Copilot / Codex / Claude Code
-
-- Among them, switching backend LLMs via third-party APIs is fully supported by **OpenCode** and GitHub Copilot
-  - only Codex **CLI** has similar support
-  - no support for the Codex web app
-
-- The support for third-party APIs is in the blood of **OpenCode** as a community-driven open-source project 
-  - So far, OpenCode **Zen** has a few free models with generous **rate limits** and context window sizes (e.g., *MiMo V2.5 Free* with 200K tokens context window) for users to get started without paying anything.
-  - OpenCode **Go** offers a low-cost monthly subscription plan with a range of serious models (e.g., *DeepSeek V4.1 Flash* with 1M tokens context window) suitable for more complex tasks.
-
-
-
-
+- OpenCode **Zen** has a few free models with generous **rate limits** and context window sizes for users to get started without paying anything
+  - e.g., *MiMo V2.5 Free* with 200K tokens context window
+- OpenCode **Go** offers a low-cost monthly subscription plan with a range of serious models suitable for more complex tasks
+  - e.g., *DeepSeek V4.1 Flash* with 1M tokens context window
 
 
 
 # LLM access via API {.smaller}
 
+
+
 # Polars vs. Pandas {.smaller}
+
+
 
 # .devcontainer in Codespace
 
