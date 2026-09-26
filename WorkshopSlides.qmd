@@ -201,22 +201,14 @@ editor:
 
 
 
-# Why marimo? {#Why_marimo_1 .smaller}
-
-- Often praised features include:
-  - Reactive
-  - DAG-based 
-    - handles **code execution order** automatically, so you don't have to worry about the order of code cells
-  - Dual-mode execution
-    - can be run in an **interactive** interface and in a **shell**, bridging the gap between exploratory **notebook-based** and production-ready **script-based** workflows
+# Why marimo? {#Why_marimo_1}
 
 - Especially friendly to beginners due to:
-  - useful details provided in the **notebook interface** than Jupyter notebook when exploring data with pandas
   - using **`uv`** to handle packages installation and environment setup under the hood
 
 
 
-# Pain points of using Python {.smaller}
+## Pain points of using Python {.smaller}
 
 - The power of Python comes from its **ecosystem of libraries** (aka. packages) that provide pre-built functions for various tasks
   - Packages are often developed by different authors, and may have **different versions** with **incompatible dependencies**, let alone the **Python version** itself
@@ -226,7 +218,7 @@ editor:
   - The maintenance of virtual environments results in duplicated packages and wasted disk space, especially when multiple projects share similar dependencies
 
 
-# `uv` as the rescue {.smaller}
+## `uv` as the rescue {.smaller}
 
   - ensure the correct versions of packages are installed and used
   - avoid duplicated installations and wasted disk space by 
@@ -234,7 +226,7 @@ editor:
 
 
 
-# Why marimo? {#Why_marimo_2 .smaller}
+## Why marimo? (Cont'd) {#Why_marimo_2 .smaller}
 
 - Other often praised features include:
   - Reactive
@@ -246,14 +238,9 @@ editor:
 
 
 
-
-
-
-
-
 ## Marimo Don'ts {.smaller}
 
-- Do not re-define an object
+- **Do NOT re-define** an object **in another cell**
   - Variable names and function names must not be re-used
   - Or, will cause an error like this:
 
@@ -261,18 +248,18 @@ editor:
 This cell wasn't run because it has errors
 :::
 
-```         
+<div style="font-family: monospace; font-size: 55%;background-color: #f0f0f0; padding: 10px; border-radius: 5px;">      
 This cell redefines variables from other cells.
 
-SP500_data was also defined by:
+**SP500_data** was also defined by:
 
 cell-75
 
 Why can't I redefine variables?
-marimo requires that each variable is defined in just one cell. This constraint enables reactive and reproducible execution, arbitrary cell reordering, seamless UI elements, execution as a script, and more.
+marimo requires that each variable is defined in just one cell. This constraint **enables** reactive and reproducible execution, **arbitrary cell reordering**, seamless UI elements, execution as a script, and more.
 
-Try merging this cell with the mentioned cells or wrapping it in a function. Alternatively, rename variables to make them private to this cell by prefixing them with an underscore (e.g. _SP500_data).
-```
+Try merging this cell with the mentioned cells or wrapping it in a function. Alternatively, _rename variables to make them private to this cell by **prefixing them with an underscore** (e.g. **\_SP500_data**)_.
+</div>
 
 ::: {style="font-family: monospace; font-size: 55%;background-color: #f0f0f0; padding: 10px; border-radius: 5px;"}
 Learn more at our docs ↗:
@@ -281,7 +268,9 @@ Learn more at our docs ↗:
 
 
 
-# Code examples:<br>Unstructured data collection & Document processing{.Xsmaller}
+# Code examples
+
+- Unstructured data collection & Document processing
 
 
 
@@ -340,15 +329,7 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 
 
-# Let's dive in {.Xsmaller}
-
-- [Marimo notebooks on GitHub](https://github.com/codespaces)
-
-![](img/DiveIn.JPG){ fig-align="center" height=500px width=auto max-width=100% }
-
-
-
-## Overview of the marimo notebooks {#part_1}
+# Overview of the marimo notebooks {#part_1}
 
 - `1acceptNstoreCookies.py`
   - bypasses **bot detection** by a target website
