@@ -218,7 +218,7 @@ editor:
 
 # Cloud computing platforms {.Xsmaller}
 
-The following two platforms have free-tier accounts that let you try Python/R conveniently:
+The following platforms have free-tier accounts that let you try Python/R conveniently:
 
 - *GitHub Codespaces* has [**VS Code**](https://code.visualstudio.com/)
   as its GUI
