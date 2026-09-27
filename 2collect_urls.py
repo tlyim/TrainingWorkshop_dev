@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "marimo>=0.19.10",
+#     "marimo>=0.23.3",
 #     "pandas>=2.3.3",
 #     "playwright>=1.50.0",
 #     "pyzmq>=27.1.0",
@@ -10,7 +10,7 @@
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.24.2"
 app = marimo.App()
 
 
@@ -238,9 +238,10 @@ def _(mo):
 
 
 @app.cell
-def _(os, time):
+def _(mo, time):
     # Get the working directory based on environment variable PWD
-    pwd_dir = os.getenv('PWD')
+    pwd_dir = mo.notebook_dir()
+    #pwd_dir = os.getenv('PWD')  # Do NOT work in marimo sandbox environment 
     print(f"Working directory: {pwd_dir}")
 
     # Set the timeout duration (in seconds)

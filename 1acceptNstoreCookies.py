@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "marimo>=0.19.10",
+#     "marimo>=0.23.3",
 #     "playwright>=1.50.0",
 #     "playwright-stealth>=2.0.0",  # <--- Update this to get the new class-based API
 #     "pyzmq>=27.1.0",
@@ -10,7 +10,7 @@
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.24.2"
 app = marimo.App()
 
 

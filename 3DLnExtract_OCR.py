@@ -270,7 +270,7 @@ def _(mo):
 def _(mo):
     # Get the value of the PWD environment variable
     repo_dir = mo.notebook_dir()
-    #repo_dir = os.getcwd()
+    #repo_dir = os.getcwd()   # Do NOT work in marimo sandbox environment
     print(f"Repo directory: {repo_dir}\n")
     return (repo_dir,)
 
