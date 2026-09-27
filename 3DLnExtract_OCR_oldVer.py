@@ -169,6 +169,7 @@ def _(mo):
 
     _**Note:**_
 
+    - `pymupdf` and `fitz` refer to the **same library** — `fitz` is the legacy module name for PyMuPDF and both must be imported for full compatibility with the API used throughout this notebook.
     - `unicodedata` and `string` are used later for text normalisation — stripping accents, punctuation, and non-ASCII characters before keyword matching.
     - `shutil` provides high-level file operations such as copying files, used here to back up problematic PDFs before overwriting them.
     """)
@@ -182,6 +183,7 @@ def _():
     import marimo as mo
     import pandas as pd
     import pymupdf
+    #import fitz  # require pymupdf
     import unicodedata
     import shutil
 
@@ -216,70 +218,43 @@ def _(mo):
     mo.md(r"""
     ---
 
-    ## **Identify the repository root directory**
-
-    - Get the value of the `RepositoryName` environment variable
-    - The repository root is located by searching for `RepositoryName` inside the current working directory path using `str.find()`, which **returns the lowest index** where the substring is found, or `-1` if the substring is **not found**.
-    """)
-    return
-
-
-@app.cell
-def _():
-    # # Get the current working directory and create a local directory there
-    # current_directory = os.getcwd()
-    # print(f"current_directory: {current_directory}\n")
-
-    # #==================================================================================
-    # # Get the value of the RepositoryName environment variable
-    # repository_name = os.getenv('RepositoryName')
-    # #repository_name = os.getenv('RepositoryName')
-
-    # # Find the position of the repository name in the current directory path
-    # repo_index = current_directory.find(repository_name)
-
-    # # Retain only the part of the path up to and including the repository name
-    # if repo_index != -1:   # if the repository name is found in the current directory path
-    #     repo_dir = current_directory[:repo_index + len(repository_name)]
-    # else:
-    #     repo_dir = current_directory
-
-    # print(f"Repo directory: {repo_dir}\n")
-    # #==================================================================================
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ---
-
     ## **Prepare Folders for Storing Documents**
 
+    - Identify the repository root directory from the `RepositoryName` environment variable
     - Create the `docArchive/` folder and its subfolders `DLdocs/` and `pagesExtracted/`
     - List folder contents to confirm successful creation
 
     _**Note:**_
 
     - `os.makedirs(..., exist_ok=True)` creates the full directory path in one call and **does not raise an error** if the directory already exists — safe to re-run.
+    - The repository root is located by searching for `RepositoryName` inside the current working directory path using `str.find()`, which **returns the lowest index** where the substring is found, or `-1` if the substring is **not found**.
     """)
     return
 
 
 @app.cell
-def _(mo):
-    # Get the value of the PWD environment variable
-    repo_dir = mo.notebook_dir()
-    #repo_dir = os.getcwd()
+def _(os, subprocess):
+
+    # Get the current working directory and create a local directory there
+    current_directory = os.getcwd()
+    print(f"current_directory: {current_directory}\n")
+
+    #==================================================================================
+    # Get the value of the RepositoryName environment variable
+    repository_name = os.getenv('RepositoryName')
+    #repository_name = os.getenv('RepositoryName')
+
+    # Find the position of the repository name in the current directory path
+    repo_index = current_directory.find(repository_name)
+
+    # Retain only the part of the path up to and including the repository name
+    if repo_index != -1:   # if the repository name is found in the current directory path
+        repo_dir = current_directory[:repo_index + len(repository_name)]
+    else:
+        repo_dir = current_directory
+
     print(f"Repo directory: {repo_dir}\n")
-    return (repo_dir,)
-
-
-@app.cell
-def _(os, repo_dir, subprocess):
-    # # Get the value of the PWD environment variable
-    # repo_dir = os.getcwd()
-    # print(f"Repo directory: {repo_dir}\n")
+    #==================================================================================
 
     # Path to the document directory
     doc_dir = os.path.join(repo_dir, 'docArchive')
@@ -297,7 +272,7 @@ def _(os, repo_dir, subprocess):
 
     # List contents in the document directory
     subprocess.run(['ls', '-la', doc_dir])
-    return
+    return (repo_dir,)
 
 
 @app.cell
@@ -679,13 +654,13 @@ def _(mo):
 def _(
     DetailedPage,
     df_DL_path,
+    fitz,
     keywords,
     os,
     output_dir,
     pd,
     process_pdf,
     process_pdf_ocr,
-    pymupdf,
     shutil,
 ):
 
@@ -706,7 +681,7 @@ def _(
 
     def fix_page_range(pdf_document):
         # Create a new PDF with corrected page numbers
-        new_pdf = pymupdf.open()
+        new_pdf = fitz.open()
         for page_num in range(len(pdf_document)):
             new_pdf.insert_pdf(pdf_document, from_page=page_num, to_page=page_num)
         return new_pdf
@@ -719,7 +694,7 @@ def _(
     for pdf_file in pdf_files:
         print(f"------------------------------------------------------------\nPDF file: {pdf_file}\n")
         pdf_path = os.path.join(output_dir, pdf_file)
-        pdf_document = pymupdf.open(pdf_path)
+        pdf_document = fitz.open(pdf_path)
 
         #================================================
         # Check if the PDF has a proper page range
@@ -791,7 +766,7 @@ def _(mo):
 
 
 @app.cell
-def _(ast, df_DL_analyzed, df_DL_path, os, pymupdf, repo_dir):
+def _(ast, df_DL_analyzed, df_DL_path, fitz, os, pymupdf, repo_dir):
 
     # Define the extraction directory
     extract_dir = os.path.join(repo_dir, 'docArchive/pagesExtracted')
@@ -815,7 +790,7 @@ def _(ast, df_DL_analyzed, df_DL_path, os, pymupdf, repo_dir):
             pdf_file_path = os.path.join(pdf_dir_extract, pdf_file_name)
 
             # Load the PDF document
-            pdf_doc = pymupdf.open(pdf_file_path)
+            pdf_doc = fitz.open(pdf_file_path)
 
             # Extract the page numbers with frequencies from the DataFrame
             page_numbers_with_frequencies_str = row_extract['Page Numbers with Frequencies']
@@ -964,10 +939,10 @@ def _(
     Image,
     defaultdict_ocr,
     english_words,
+    fitz,
     io,
     numerical_pattern,
     pd,
-    pymupdf,
     pytesseract,
     re,
     string,
@@ -998,7 +973,7 @@ def _(
         def ocr_extract_text(page):
             # Render page at 2x zoom for better OCR accuracy
             zoom = 2
-            mat = pymupdf.Matrix(zoom, zoom)
+            mat = fitz.Matrix(zoom, zoom)
             pix = page.get_pixmap(matrix=mat)
             img = Image.open(io.BytesIO(pix.tobytes()))
             custom_config = r'--oem 3 --psm 6 -l eng'  # --psm 6` assumes a single uniform block of text
