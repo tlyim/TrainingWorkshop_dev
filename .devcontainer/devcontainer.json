@@ -17,6 +17,11 @@
         
     "customizations": {
         "vscode": {
+// vscode settings for everyone using the repo        
+            "settings": {
+                "r.executablePath": "/usr/bin/R",
+                "r.rpath.linux": "/usr/bin/R"
+            },
             "extensions": [
                 "ms-python.python",
                 "ms-toolsai.jupyter", 
