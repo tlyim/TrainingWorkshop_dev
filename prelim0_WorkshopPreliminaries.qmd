@@ -54,7 +54,7 @@ editor:
   messy data into useful insights***.
 
 - Traditional DS courses provide [**comprehensive**
-  coverage](https://www.udemy.com/course/python-core-and-advanced/) of a
+  coverage](https://www.udemy.com/course/python-core-and-advanced/){target="_blank"} of a
   programming language (e.g., **Python** or R), building a solid
   foundation from the ground up
 
@@ -130,30 +130,24 @@ editor:
 
 - It is the native language for AI assistants to understand and generate
   text,
-
   - making it a natural choice for documenting code and data analysis
     workflows
 
-- **Quarto**, an industry-standard tool for creating reproducible
+- [**Quarto**]{style="color: #74AADB;"}, an industry-standard tool for creating reproducible
   documents, also uses Markdown to format text
-
-  - e.g., this slidedeck was created with [Quarto using Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html)
+  - e.g., this slidedeck was created with [Quarto using Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html){target="_blank"}
 
 
 
 # Story behind Jupyter notebook
 
 - [Embedded in the
-  name](https://blog.jupyter.org/i-python-you-r-we-julia-baf064ca1fb6)
-  [**Ju**]{style="color: #1f77b4;"}[**py**]{style="color: #ff7f0e;"}te[**r**]{style="color: #2ca02c;"}
-  are letters representing
+  name](https://blog.jupyter.org/i-python-you-r-we-julia-baf064ca1fb6){target="_blank"}
+  [**Ju**]{style="color: #2ca02c;"}[**py**]{style="color: #ff7f0e;"}te[**r**]{style="color: #165CAA;"} are letters representing
   - three major data science programming languages:
-    - [Python]{style="color: #ff7f0e;"}, [R]{style="color: #2ca02c;"},
-      and [Julia]{style="color: #1f77b4;"}
-- [**Julia**](https://julialang.org/), a high-performance language, is a
-  topic for another day
-- **R** since its [**tidyverse**](https://tidyverse.org/) era has become
-  very user-friendly for data analysis and visualization
+    - [Python]{style="color: #ff7f0e;"}, [R]{style="color: #165CAA;"}, and [Julia]{style="color: #2ca02c;"}
+- [**Julia**](https://julialang.org/){target="_blank"}, a high-performance language, is a topic for another day
+- [**R**]{style="color: #165CAA;"} since its [**tidyverse**](https://tidyverse.org/){target="_blank"} era has become very user-friendly for data analysis and visualization
 
 
 
@@ -220,14 +214,14 @@ editor:
 
 The following platforms have free-tier accounts that let you try Python/R conveniently:
 
-- *GitHub Codespaces* has [**VS Code**](https://code.visualstudio.com/)
+- *GitHub Codespaces* has [**VS Code**](https://code.visualstudio.com/){target="_blank"}
   as its GUI
   - native for **GitHub Copilot**
     <!--  - provided by **GitHub**, a home of numerous _**open-source**_ packages
     -->
 
-- [***Posit cloud***](https://posit.cloud/) has
-  [**RStudio**](https://posit.co/download/rstudio-desktop/) (for **R**)
+- [***Posit cloud***](https://posit.cloud/){target="_blank"} has
+  [**RStudio**](https://posit.co/download/rstudio-desktop/){target="_blank"} (for **R**)
   as its GUI
   - Can use **GitHub Copilot**
     - but only for inline queries and code generation in the editor
@@ -289,7 +283,7 @@ The following platforms have free-tier accounts that let you try Python/R conven
 
 # Workshop repo on GitHub {.smaller}
 
-- [**TrainingWorkshop**](https://github.com/DrAYim/TrainingWorkshop): Click this to see the repo's landing page
+- [**TrainingWorkshop**](https://github.com/DrAYim/TrainingWorkshop){target="_blank"}: Click this to see the repo's landing page
 
 - A Jupyter notebook in the repo contains code and brief comments to introduce essential Python commands for beginners
 
@@ -329,7 +323,7 @@ The following platforms have free-tier accounts that let you try Python/R conven
 - **Project** in Workspace on *Posit cloud*
   - is like **Codespace** on GitHub
 - See the shared Project:
-  - [**Result_Tables_Using_R**](https://posit.cloud/content/12144701)
+  - [**Result_Tables_Using_R**](https://posit.cloud/content/12144701){target="_blank"}
 
 - The Rmarkdown notebook `prelim3_ResultTables.Rmd` in the Project contains code to generate the **descriptive statistics, correlation, and regression** tables presented in the second half of this slidedeck
   - The Jupyter notebook `prelim3_ResultTables.ipynb` in the Workshop repo is a Python version of the same code
@@ -474,7 +468,7 @@ flowchart LR
 
 <br>
 
-<div style="text-align: center;">When you do not understand something, <span style="color:green">_**AI is your friend!**_</span> (ask [**Claude**](https://claude.ai/new))</div>
+<div style="text-align: center;">When you do not understand something, <span style="color:green">_**AI is your friend!**_</span> (ask [**Claude**](https://claude.ai/new){target="_blank"})</div>
 
 
 
@@ -508,7 +502,7 @@ flowchart LR
 
 ## What are year and industry indicators used in regression?
 
-- Ask [**Gemini**](https://gemini.google.com/)!
+- Ask [**Gemini**](https://gemini.google.com/){target="_blank"}!
 
 
 
@@ -528,7 +522,7 @@ flowchart LR
 ## Descriptive statistics table
 
 - _How to produce the descriptive statistics table in the attached screenshot (using Python)?_
-  - Ask [**Qwen**](https://chat.qwen.ai/) (after uploading the screenshot below)!
+  - Ask [**Qwen**](https://chat.qwen.ai/){target="_blank"} (after uploading the screenshot below)!
 
 ![](img/DescriptiveStatisticsTable.png){fig-align="center" height=500px width=auto max-width=100% }
 
@@ -553,7 +547,7 @@ flowchart LR
 ## Correlation table
 
 - _How to produce the correlation table in the attached screenshot  (using Python)?_
-  - Ask [**Grok Fast**](https://grok.com/) (after uploading the screenshot below)!
+  - Ask [**Grok Fast**](https://grok.com/){target="_blank"} (after uploading the screenshot below)!
 
 ![](img/CorrelationTable.png){fig-align="center" height=500px width=auto max-width=100% }
 

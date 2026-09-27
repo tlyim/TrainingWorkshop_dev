@@ -194,9 +194,9 @@ editor:
 
 
 
-# marimo  
+# [marimo]{style="color: #1C4E44;"}  
 
-- a _**reactive**_ Python notebook
+- [**marimo**](https://marimo.io/){target="_blank"} is a _**reactive**_ Python notebook
   - automatically _**runs dependent cells**_ whenever a cell is run or a UI element is interacted with, 
     - keeping code and outputs consistent. 
 
@@ -281,7 +281,7 @@ Learn more at our docs ↗:
 
 
 
-# Code examples (in marimo)
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Code examples (in <span style="color: #1C4E44;">marimo</span>)</span> 
 
 - Unstructured data collection & Document processing
 
@@ -345,7 +345,7 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 # Let's dive in {.smaller}
 
-- marimo notebooks in [**Workshop repo**](https://github.com/DrAYim/TrainingWorkshop)
+- marimo notebooks in [**Workshop repo**](https://github.com/DrAYim/TrainingWorkshop){target="_blank"}
   - `1acceptNstoreCookies.py`
   - `2collect_urls.py`
   - `3DLnExtract_OCR.py`
@@ -503,7 +503,7 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 
 
-# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Getting AI assistance</span> 
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Getting <span style="color: green;">AI</span> assistance</span> 
 
 
 
@@ -547,13 +547,13 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 - The **context window** size determines the amount of information that can be considered at once by an AI model
 
-- The invisible **system prompt** used to guide the model's behavior and responses can already take up a significant portion of the context window,
+- The invisible **system prompt** for guiding the model's behavior and responses can take up a significant portion of the context window,
   - leaving less space for user input (**prompts**) and model output (**responses**)
 
-- A larger context window allows the model to understand and generate more ***coherent and contextually relevant responses***, especially for complex tasks that require understanding of long documents or conversations.
+- A larger context window allows the model to understand and generate more ***coherent and contextually relevant responses***, especially for complex tasks involving long documents or conversations.
 
-- Models with smaller context windows handle context exhaustion through **compression/compaction** (i.e., truncating or summarizing the input),
-  - which can lead to loss of important input information and less accurate output
+- Models with smaller context windows handle context exhaustion through **compression/compaction** (i.e., truncating or summarizing the input)
+  - May lead to loss of important input information and less accurate output
 
 
 
@@ -592,6 +592,9 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 
 
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Power of <span style="color: red;">GPU</span> acceleration</span> 
+
+
 
 # Platform with GPU support {.Xsmaller}
 
@@ -599,7 +602,7 @@ ID | Name    | Weight (kg) | Email              | Join_Date
   (VS Code interface has **GitHub Copilot**)]{Xstyle="color: silver;"}
   - [free-tier account offers:]{Xstyle="color: silver;"}
     - [1 free active Studio (for every 4 hours)]{Xstyle="color: silver;"}
-    - [80 hours of [free-trial **GPU access**](https://lightning.ai/pricing)]{Xstyle="color: silver;"}
+    - [80 hours of [free-trial **GPU access**](https://lightning.ai/pricing){target="_blank"}]{Xstyle="color: silver;"}
 
 
 
@@ -654,11 +657,11 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 - **Studio** in Organization on *Lightning.ai*
   - is like **Codespace** on GitHub
 - See the shared Studio template:
-  [**BigramCloud_GPUorCPU**](https://lightning.ai/tlyim-1city/templates/bigramcloud-gpuorcpu)
+  [**BigramCloud_GPUorCPU**](https://lightning.ai/tlyim-1city/templates/bigramcloud-gpuorcpu){target="_blank"}
 
 
 
-# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Strengths of R ecosystem</span> 
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Strengths of <span style="color: #165CAA;">R</span> ecosystem</span> 
 
 
 
@@ -728,11 +731,11 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 
   - ***difference-in-differences*** (**DiD**) analysis is an important
     methodology for measuring **causal effects**
-  - This [DiD](https://asjadnaqvi.GitHub.io/DiD/) website maintains a
+  - This [DiD](https://asjadnaqvi.GitHub.io/DiD/){target="_blank"} website maintains a
     comprehensive list of packages for DiD analysis:
     - [16 packages in
-      **R**](https://asjadnaqvi.GitHub.io/DiD/docs/02_R/) vs. [11 in
-      **Python**](https://asjadnaqvi.GitHub.io/DiD/docs/03_python/)
+      **R**](https://asjadnaqvi.GitHub.io/DiD/docs/02_R/){target="_blank"} vs. [11 in
+      **Python**](https://asjadnaqvi.GitHub.io/DiD/docs/03_python/){target="_blank"}
 
 
 
@@ -745,8 +748,8 @@ style="display: block; margin-left: auto; margin-right: 0;"}
     **self-learning and exploration**
 - For example,
   - see the newsletter `The Batch` and courses on
-    [DeepLearning.AI](https://www.deeplearning.ai/)
-  - also, [AlphaSignal](https://alphasignal.ai)'s daily newsletter on
+    [DeepLearning.AI](https://www.deeplearning.ai/){target="_blank"}  
+  - also, [AlphaSignal](https://alphasignal.ai){target="_blank"}'s daily newsletter on
     AI, machine learning and cutting-edge language models
 
 
@@ -769,7 +772,7 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 - **Reliance** considerations:
   - Abandoned projects?
   - **Organizational backing** (e.g.,
-    [polars](https://GitHub.com/pola-rs))\
+    [polars](https://GitHub.com/pola-rs){target="_blank"})\
     vs. Individual developer
   - **Active development**:
     - Last commit
@@ -784,9 +787,7 @@ style="display: block; margin-left: auto; margin-right: 0;"}
     - Issues tab: Open vs. Closed
   - Usefulness
     - Stars, Used by, Contributors
-    - [**Star History**
-      graph](https://GitHub.com/star-history/star-history), [GitHub
-      **Trending ranking**](https://trendshift.io)
+    - [**Star History** graph](https://GitHub.com/star-history/star-history){target="_blank"}, [GitHub **Trending ranking**](https://trendshift.io){target="_blank"}
   - **Documentation** quality
     - README, docs/doc, Vignettes, Wiki, Website
 
