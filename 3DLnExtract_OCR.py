@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "marimo>=0.20.2",
+#     "marimo>=0.23.3",
 #     "nest-asyncio>=1.6.0",
 #     "nltk>=3.9.2",
 #     "pandas>=3.0.1",
@@ -14,7 +14,7 @@
 
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.24.2"
 app = marimo.App()
 
 
@@ -183,7 +183,7 @@ def _():
     import marimo as mo
     import pandas as pd
     import pymupdf
-    import fitz  # require pymupdf
+    #import fitz  # require pymupdf
     import unicodedata
     import shutil
 
@@ -199,7 +199,6 @@ def _():
     return (
         ast,
         defaultdict,
-        fitz,
         json,
         math,
         mo,
@@ -766,7 +765,7 @@ def _(mo):
 
 
 @app.cell
-def _(ast, df_DL_analyzed, df_DL_path, fitz, os, pd, pymupdf, repo_dir):
+def _(ast, df_DL_analyzed, df_DL_path, fitz, os, pymupdf, repo_dir):
 
     # Define the extraction directory
     extract_dir = os.path.join(repo_dir, 'docArchive/pagesExtracted')
@@ -780,7 +779,7 @@ def _(ast, df_DL_analyzed, df_DL_path, fitz, os, pd, pymupdf, repo_dir):
     #---------------------------------------------------------
     # Use in-memory copy of df_DL_analyzed (thus always fresh)
     df_DL_extract = df_DL_analyzed.copy()
-    
+
     # Iterate over the rows of df_DL_extract
     for idx, row_extract in df_DL_extract.iterrows():
         # Check if the row should be analyzed
