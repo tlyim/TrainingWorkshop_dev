@@ -156,7 +156,7 @@ editor:
 ## Why still learn coding? {.Xsmaller}
 
 ::: incremental
-- As of ***today***, the AI models most of us can afford for heavy, daily use are ***still not smart enough*** to always deliver the required results without guidance
+- As of [***today***]{style="color: blue;"}, the AI models most of us can afford for heavy, daily use are ***still not smart enough*** to always deliver the required results without guidance
 - The more you know, the better you can _**stay on top**_ of everything
   - Otherwise, you won't notice any **wrong direction** AI might take you to --- and won't be able to correct it in time
 :::
@@ -574,16 +574,16 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 ## OpenCode / GitHub Copilot / Codex / Claude Code {.smaller}
 
-- Why **OpenCode**?
-  - _**Community-driven open-source**_ project avoiding vendor lock-in
-    - unlike **Claude Code** and **GitHub Copilot**, which are closed-source
+- Why [**OpenCode**](https://opencode.ai/){target="_blank"}?
+  - _**Open-source**_ project avoiding vendor lock-in
+    - unlike [**Claude Code**](https://github.com/anthropics/claude-code#get-started){target="_blank"} and **GitHub Copilot**, which are closed-source
   - Similarly _**wide support for LLM providers**_ as GitHub Copilot
-    - unlike **Codex**, which requires API translation via OpenRouter for certain LLM providers
+    - unlike [**Codex**](https://github.com/openai/codex#quickstart){target="_blank"}, which sends some tool calls in OpenAI-specific formats --- non-OpenAI LLMs don't always work reliably even with translation
   - _**Comparable harness performance**_ to other agents for third-party LLMs
 
-- OpenCode **Zen** has a few free models with generous **rate limits** and context window sizes for users to get started without paying anything
+- [OpenCode **Zen**](https://opencode.ai/zen){target="_blank"} has a few free models with generous **rate limits** and context window sizes for users to get started without paying anything
   - e.g., *MiMo V2.5 Free* with 200K tokens context window
-- OpenCode **Go** offers a low-cost monthly subscription plan with a range of serious models suitable for more complex tasks
+- [OpenCode **Go**](https://opencode.ai/go){target="_blank"} offers a low-cost monthly subscription plan with a range of serious models suitable for more complex tasks
   - e.g., *DeepSeek V4.1 Flash* with 1M tokens context window
 
 
@@ -596,13 +596,20 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 
 
-# Platform with GPU support {.Xsmaller}
+## Platforms with GPU support {.smaller}
 
-- [***Lightning.ai*** has **VS Code** and **JupyterLab** as its GUIs\
-  (VS Code interface has **GitHub Copilot**)]{Xstyle="color: silver;"}
-  - [free-tier account offers:]{Xstyle="color: silver;"}
-    - [1 free active Studio (for every 4 hours)]{Xstyle="color: silver;"}
-    - [80 hours of [free-trial **GPU access**](https://lightning.ai/pricing){target="_blank"}]{Xstyle="color: silver;"}
+- _Google [**Colab**](https://developers.google.com/colab){target="_blank"}_ has **Jupyter** Notebook as its GUI  
+  with **Gemini** as its AI assistant
+  - supports Python/R/Julia runtime
+  - free-tier account:    
+    - can run notebooks for at most 12 hours
+    - has very limited access to [**GPU**](https://research.google.com/colaboratory/faq.html){target="_blank"} with other [resource limits](https://research.google.com/colaboratory/faq.html#resource-limits){target="_blank"}
+
+- ***Lightning.ai*** has **VS Code** and **JupyterLab** as its GUIs\
+  (VS Code interface has **GitHub Copilot**)
+  - free-tier account offers:
+    - 1 free active Studio (for every 4 hours) 
+    - 80 hours of [free-trial **GPU access**](https://lightning.ai/pricing){target="_blank"} 
 
 
 
