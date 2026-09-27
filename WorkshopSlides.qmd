@@ -1,5 +1,5 @@
 ---
-title: "Data Science and AI Tools for Beginners"
+title: "Data Science and AI Tools<br>for Beginners"
 title-slide-attributes:
   data-background-image: img/BayesCSG_BunhillRow.jpg
 #  data-background-size: contain # default is cover
@@ -53,7 +53,7 @@ editor:
 
 
 
-# Why automation with code? {.smaller}
+## Why automation with code? {.smaller}
 
 ::: incremental
 - **Repetitive tasks** can be automated to *save time and reduce errors*
@@ -74,14 +74,16 @@ editor:
 
 
 
-# Automation with code: Examples {.Xsmaller}
+## Automation with code: Examples {.Xsmaller}
 
+::: incremental
 - **Structured/Unstructured data collection**, such as database queries,
   web scraping
 - **Summarization/Categorization** with large language models (LLMs) via
   API calls
 - **Document/Image processing**, such as text extraction, color
   correction, watermarking
+:::
 
 
 
@@ -101,31 +103,7 @@ editor:
 
 
 
-# Why GitHub, GitHub Codespace, and GitHub Copilot? {.smaller}
-
-::: incremental
-- **GitHub** provides spaces to *store, manage, and share code* with
-  others
-
-  - Code files of a project are organized in a ***repository***
-    (***repo***) with ***version control*** to track changes
-
-- GitHub **Codespace** (built on **VS Code**) provides a ***ready-to-use
-  development environment*** in the cloud,without requiring the setup of
-  VS Code in a local machine
-
-- GitHub **Copilot** is an ***AI assistant*** sitting inside
-  Codespace/VS Code to
-
-  - answer your questions (***Ask*** mode)
-  - formulate plans to implement your ideas (***Plan*** mode)
-  - act as your agent to execute the plans to generate code and verify
-    the results (***Agent*** mode)
-:::
-
-
-
-# GitHub ecosystem {.smaller}
+## GitHub ecosystem {.smaller}
 
 ![](img/GitHubEcosystem.png){fig-align="center" width="120%"}
 
@@ -137,21 +115,47 @@ editor:
 
 
 
+## Why GitHub, GitHub Codespace, and GitHub Copilot? {.smaller}
+
+- **GitHub** provides spaces to *store, manage, and share code* with others
+  - Code files of a project are organized in a ***repository***
+    (***repo***) with ***version control*** to track changes
+
+- GitHub **Codespace** (built on **VS Code**) provides a ***ready-to-use development environment*** in the cloud, without requiring the setup of
+  VS Code in a local machine
+
+- GitHub **Copilot** is an ***AI assistant*** sitting inside Codespace/VS Code to
+  - answer your questions (***Ask*** mode)
+  - formulate plans to implement your ideas (***Plan*** mode)
+  - act as your agent to execute the plans to generate code and verify
+    the results (***Agent*** mode)
+
+
+
+## Branches of a GitHub repo {.Xsmaller}
+
+- **Main branch**: The default branch of a repo, where the ***stable
+  version*** of the code is stored
+
+- **Feature/Development branch**: A branch created to develop a new
+  feature or experiment with code changes, without affecting the main
+  branch
+
+
+
 # If AI can formulate and execute plans for me, ... {.Xsmaller}
 
 ::: incremental
 - Why do I need to learn coding?
-  - As of ***today***, the AI models affordable to most of us are
-    ***still not smart enough*** to always deliver the required results
-    without guidance
-- The more you know, the better you can stay on top of everything
-  - Otherwise, you would not know even when AI takes you to a wrong
-    direction and could not correct it in time
+  - As of ***today***, the AI models most of us are happy to subscribe to for daily use are
+    ***still not smart enough*** to always deliver the required results without guidance
+- The more you know, the better you can _**stay on top**_ of everything
+  - Otherwise, you would not notice any **wrong direction** AI might take you to and could not correct it in time
 :::
 
 
 
-# How useful is AI? {.Xsmaller}
+## How useful is AI? {.Xsmaller}
 
 - Easy to use AI to deliver a ***working solution***
   - Especially useful when
@@ -162,16 +166,16 @@ editor:
   - Knowing how to give the ***directional guidance*** while leveraging
     AI's capability to ***fill in the gaps*** is the key to success
 
-# 
 
 
+## Image to show paths to treasure site
 
 - Image to show paths to treasure site
   - to cliff if heading in wrong direction
 
 
 
-# Why version control is important {.Xsmaller}
+## Why version control is important {.Xsmaller}
 
 ::: incremental
 - Version control (by **Git**) tracks changes to your code over time
@@ -186,18 +190,6 @@ editor:
     experimentation*** or accidental deletion by you or your **AI
     assistant**.
 :::
-
-
-
-# Branches of a repo on GitHub {.Xsmaller}
-
-- **Main branch**: The default branch of a repo, where the ***stable
-  version*** of the code is stored
-
-- **Feature/Development branch**: A branch created to develop a new
-  feature or experiment with code changes, without affecting the main
-  branch
-
 
 
 
@@ -268,7 +260,23 @@ Learn more at our docs ↗:
 
 
 
-# Code examples
+## [`.devcontainer`]{.lowercase} in Codespace {.smaller}
+
+- For marimo to be beginner-friendly and _**work out of the box**_, 
+  - marimo and its VS Code extension must be preinstalled in a Codespace
+
+- The magic comes from configuration files in the **`.devcontainer` folder**, 
+  - which specifies the packages and extensions to install and other settings for the Codespace environment
+
+<!--
+- _**Homework:**_
+  - Ask AI to categorize the installed packages specified in `devcontainer.json` and tabulate the most popular/useful Python/R packages with remarks on their importance
+  - Ask AI to add the installation of more packages/extensions to `devcontainer.json`
+-->
+
+
+
+# Code examples (in marimo)
 
 - Unstructured data collection & Document processing
 
@@ -283,10 +291,10 @@ Learn more at our docs ↗:
   - Example: 
 
 ::: {style="margin-top: -30px; font-size:70%;"}
-ID | Name    | Height (ft.) | Email              | Join_Date
+ID | Name    | Weight (kg) | Email              | Join_Date
 ----| ----- | :---: | --- | ---
-1324  | John D  | 6.1  | john@email.com    | 2024-01-01
-2846  | Mary S  | 5.5  | mary@email.com    | 2024-01-15
+1324  | John D  | 76.1  | john@email.com    | 2024-01-01
+2846  | Mary S  | 65.5  | mary@email.com    | 2024-01-15
 :::
 
 - **Unstructured** data <span style="color:green">&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp; &emsp; </span>
@@ -296,9 +304,10 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 
 
-## Application:<br>Collecting company sustainability reports
+## Application
 
-- What are the **challenges** (and **solutions**)?
+- Collecting **sustainability reports** from **company websites**
+  - What are the **challenges** (and **solutions**)?
 
 
 
@@ -329,7 +338,18 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 
 
-# Overview of the marimo notebooks {#part_1}
+# Let's dive in {.smaller}
+
+- marimo notebooks in [**Workshop repo**](https://github.com/DrAYim/TrainingWorkshop)
+  - `1acceptNstoreCookies.py`
+  - `2collect_urls.py`
+  - `3DLnExtract_OCR.py`
+
+![](img/DiveIn.JPG){ fig-align="center" style="margin-top:0px;" height=500px width=auto max-width=100% }
+
+
+
+## Overview of the marimo notebooks {#part_1}
 
 - `1acceptNstoreCookies.py`
   - bypasses **bot detection** by a target website
@@ -478,7 +498,7 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 
 
-# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">How AI assists in VS Code environments</span> 
+# <span style="font-size: 150%; font-weight: 400; text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);">Getting AI assistance</span> 
 
 
 
@@ -515,15 +535,6 @@ ID | Name    | Height (ft.) | Email              | Join_Date
   generate/alter/delete**_ code as needed to achieve the goal specified by you (or in the agreed plan)
   - Depending on the configuration, may still need your permissions on actions with **significant consequences**,
     - e.g., using certain tools such as **bash** commands, accessing the internet, or sending emails
-
-
-
-# AI assistant in action {.Xsmaller}
-
-- Let's actually see how it works
-  - [??? notebooks on GitHub](https://github.com/codespaces)
-
-![](img/DiveIn.JPG){ fig-align="center" height=500px width=auto max-width=100% }
 
 
 
@@ -576,48 +587,9 @@ ID | Name    | Height (ft.) | Email              | Join_Date
 
 
 
-# Polars vs. Pandas {.smaller}
 
+# Platform with GPU support {.Xsmaller}
 
-
-# .devcontainer in Codespace
-
-- The .devcontainer folder contains files for setting up the environment
-  of a Codespace
-
-  - The devcontainer.json file specifies the docker file for building
-    the container of the Codespace, including the software packages to
-    install
-  - It also specifies the extensions to install and other settings for
-    the Codespace environment
-
-- Ask AI to categorize packages installed in devcontainer, listing the
-  most popular/useful Python/R packages with a remark on why they are
-  important
-
-- Homework:
-
-  - Ask AI to add the installation of two more packages to the
-    devcontainer, or add certain VS Code extensions
-
-
-
-# Cloud computing platforms {.smaller}
-
-The following platforms have free-tier accounts that let you try Python/R conveniently:
-
-- [*GitHub Codespaces* has **VS Code** as its
-  GUI]{style="color: silver;"}
-  - [native for **GitHub Copilot**]{style="color: silver;"}
-    <!--  - provided by **GitHub**, a home of numerous _**open-source**_ packages
-    -->
-
-- [***Posit cloud*** has]{style="color: silver;"}
-  [**RStudio** (for **R**) as its GUI]{style="color: silver;"}
-  - [free-tier users can use **GitHub Copilot**]{style="color: silver;"}
-    - [but only for inline queries and code generation in the editor]{style="color: silver;"}
-  - [What is **R**?]{style="color: silver;"}
-  
 - [***Lightning.ai*** has **VS Code** and **JupyterLab** as its GUIs\
   (VS Code interface has **GitHub Copilot**)]{Xstyle="color: silver;"}
   - [free-tier account offers:]{Xstyle="color: silver;"}
@@ -759,84 +731,7 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 
 
 
-<!--
-## Strengths of R ecosystem {#Recosystem_1}
-
-- R's syntax is often more ***concise*** and ***expressive*** for data
-  manipulation and analysis tasks
-
-::: {layout-ncol="2"}
-![](img/Rmd_globalLineNumbering.png)
-
-![](img/PyNB_globalLineNumbering.png)
-:::
-
-
-
-## Strengths of R ecosystem {#Recosystem_3 .smaller}
-
-::::: columns
-::: {.column width="65%"}
-- ***Rmardown*** notebooks are **plain-text** files
-  - easy to version-control
-  - readable and editable even *on the go with only a phone*
-- Structured in **JSON** format, ***Jupyter*** notebooks are
-  - difficult to version-control effectively
-  - **not** as *human-readable* or *edit-friendly*\
-    outside of the notebook interface
-    - Similarly for ***marimo*** notebooks, despite being Python scripts
-      (in plain text)
-  - Next slide shows the **source code structures** of Jupyter and
-    marimo notebooks
-:::
-
-::: {.column width="35%"}
-![](img/Rmd_SourceCode.jpeg)
-:::
-:::::
-
-
-
-## Strengths of R ecosystem {#Recosystem_4}
-
-::: {layout-ncol="2"}
-![Jupyter](img/ipynb_SourceCode.png)
-
-![marimo](img/marimo_SourceCode.png)
-:::
-
-
-
-## Strengths of R ecosystem {#Recosystem_1_5}
-
-- Jupyter notebooks (and marimo notebooks in the notebook interface)
-  **cannot show gobally unique line numbers** for the entire notebook,
-  - hard to reference specific code lines for **debugging** and
-    documentation
-- Not a problem for Rmarkdown notebooks as plain-text files
-
-
-
-## Strengths of R ecosystem {#Recosystem_2}
-
-- Packages ***specialized*** for statistical analysis and econometrics
-  are more likely to be available in R than Python
-
-- For example,
-
-  - ***difference-in-differences*** (**DiD**) analysis is an important
-    methodology for measuring **causal effects**
-  - This [DiD](https://asjadnaqvi.GitHub.io/DiD/) website maintains a
-    comprehensive list of packages for DiD analysis:
-    - [Over 15 packages in
-      **R**](https://asjadnaqvi.GitHub.io/DiD/docs/02_R/) vs. [only 1 in
-      **Python**](https://asjadnaqvi.GitHub.io/DiD/docs/03_python/)
-
--->
-
-
-
-## Expanding Your DS Toolkit
+# Expanding Your DS Toolkit
 
 - No single tool solves every problem
   - Understanding the "right tool for the job" is a key skill
@@ -849,9 +744,13 @@ style="display: block; margin-left: auto; margin-right: 0;"}
   - also, [AlphaSignal](https://alphasignal.ai)'s daily newsletter on
     AI, machine learning and cutting-edge language models
 
-## Open-source packages on GitHub {.smaller}
+
+
+# Open-source packages on GitHub {.smaller}
 
 - Image to find oysters with pearls
+
+
 
 ## Adopting Open-source Resources {#Adopting_1}
 
@@ -879,28 +778,52 @@ style="display: block; margin-left: auto; margin-right: 0;"}
   - **Documentation** quality
     - README, docs/doc, Vignettes, Wiki, Website
 
+
+
+# Polars vs. Pandas {.smaller}
+
+- Pandas requires RAM to be **at least 2 times** of the dataset size to work
+
+- **Polars** is 
+  - **memory-efficient** due to various approaches, including
+    - **Streaming:** natively process data in optimized batches or chunks for **big data** (i.e., too big to fit into RAM)
+  - built on **Rust** --- known for its speed and safety
+  - **cross-platform**: including R and various other environments
+
+- Polars achieves high performance through **parallel execution** and
+  - **lazy evaluation**
+    - e.g., if you load a file with 100 columns but only use 3, Polars reads only those 3 columns into memory  
+    (by first analyzing the code to determine which are actually needed)
+
+
+
 # The month after this workshop {.smaller}
 
 - Recommendation:
 
-  - ***Do not wait*** until you have a serious task/project to start
-    using AI
-  - Simply keep on integrating AI into your workflow on a ***daily
-    basis***
-    - e.g., start a low-stake toy project that would not matter even if
-      it fails
+  - ***Do not wait*** until you have a serious task/project to start using AI
+  - Simply keep on integrating AI into your workflow on a ***daily basis***
+    - e.g., start a low-stake toy project that would not matter even if it fails
 
-- Up-to-date information you learned today can ***become obsolete in a
-  few months***
+- Up-to-date information you learned today can ***become obsolete in a few months***
 
-- Only when AI has become an ***inextricable*** part of your workflow,
-  you will be
+- Only when AI has become an ***inextricable*** part of your workflow will you be
 
   - motivated to keep up with the latest developments
   - able to accumulate experience and leverage it successfully to solve
     serious problems
 
+
+
+## My toy project { data-state="wide" }
+
+![](img/GitHubRepoActivity_last30days.png){ fig-align="center" style="margin-top:0px;" height=auto width=1150px max-width=150% }
+
+
+
 # Thank you and best wishes!
+
+
 
 ```{=html}
 <!--
