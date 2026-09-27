@@ -143,14 +143,22 @@ editor:
 
 
 
-# If AI can formulate and execute plans for me, ... {.Xsmaller}
+# If AI can formulate and execute plans for me, ... {.smaller Xdata-state="wide"}
+
+<div style="text-align:center; margin-top:0px;">
+- Why do I need to learn coding?
+</div>
+
+![](img/WindingRoute2Treasure.png){ fig-align="center" style="margin-top:0px;" height=auto width=1100px max-width=150% }
+
+
+
+## Why still learn coding? {.Xsmaller}
 
 ::: incremental
-- Why do I need to learn coding?
-  - As of ***today***, the AI models most of us are happy to subscribe to for daily use are
-    ***still not smart enough*** to always deliver the required results without guidance
+- As of ***today***, the AI models most of us can afford for heavy, daily use are ***still not smart enough*** to always deliver the required results without guidance
 - The more you know, the better you can _**stay on top**_ of everything
-  - Otherwise, you would not notice any **wrong direction** AI might take you to and could not correct it in time
+  - Otherwise, you won't notice any **wrong direction** AI might take you to --- and won't be able to correct it in time
 :::
 
 
@@ -161,17 +169,10 @@ editor:
   - Especially useful when
     - you don't know how to code, or
     - you don't have any precise requirements for the solution
-- It is not easy to get AI to deliver a ***solution exactly as you
+- Not so easy to get AI to deliver a ***solution exactly as you
   want***
-  - Knowing how to give the ***directional guidance*** while leveraging
-    AI's capability to ***fill in the gaps*** is the key to success
-
-
-
-## Image to show paths to treasure site
-
-- Image to show paths to treasure site
-  - to cliff if heading in wrong direction
+  - Knowing how to give ***directional guidance*** while leveraging
+    AI's capability to ***fill in the gaps*** is key to success
 
 
 
@@ -188,15 +189,19 @@ editor:
 
   - protecting you from losing the original work after ***failed
     experimentation*** or accidental deletion by you or your **AI
-    assistant**.
+    assistant**
 :::
 
 
 
-# Why marimo? {#Why_marimo_1}
+# marimo  
 
-- Especially friendly to beginners due to:
-  - using **`uv`** to handle packages installation and environment setup under the hood
+- a _**reactive**_ Python notebook
+  - automatically _**runs dependent cells**_ whenever a cell is run or a UI element is interacted with, 
+    - keeping code and outputs consistent. 
+
+- Especially _**friendly to beginners**_ due to:
+  - using **`uv`** to handle packages installation and environment setup _**under the hood**_
 
 
 
@@ -205,9 +210,9 @@ editor:
 - The power of Python comes from its **ecosystem of libraries** (aka. packages) that provide pre-built functions for various tasks
   - Packages are often developed by different authors, and may have **different versions** with **incompatible dependencies**, let alone the **Python version** itself
 
-- Traditional installation methods use **pip** or **conda** to install packages, which can lead to **dependency conflicts** and **version mismatches**, especially when multiple projects require different versions of the same package
+- Traditional installation methods use `pip` or `conda` to install packages, which can lead to **dependency conflicts** and **version mismatches**, especially when multiple projects require different versions of the same package
   - The solution is to use **virtual environments** to isolate dependencies for each project, but this can be cumbersome and error-prone for beginners
-  - The maintenance of virtual environments results in duplicated packages and wasted disk space, especially when multiple projects share similar dependencies
+  - The maintenance of virtual environments results in duplicated packages and **wasted disk space**, especially when multiple projects share similar dependencies
 
 
 ## `uv` as the rescue {.smaller}
@@ -218,11 +223,11 @@ editor:
 
 
 
-## Why marimo? (Cont'd) {#Why_marimo_2 .smaller}
+## Why marimo? {.smaller}
 
 - Other often praised features include:
-  - Reactive
-  - DAG-based 
+  - Built-in interactive elements 
+  - Directed Acyclic Graph (DAG)-based 
     - handles **code execution order** automatically, so you don't have to worry about the order of code cells
   - Dual-mode execution
     - can be run in an **interactive** interface and in a **shell**, bridging the gap between exploratory **notebook-based** and production-ready **script-based** workflows
@@ -266,7 +271,7 @@ Learn more at our docs ↗:
   - marimo and its VS Code extension must be preinstalled in a Codespace
 
 - The magic comes from configuration files in the **`.devcontainer` folder**, 
-  - which specifies the packages and extensions to install and other settings for the Codespace environment
+  - which specify the packages and extensions to install and other settings for the Codespace environment
 
 <!--
 - _**Homework:**_
@@ -746,9 +751,14 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 
 
 
-# Open-source packages on GitHub {.smaller}
+# Open-source packages on GitHub {.smaller Xdata-state="wide"}
 
-- Image to find oysters with pearls
+<div style="text-align:center; margin-top:0px;">
+- Powerful packages are freely available on GitHub
+  - The challenge: Buried among numerous **poorly maintained/poorly documented** packages on GitHub
+</div>
+
+![](img/Oyster_with_Pearl_Ghibli-style.png){ fig-align="center" style="margin-top:0px;" height=auto width=850px max-width=150% }
 
 
 
@@ -764,6 +774,8 @@ style="display: block; margin-left: auto; margin-right: 0;"}
   - **Active development**:
     - Last commit
     - Watch \| Custom \| Releases, Issues, Security alerts
+
+
 
 ## Adopting Open-source Resources {#Adopting_2}
 
