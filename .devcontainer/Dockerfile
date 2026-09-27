@@ -102,6 +102,7 @@ RUN uv pip install --system --python python3 \
         groq \
         python-dotenv \
         dspy-ai \
+#        playwright==1.55.0 \
         playwright \
         pymupdf \
         pillow \
@@ -111,9 +112,11 @@ RUN uv pip install --system --python python3 \
         wordcloud \
         radian
 
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
 # ── Playwright Chromium browser ──────────────────────────────
 RUN playwright install-deps chromium \
-    && playwright install chromium
+    && playwright install chromium \
+    && chmod -R a+rX /opt/ms-playwright
 
 # ── radian wrapper (R REPL) ──────────────────────────────────
 RUN printf '#!/bin/sh\nradian "$@"\ntrue\n' > /usr/local/bin/r \

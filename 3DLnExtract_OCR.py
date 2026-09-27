@@ -216,7 +216,7 @@ def _(mo):
     mo.md(r"""
     ---
 
-    ## **Identify the repository root directory**
+    ## **Identify the repository root directory** (no longer needed)
 
     - Get the value of the `RepositoryName` environment variable
     - The repository root is located by searching for `RepositoryName` inside the current working directory path using `str.find()`, which **returns the lowest index** where the substring is found, or `-1` if the substring is **not found**.
