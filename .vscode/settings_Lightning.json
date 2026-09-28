@@ -3,6 +3,7 @@
 //  "terminal.integrated.sendKeybindingsToShell": false,
   "terminal.integrated.sendKeybindingsToShell": true,
 	"editor.inlayHints.enabled": "offUnlessPressed",
+  "r.executablePath": "/usr/bin/R",
   "r.rpath.linux": "/usr/bin/R",
   "r.rterm.linux": "/home/zeus/miniconda3/envs/cloudspace/bin/radian",    
   "r.bracketedPaste": true,
