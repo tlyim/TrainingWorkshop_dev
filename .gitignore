@@ -249,6 +249,11 @@ public/**/*.json
 public/crawl/**
 wordcloud_output/**
 
+# R_library/languageserver/**
+# R_library/later/**
+# R_library/Rcpp/**
+# R_library/sess/**
+
 nltk_data/corpora/stopwords/**
 !nltk_data/corpora/stopwords/README
 !nltk_data/corpora/stopwords/english

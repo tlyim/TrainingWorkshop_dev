@@ -139,8 +139,10 @@ RUN Rscript -e "\
     install.packages('pak', repos = 'https://r-lib.github.io/p/pak/stable/', quiet = TRUE); \
     dir.create('R_library', showWarnings = FALSE); \
     .libPaths(c('R_library', .libPaths())); \
-    pak::pak(c('languageserver', 'httpgd')) \
+    pak::pak(c( )) \
 "
+
+#    pak::pak(c('languageserver', 'httpgd')) \
 
 # ── Shell helpers (qpreview alias from postCreateCommand) ────
 RUN grep -qxF 'qpreview() {' /etc/bash.bashrc || printf '\nqpreview() {\n    quarto preview "$1" --no-browser --no-watch-inputs\n}\n' \
