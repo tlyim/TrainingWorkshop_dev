@@ -1,13 +1,14 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies =[
-#     "marimo>=0.23.3",
-#     "pandas",
+#     "marimo>=0.20.2",
 #     "matplotlib",
 #     "nltk>=3.9.3",    # nltk stays for stopwords and ngrams only
 #     "spacy",
+#     "spacy-transformers",
 #     "wordcloud",
 #     "beautifulsoup4",
+#     "groq>=1.1.1",
 #     "spacy-curated-transformers>=0.3.1",
 #     "cupy-cuda13x",   # ← add this
 #     "en-core-web-trf @ https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl",  # ← and this
@@ -15,9 +16,15 @@
 # ///
 
 
+
+#     "edgartools",
+#     "ipython>=9.11.0",
+#     "pyzmq>=27.1.0",
+
+
 import marimo
 
-__generated_with = "0.24.2"
+__generated_with = "0.20.4"
 app = marimo.App()
 
 
@@ -118,7 +125,6 @@ def _():
     import re
     import time
     from datetime import datetime
-    from pathlib import Path
 
     from bs4 import BeautifulSoup  
     import requests
@@ -157,7 +163,6 @@ def _():
     return (
         BeautifulSoup,
         Counter,
-        Path,
         WordCloud,
         io,
         json,
@@ -209,7 +214,7 @@ def _():
         'TSLA': 'Tesla'
     }
 
-    FIRMS2DISPLAY = 7 #2  # Number of firms to display in the word clouds (for testing, set to 2)
+    FIRMS2DISPLAY = 2  # Number of firms to display in the word clouds (for testing, set to 2)
 
     # Force download or use cached versions of the filings
     force_refresh = True  # False  # set True to re-download
@@ -676,7 +681,6 @@ def _(mo):
 @app.cell
 def _(
     FIRMS2DISPLAY,
-    Path,
     WordCloud,
     get_stemmed_ngram_freqs,
     io,
@@ -692,9 +696,6 @@ def _(
     # ────────────────────────────────────────────────────────────────
 
     outputs =[]
-    OUT_DIR = Path("wordcloud_output")
-    OUT_DIR.mkdir(exist_ok=True)
-
     # Blacklist after stemming (add more as needed)
     blacklist_stem_patterns = {
         # ── existing single-token blacklist ──
@@ -782,10 +783,6 @@ def _(
             wc.to_image().save(buf, format='PNG', optimize=True, compress_level=9)
             buf.seek(0)
 
-            png_path = OUT_DIR / f"{ticker_1}_{year}_wordcloud.png"
-            png_path.write_bytes(buf.getvalue())
-            print(f"💾 Saved {png_path}")
-
             cloud_imgs.append(mo.vstack([
                 mo.md(f"**{year}**"),
                 mo.image(buf.getvalue())
@@ -795,11 +792,6 @@ def _(
             top_20 = top_phrases[:20]
             if top_20:
                 df_top = pd.DataFrame(top_20, columns=['Count', 'Phrase', 'Example'])
-
-                csv_path = OUT_DIR / f"{ticker_1}_{year}_top20.csv"
-                df_top.to_csv(csv_path, index=False)
-                print(f"💾 Saved {csv_path}")
-
                 table_outputs.append(mo.vstack([
                     mo.md(f"**Top 20 – {name_1} ({ticker_1}) {year}**"),
                     mo.ui.table(df_top)

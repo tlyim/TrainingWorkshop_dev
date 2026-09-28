@@ -110,7 +110,18 @@ RUN uv pip install --system --python python3 \
         nltk \
         spacy \
         wordcloud \
+        beautifulsoup4 \
+        "thinc>=8.3.4,<8.4" \
+        "spacy-curated-transformers>=0.3.1,<1" \
         radian
+
+# spaCy transformer model (used by BigramCloud_GPUorCPU.py)
+uv pip install --system --python python3 \
+  "en-core-web-trf @ https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl"
+
+# Note: No permission to install to system in WSL; can only install in a venv
+# uv pip install --system --python python3 cupy-cuda13x \
+#   || echo "WARNING: cupy not installed; spaCy will run on CPU"
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
 # ── Playwright Chromium browser ──────────────────────────────
