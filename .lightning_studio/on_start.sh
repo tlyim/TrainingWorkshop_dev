@@ -151,9 +151,14 @@ install_r_packages() {
     install.packages('pak', repos='https://r-lib.github.io/p/pak/stable/', quiet=TRUE);
     dir.create('$R_LIBRARY', recursive=TRUE, showWarnings=FALSE);
     .libPaths(c('$R_LIBRARY', .libPaths()));
-    pak::pak(c('languageserver', 'httpgd'))
+    pak::pak(c('mime'))
   "
 }
+
+#    pak::pak(c('languageserver', 'httpgd')) \
+# Note: mime is a tiny package with only a 50 KB size 
+#   used as a placeholder here to include the pak installation step
+#    pak::pak(c('mime')) \
 
 
 # Install VS Code extensions via code-server 
@@ -191,27 +196,27 @@ if [ ! -f "$SENTINEL" ]; then
   install_r_packages
 
 
-  # Configure VS Code tasks
-  VSCODE_TASKS="$HOME/.vscode/tasks.json"
-  mkdir -p "$(dirname "$VSCODE_TASKS")"
+#   # Configure VS Code tasks
+#   VSCODE_TASKS="$HOME/.vscode/tasks.json"
+#   mkdir -p "$(dirname "$VSCODE_TASKS")"
 
-  cat > "$VSCODE_TASKS" << 'EOF'
-{
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Serve workspace (python3 -m http.server 8000)",
-      "type": "shell",
-      "command": "python3 -m http.server 8000 --bind 0.0.0.0",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": true,
-      "problemMatcher": []
-    }
-  ]
-}
-EOF
+#   cat > "$VSCODE_TASKS" << 'EOF'
+# {
+#   "version": "2.0.0",
+#   "tasks": [
+#     {
+#       "label": "Serve workspace (python3 -m http.server 8000)",
+#       "type": "shell",
+#       "command": "python3 -m http.server 8000 --bind 0.0.0.0",
+#       "options": {
+#         "cwd": "${workspaceFolder}"
+#       },
+#       "isBackground": true,
+#       "problemMatcher": []
+#     }
+#   ]
+# }
+# EOF
 
   touch "$SENTINEL"
   echo "==> [on_start] First-run setup complete."
@@ -311,12 +316,13 @@ settings["r.consolePath"] = radian_path
 settings["r.rterm.linux"] = radian_path
 settings["r.libPaths"] = [r_library, str(Path.home() / "R_library")]
 settings["r.bracketedPaste"] = True
-settings["extensions.autoUpdate"] = True
 settings["extensions.ignoreRecommendations"] = False
 
 settings_path.write_text(json.dumps(settings, indent=2) + "\n")
 PY
 
+# Unable to write extensions.autoUpdate to Workspace Settings. This setting can be written only into User settings.
+#settings["extensions.autoUpdate"] = True
 
 
 git config --global user.name "Tl Yim (Lightning.ai)"

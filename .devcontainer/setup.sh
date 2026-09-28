@@ -18,8 +18,7 @@ if [ ! -f "$SENTINEL" ]; then
     echo "Info: Using a GitHub Codespace"
   elif [ -n "${LIGHTNING_USER_ID:-}" ]; then
     echo "Info: Using a Lightning.ai Studio"
-    # Do NOT cp again as the radian location might not be set correctly
-    #cp .vscode/settings_Lightning.json .vscode/settings.json
+    # Do NOT cp to .vscode/settings.json for Lightning.ai -- work differently there
   fi
 
   touch "$SENTINEL"
