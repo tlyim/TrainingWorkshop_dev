@@ -14,7 +14,6 @@
 # ]
 # ///
 
-
 import marimo
 
 __generated_with = "0.24.2"
@@ -209,7 +208,7 @@ def _():
         'TSLA': 'Tesla'
     }
 
-    FIRMS2DISPLAY = 7 #2  # Number of firms to display in the word clouds (for testing, set to 2)
+    FIRMS2DISPLAY = 2  # Number of firms to display in the word clouds (for testing, set to 2)
 
     # Force download or use cached versions of the filings
     force_refresh = True  # False  # set True to re-download

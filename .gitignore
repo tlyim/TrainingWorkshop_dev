@@ -245,5 +245,17 @@ html
 !img/*.*
 !docs/img/*.*
 
+public/**/*.json
 public/crawl/**
 wordcloud_output/**
+
+nltk_data/corpora/stopwords/**
+!nltk_data/corpora/stopwords/README
+!nltk_data/corpora/stopwords/english
+
+/nltk_data/tokenizers/punkt/PY3
+!/nltk_data/tokenizers/punkt/PY3/english.pickle
+!/nltk_data/tokenizers/punkt/PY3/README
+/nltk_data/tokenizers/punkt/**
+!/nltk_data/tokenizers/punkt/english.pickle
+!/nltk_data/tokenizers/punkt/README
