@@ -46,8 +46,7 @@ install_python_packages() {
     "thinc>=8.3.4,<8.4" \
     "spacy-curated-transformers>=0.3.1,<1" \
     radian
-
-#    #dspy
+}
 
   # spaCy transformer model (used by BigramCloud_GPUorCPU.py)
   uv pip install --system --python python3 \
@@ -56,8 +55,6 @@ install_python_packages() {
   # Note: No permission to install to system in WSL; can only install in a venv
   uv pip install --system --python python3 cupy-cuda13x \
     || echo "WARNING: cupy not installed; spaCy will run on CPU"
-
-}
 
 
 install_system_packages() {
@@ -76,10 +73,8 @@ install_system_packages() {
     echo "$cran_source" | sudo tee /etc/apt/sources.list.d/cran.list >/dev/null
   fi
 
-  # sudo apt update
-  # sudo apt install --no-install-recommends -y \  
-  sudo apt-get update -y
-  sudo apt-get install --no-install-recommends -y \
+  sudo apt update
+  sudo apt install --no-install-recommends -y \
     tesseract-ocr \
     'r-base=4.6.*' \
     libharfbuzz-dev \
@@ -155,22 +150,18 @@ install_r_packages() {
   "
 }
 
-
-# Install VS Code extensions via code-server 
-# Note: code-server uses Open-VSX, not the Microsoft marketplace.
-# ms-toolsai.jupyter is Microsoft-only; install it from a downloaded VSIX instead.
 install_extensions() {
   local extensions=(
     'ms-python.python'
     'ms-toolsai.jupyter'
     'marimo-team.vscode-marimo'
-    'shd101wyy.markdown-preview-enhanced'
-    'mechatroner.rainbow-csv'
-    'bierner.markdown-mermaid'
-    'ltmoerdani.opencode-copilot-chat'
-    'quarto.quarto'
     'REditorSupport.r'
     'REditorSupport.r-syntax'
+    'mechatroner.rainbow-csv'
+    'bierner.markdown-mermaid'
+    'shd101wyy.markdown-preview-enhanced'
+    'sst-dev.opencode'
+    'ltmoerdani.opencode-copilot-chat'
   )
   local installed ext
   installed="$(code-server --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]')"
@@ -189,42 +180,16 @@ if [ ! -f "$SENTINEL" ]; then
   install_quarto
   git config --global core.editor nano
   install_r_packages
-
-
-  # Configure VS Code tasks
-  VSCODE_TASKS="$HOME/.vscode/tasks.json"
-  mkdir -p "$(dirname "$VSCODE_TASKS")"
-
-  cat > "$VSCODE_TASKS" << 'EOF'
-{
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Serve workspace (python3 -m http.server 8000)",
-      "type": "shell",
-      "command": "python3 -m http.server 8000 --bind 0.0.0.0",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": true,
-      "problemMatcher": []
-    }
-  ]
-}
-EOF
-
   touch "$SENTINEL"
   echo "==> [on_start] First-run setup complete."
 else
   echo "==> [on_start] Setup already done (delete $SENTINEL to re-run)."
 fi
 
-
-
-# if ! command -v nano >/dev/null 2>&1; then
-#   sudo apt update
-#   sudo apt install --no-install-recommends -y nano
-# fi
+if ! command -v nano >/dev/null 2>&1; then
+  sudo apt update
+  sudo apt install --no-install-recommends -y nano
+fi
 
 install_bun_opencode
 
@@ -238,86 +203,9 @@ if command -v radian >/dev/null 2>&1 && { [ ! -e /usr/local/bin/r ] || [ ! -x /u
   sudo sh -c 'printf "#!/bin/sh\nradian \"$@\"\ntrue\n" > /usr/local/bin/r && chmod +x /usr/local/bin/r'
 fi
 
-# if command -v radian >/dev/null 2>&1; then
-#   sudo tee /usr/local/bin/r >/dev/null <<'EOF'
-# #!/bin/sh
-# exec radian "$@"
-# EOF
-#   sudo chmod +x /usr/local/bin/r
-# fi
-
-
-
 if command -v code-server >/dev/null 2>&1; then
   install_extensions
 fi
-
-
-
-# # Install ms-toolsai.jupyter from VSIX (not on Open-VSX)
-# JUPYTER_VSIX="$HOME/.lightning_studio/jupyter.vsix"
-# JUPYTER_URL="https://github.com/microsoft/vscode-jupyter/releases/download/v2025.3.0/ms-toolsai.jupyter-2025.3.0.vsix"
-# if [ ! -f "$JUPYTER_VSIX" ]; then
-#   curl -L "$JUPYTER_URL" -o "$JUPYTER_VSIX"
-# fi
-# code-server --install-extension "$JUPYTER_VSIX" || echo "WARNING: failed to install jupyter vsix"
-
-
-# Configure VS Code R settings. Workspace settings take precedence over
-# code-server's user settings, so write the resolved values there.
-VSCODE_SETTINGS="$WORKSPACE_DIR/.vscode/settings.json"
-mkdir -p "$(dirname "$VSCODE_SETTINGS")"
-
-R_PATH="$(command -v R || true)"
-RADIAN_PATH="$(command -v radian || true)"
-
-if [ -z "$R_PATH" ] || [ ! -x "$R_PATH" ]; then
-  echo "ERROR: R was not found on PATH or is not executable." >&2
-  exit 1
-fi
-
-if [ -z "$RADIAN_PATH" ] || [ ! -x "$RADIAN_PATH" ]; then
-  echo "ERROR: radian was not found on PATH or is not executable." >&2
-  exit 1
-fi
-
-# The settings templates are JSONC (they contain // comments). Remove only
-# full-line comments before parsing, then write standard JSON.
-R_PATH="$R_PATH" \
-RADIAN_PATH="$RADIAN_PATH" \
-R_LIBRARY="$R_LIBRARY" \
-VSCODE_SETTINGS="$VSCODE_SETTINGS" \
-python3 <<'PY'
-import json
-import os
-from pathlib import Path
-
-settings_path = Path(os.environ["VSCODE_SETTINGS"])
-settings = {}
-if settings_path.exists():
-    content = "\n".join(
-        line for line in settings_path.read_text().splitlines()
-        if not line.lstrip().startswith("//")
-    )
-    settings = json.loads(content)
-
-r_path = os.environ["R_PATH"]
-radian_path = os.environ["RADIAN_PATH"]
-r_library = os.environ["R_LIBRARY"]
-
-settings["r.executablePath"] = r_path
-settings["r.rpath.linux"] = r_path
-settings["r.consolePath"] = radian_path
-settings["r.rterm.linux"] = radian_path
-settings["r.libPaths"] = [r_library, str(Path.home() / "R_library")]
-settings["r.bracketedPaste"] = True
-settings["extensions.autoUpdate"] = True
-settings["extensions.ignoreRecommendations"] = False
-
-settings_path.write_text(json.dumps(settings, indent=2) + "\n")
-PY
-
-
 
 git config --global user.name "Tl Yim (Lightning.ai)"
 if [[ "${LIGHTNING_USERNAME:-}" == *tlyim* ]]; then
