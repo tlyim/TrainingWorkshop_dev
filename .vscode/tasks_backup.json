@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "python3 -m http.server 8000 --bind 0.0.0.0",
+      "type": "shell",
+      "command": "python3 -m http.server 8000 --bind 0.0.0.0",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run setup on open",
+      "type": "shell",
+      "command": "bash .devcontainer/setup.sh",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    }
+  ]
+}
