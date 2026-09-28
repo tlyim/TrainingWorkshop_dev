@@ -92,6 +92,7 @@ RUN uv pip install --system --python python3 \
 
 # ── Additional Python packages (postCreateCommand) ───────────
 RUN uv pip install --system --python python3 \
+    --torch-backend cpu \
         pandas \
         plotly \
         statsmodels \
@@ -109,6 +110,7 @@ RUN uv pip install --system --python python3 \
         pytesseract \
         nltk \
         spacy \
+        torch \
         wordcloud \
         beautifulsoup4 \
         "thinc>=8.3.4,<8.4" \
@@ -117,6 +119,7 @@ RUN uv pip install --system --python python3 \
 
 # spaCy transformer model (used by BigramCloud_GPUorCPU.py)
 RUN uv pip install --system --python python3 \
+    --torch-backend cpu \
   "en-core-web-trf @ https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl"
 
 # Note: No permission to install to system in WSL; can only install in a venv
@@ -139,10 +142,12 @@ RUN Rscript -e "\
     install.packages('pak', repos = 'https://r-lib.github.io/p/pak/stable/', quiet = TRUE); \
     dir.create('R_library', showWarnings = FALSE); \
     .libPaths(c('R_library', .libPaths())); \
-    pak::pak(c( )) \
+    pak::pak(c('mime')) \
 "
-
 #    pak::pak(c('languageserver', 'httpgd')) \
+# Note: mime is a tiny package with only a 50 KB size 
+#   used as a placeholder here to include the pak installation step
+#    pak::pak(c('mime')) \
 
 # ── Shell helpers (qpreview alias from postCreateCommand) ────
 RUN grep -qxF 'qpreview() {' /etc/bash.bashrc || printf '\nqpreview() {\n    quarto preview "$1" --no-browser --no-watch-inputs\n}\n' \
