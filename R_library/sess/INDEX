@@ -1,0 +1,7 @@
+connect                 Connect to the VS Code IPC server
+notify_client           Notify the client via IPC pipe (JSON-RPC 2.0
+                        Notification)
+register_hooks          Register VS Code runtime integrations
+request_client          Emulate rstudioapi (or any client action)
+                        synchronously but without blocking the R Event
+                        Loop

@@ -1,0 +1,36 @@
+Package: sess
+Type: Package
+Title: High-Performance IPC Bridge for R Sessions
+Version: 3.0.0
+Authors@R: c(
+    person(given = "Randy",
+           family = "Lai",
+           role = c("aut", "cre"),
+           email = "randy.cs.lai@gmail.com"),
+    person(given = "Kun",
+           family = "Ren",
+           role = "ctb"),
+    person(given = "Grant",
+           family = "McDermott",
+           role = "ctb"),
+    person(given = "Tatsuya",
+           family = "Shima",
+           role = "ctb"),
+    person(given = "Fred",
+           family = "Wu",
+           role = "ctb")
+  )
+Description: Implements a high-performance IPC bridge for R sessions using Unix domain sockets and Windows named pipes. Replaces legacy file-system watcher based workflows while keeping JSON-RPC communication semantics for IDE/editor integration.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports: processx (>= 3.5.0), later, jsonlite, utils, methods,
+        rstudioapi
+Suggests: bit64, httpgd, jgd, svglite, tinytest
+Config/roxygen2/version: 8.1.0
+Author: Randy Lai [aut, cre],
+  Kun Ren [ctb],
+  Grant McDermott [ctb],
+  Tatsuya Shima [ctb],
+  Fred Wu [ctb]
+Maintainer: Randy Lai <randy.cs.lai@gmail.com>
+Built: R 4.6.1; ; 2026-09-28 10:42:46 UTC; unix

@@ -1,0 +1,11 @@
+connect	connect
+dispatch_message	dispatch_message
+ipc_write	ipc_write
+notify_client	notify_client
+poll_connection	poll_connection
+register_hooks	register_hooks
+request_client	request_client
+rpc_reply	rpc_reply
+rpc_send	rpc_send
+runtime_start	runtime_start
+runtime_stop	runtime_stop
