@@ -34,6 +34,8 @@ install_python_packages() {
     micropip \
     groq \
     python-dotenv \
+    httpx \
+    pyarrow \
     dspy-ai \
     playwright \
     pymupdf \

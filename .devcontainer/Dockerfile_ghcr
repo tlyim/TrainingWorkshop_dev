@@ -26,6 +26,8 @@ RUN python3 -m pip install --break-system-packages uv \
    && uv pip install --system --python python3 \
       ipykernel \
       nbformat \
+      httpx \
+      pyarrow \
       pyreadr \
       stargazer
 

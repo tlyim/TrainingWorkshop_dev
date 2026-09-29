@@ -102,6 +102,8 @@ RUN uv pip install --system --python python3 \
         micropip \
         groq \
         python-dotenv \
+        httpx \
+        pyarrow \
         dspy-ai \
 #        playwright==1.55.0 \
         playwright \

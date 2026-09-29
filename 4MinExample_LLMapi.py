@@ -3,6 +3,8 @@
 # dependencies = [
 #     "httpx>=0.28.1",
 #     "marimo>=0.23.3",
+#     "pandas>=3.0.6",
+#     "pyarrow>=25.0.1",
 #     "python-dotenv>=1.2.3",
 # ]
 # ///
@@ -19,7 +21,7 @@ def _(mo):
     ---
     ---
 
-    ## Minimum Example: LLM Access via API
+    ## Minimal Example: LLM Access via API
     """)
     return
 
@@ -40,7 +42,7 @@ def _():
     import httpx
     from dotenv import load_dotenv
 
-    load_dotenv()
+    load_dotenv(mo.notebook_dir() / ".env")
     return httpx, mo, os, uuid
 
 
@@ -162,7 +164,11 @@ def _(PROVIDERS, mo):
         value="Ollama Cloud",
         label="Provider",
     )
+
+    print("For example, use Ollama Cloud")
+
     provider_name
+
     return (provider_name,)
 
 
@@ -208,6 +214,9 @@ def _(mo, models):
         full_width=True,
     )
     widgets = mo.vstack([model, temperature, max_tokens, prompt])
+
+    print("For example, use Ollama Cloud: gpt-oss:120b")
+
     widgets
     return max_tokens, model, prompt, temperature
 
@@ -271,21 +280,23 @@ async def _(PROVIDERS, fetch_models, mo, os, probe_button):
     if not probe_button.value:
         probe_md = mo.md("*Click 'Probe all providers' to test reachability.*")
     else:
-        results = []
+        sections = {}
         for name, p in PROVIDERS.items():
             key = os.environ.get(p["api_key_env"], "")
             if not key:
-                results.append(f"SKIP ({name}): no API key")
+                sections[name] = mo.md(f"SKIP — no API key (`{p['api_key_env']}`)")
                 continue
             try:
-                probed_models = await fetch_models(p["base_url"], key)
-                sample = ", ".join(probed_models[:3]) if probed_models else "none"
-                results.append(
-                    f"OK ({name}): {len(probed_models)} models — {sample}"
-                )
+                probed = await fetch_models(p["base_url"], key)
             except Exception as e:
-                results.append(f"FAIL ({name}): {type(e).__name__}: {e}")
-        probe_md = mo.md("\n".join(f"- {r}" for r in results))
+                sections[name] = mo.md(f"**FAIL** — `{type(e).__name__}: {e}`")
+                continue
+            listing = "\n".join(probed) if probed else "(none)"
+            sections[name] = mo.vstack([
+                mo.md(f"**{len(probed)} model(s)** — `{p['base_url']}`"),
+                mo.md(f"```text\n{listing}\n```"),
+            ])
+        probe_md = mo.accordion(sections)
     probe_md
     return
 
@@ -393,22 +404,21 @@ def _():
     {body}
     """
 
-
-    #CODING_YEAR = 2021
-    CODING_NOTES_PARQUET = "results/notes/parquet_2021-2021_top700.parquet"
+    CODING_NOTES_PARQUET = "4MinExample_Notes.parquet"
+    CODING_OUTPUT_PARQUET = "4MinExample_Coded.parquet"
     MAX_NOTE_CHARS = 262000
     MAX_OUTPUT_TOKENS = 4096
     CODING_MAX_ATTEMPTS = 2
     CODING_TEMPERATURE = 0.5
     CODING_CONCURRENCY = 1  # 4
+
+
+
     return (
-        CODING_CONCURRENCY,
         CODING_MAX_ATTEMPTS,
         CODING_NOTES_PARQUET,
         CODING_PROMPT,
-        CODING_TEMPERATURE,
         MAX_NOTE_CHARS,
-        MAX_OUTPUT_TOKENS,
         NOTE_CATEGORIES,
     )
 
@@ -418,13 +428,12 @@ def _(CODING_NOTES_PARQUET):
     import pandas as pd
 
     notes_df = pd.read_parquet(CODING_NOTES_PARQUET)
-    #notes_df = notes_df[notes_df["dl_year"] == CODING_YEAR].reset_index(drop=True)
     print(
         f"{len(notes_df)} notes | {notes_df['ticker'].nunique()} firms | "
         f"{CODING_NOTES_PARQUET}"
     )
     notes_df.drop(columns=["fullnote"])
-    return notes_df, pd
+    return
 
 
 @app.cell
@@ -587,31 +596,18 @@ def _(
             *[_score(i + 1, row) for i, row in enumerate(rows)]
         )
 
-    return (llm_code_notes,)
+    return
 
 
 @app.cell
 def _(mo):
     run_coding = mo.ui.run_button(label="Run LLM coding")
     run_coding
-    return (run_coding,)
+    return
 
 
-@app.cell
-async def _(
-    CODING_CONCURRENCY,
-    CODING_TEMPERATURE,
-    MAX_OUTPUT_TOKENS,
-    api_key,
-    llm_code_notes,
-    mo,
-    model,
-    notes_df,
-    pd,
-    provider,
-    provider_name,
-    run_coding,
-):
+app._unparsable_cell(
+    r"""
     if not run_coding.value:
         coding_output = mo.md(
             "*Click 'Run LLM coding' to summarize and classify the notes.*"
@@ -627,6 +623,18 @@ async def _(
             concurrency=CODING_CONCURRENCY,
         )
         coded_df = pd.DataFrame(coded_rows)
+
+        coded_path = mo.notebook_dir() / CODING_OUTPUT_PARQUET
+        coded_df.to_parquet(coded_path, index=False)
+        print(f"wrote {len(coded_df)} rows -> {coded_path}")
+
+        display_df = coded_df.drop(columns=["fullnote"]).assign(
+            llm_excerpts=lambda d: d["llm_excerpts"].apply(
+                lambda v: "\n".join(map(str, v)) if isinstance(v, (list, tuple, np.ndarray))
+                else str(v)
+            )
+        )
+
         preview_cols = [
             "ticker",
             "company_name",
@@ -650,8 +658,21 @@ async def _(
             f"Mean materiality **{coded_df['llm_materiality'].mean():.2f}**.  \n"
             f"**Categories:** {counts_str}"
         )
-        coding_output = mo.vstack([summary_md, coded_df[preview_cols]])
+        coding_output = mo.vstack([summary_md, 
+            coded_df.drop(columns=["fullnote"])
+            #coded_df[preview_cols]]
+            )
+
     coding_output
+
+    """,
+    name="_"
+)
+
+
+@app.cell
+def _(display_df):
+    display_df
     return
 
 
