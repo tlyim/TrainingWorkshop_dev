@@ -588,7 +588,11 @@ ID | Name    | Weight (kg) | Email              | Join_Date
 
 
 
-# LLM access via API {.smaller}
+# LLM access via API  
+
+- Minimal example: `4MinExample_LLMapi.py`
+  - input data: `4MinExample_Notes.parquet`
+  - output results: `4MinExample_Coded.parquet`
 
 
 
