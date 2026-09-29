@@ -668,7 +668,7 @@ style="display: block; margin-left: auto; margin-right: 0;"}
 - **Studio** in Organization on *Lightning.ai*
   - is like **Codespace** on GitHub
 - See the shared Studio template:
-  [**BigramCloud_GPUorCPU**](https://lightning.ai/tlyim-1city/templates/bigramcloud-gpuorcpu){target="_blank"}
+  [**BigramCloud_GPUorCPU**](https://lightning.ai/tlyim-1city-org/templates/bigramcloud-gpuorcpu~01m3m2wf6nq9gw6ytegz6ddtrf){target="_blank"}
 
 
 
