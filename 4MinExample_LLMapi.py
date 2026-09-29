@@ -410,15 +410,19 @@ def _():
     MAX_OUTPUT_TOKENS = 4096
     CODING_MAX_ATTEMPTS = 2
     CODING_TEMPERATURE = 0.5
-    CODING_CONCURRENCY = 1  # 4
+    CODING_CONCURRENCY = 1 # 2  # 4  # Use 4 workers only for paid endpoints
 
 
 
     return (
+        CODING_CONCURRENCY,
         CODING_MAX_ATTEMPTS,
         CODING_NOTES_PARQUET,
+        CODING_OUTPUT_PARQUET,
         CODING_PROMPT,
+        CODING_TEMPERATURE,
         MAX_NOTE_CHARS,
+        MAX_OUTPUT_TOKENS,
         NOTE_CATEGORIES,
     )
 
@@ -433,7 +437,7 @@ def _(CODING_NOTES_PARQUET):
         f"{CODING_NOTES_PARQUET}"
     )
     notes_df.drop(columns=["fullnote"])
-    return
+    return notes_df, pd
 
 
 @app.cell
@@ -596,28 +600,98 @@ def _(
             *[_score(i + 1, row) for i, row in enumerate(rows)]
         )
 
-    return
+    return (llm_code_notes,)
+
+
+@app.cell
+def _(PROVIDERS, mo):
+    coding_provider_name = mo.ui.dropdown(
+        options=list(PROVIDERS.keys()),
+        value="Ollama Cloud",
+        label="Coding provider",
+        searchable=True,
+        full_width=True,
+    )
+    coding_provider_name
+
+    return (coding_provider_name,)
+
+
+@app.cell
+async def _(PROVIDERS, coding_provider_name, fetch_models, mo, os):
+    coding_provider = PROVIDERS[coding_provider_name.value]
+    coding_api_key = os.environ.get(coding_provider["api_key_env"], "")
+
+    coding_models = []
+    coding_model_error = ""
+    try:
+        coding_models = await fetch_models(
+            coding_provider["base_url"], coding_api_key
+        )
+    except Exception as e:
+        coding_model_error = f"{type(e).__name__}: {e}"
+
+    coding_model = mo.ui.dropdown(
+        options=coding_models,
+        value=coding_models[0] if coding_models else None,
+        label="Coding model",
+        searchable=True,
+        full_width=True,
+    )
+
+    mo.vstack([
+        mo.md(
+            f"**Coding key:** "
+            f"{'set' if coding_api_key else 'MISSING — set ' + coding_provider['api_key_env']}"
+            + (
+                f"\n\n**Model list failed:** `{coding_model_error}`"
+                if coding_model_error
+                else ""
+            )
+        ),
+        coding_model,
+    ])
+
+    return coding_api_key, coding_model, coding_provider
 
 
 @app.cell
 def _(mo):
     run_coding = mo.ui.run_button(label="Run LLM coding")
     run_coding
-    return
+    return (run_coding,)
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+async def _(
+    CODING_CONCURRENCY,
+    CODING_OUTPUT_PARQUET,
+    CODING_TEMPERATURE,
+    MAX_OUTPUT_TOKENS,
+    coding_api_key,
+    coding_model,
+    coding_provider,
+    coding_provider_name,
+    llm_code_notes,
+    mo,
+    notes_df,
+    pd,
+    run_coding,
+):
     if not run_coding.value:
         coding_output = mo.md(
             "*Click 'Run LLM coding' to summarize and classify the notes.*"
         )
+    elif not coding_model.value:
+        coding_output = mo.md(
+            "*No coding model selected — pick one in the coding parameters above.*"
+        )
     else:
         coded_rows = await llm_code_notes(
             notes_df.to_dict("records"),
-            base_url=provider["base_url"],
-            api_key=api_key,
-            model=model.value,
+            base_url=coding_provider["base_url"],
+            api_key=coding_api_key,
+            model=coding_model.value,
             temperature=CODING_TEMPERATURE,
             max_tokens=MAX_OUTPUT_TOKENS,
             concurrency=CODING_CONCURRENCY,
@@ -630,49 +704,28 @@ app._unparsable_cell(
 
         display_df = coded_df.drop(columns=["fullnote"]).assign(
             llm_excerpts=lambda d: d["llm_excerpts"].apply(
-                lambda v: "\n".join(map(str, v)) if isinstance(v, (list, tuple, np.ndarray))
+                lambda v: "\n".join(map(str, v))
+                if not isinstance(v, str) and hasattr(v, "__iter__")
                 else str(v)
             )
         )
 
-        preview_cols = [
-            "ticker",
-            "company_name",
-            "title",
-            "llm_summary",
-            "llm_category",
-            "llm_crypto_extent",
-            "llm_crypto_salience",
-            "llm_materiality",
-            "llm_reasoning",
-            "sanity_check",
-        ]
         n_llm = int(coded_df["scorer"].astype(str).str.startswith("llm:").sum())
         n_invalid = int((coded_df["sanity_check"] == "invalid").sum())
         counts = coded_df["llm_category"].value_counts()
         counts_str = ", ".join(f"{k} ({v})" for k, v in counts.items())
         summary_md = mo.md(
-            f"**{len(coded_df)} notes scored** via `{provider_name.value}` / "
-            f"`{model.value}` — {n_llm} LLM, {len(coded_df) - n_llm} error, "
+            f"**{len(coded_df)} notes scored** via `{coding_provider_name.value}` / "
+            f"`{coding_model.value}` — {n_llm} LLM, {len(coded_df) - n_llm} error, "
             f"{n_invalid} sanity-invalid. "
             f"Mean materiality **{coded_df['llm_materiality'].mean():.2f}**.  \n"
             f"**Categories:** {counts_str}"
         )
-        coding_output = mo.vstack([summary_md, 
-            coded_df.drop(columns=["fullnote"])
-            #coded_df[preview_cols]]
-            )
+
+        coding_output = mo.vstack([summary_md, display_df])
 
     coding_output
 
-    """,
-    name="_"
-)
-
-
-@app.cell
-def _(display_df):
-    display_df
     return
 
 
