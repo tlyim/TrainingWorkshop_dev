@@ -267,3 +267,5 @@ nltk_data/corpora/stopwords/**
 
 docArchive
 wordcloud_output
+
+.cupy/

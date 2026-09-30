@@ -1,7 +1,10 @@
 # TrainingWorkshop
 
 ---
----
+
+<a target="_blank" href="https://lightning.ai/tlyim-1city-org/templates/bigramcloud-gpuorcpu">
+  <img src="https://assets.lightning.ai/app-2/studio-badge.svg" alt="Open In Studio"/>
+</a>
 
 ### Lightning.ai-specific requirements
 
