@@ -22,6 +22,37 @@ def _(mo):
     ---
 
     ## Minimal Example: LLM Access via API
+
+    **What is this notebook?**
+    A 4-minute, hands-on demo of how to ask a large language model (LLM)
+    to do research work *from Python code* — no chat website needed.
+
+    **The big idea in one sentence:**
+    Your Python code sends a question over the internet to an AI provider,
+    and the provider sends back an answer — just like ordering food by delivery app.
+
+    **This notebook has two parts:**
+
+    - **Part 1 — Try it once:** pick a provider and model, type a prompt, click a button.
+    - **Part 2 — Scale it up:** use the same technique to summarize and classify
+      many company-report notes (SEC 10-K filings) automatically.
+
+    > No prior AI experience needed. Just run the cells top-to-bottom
+    > and use the drop-downs and buttons.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **How to read this notebook (30 seconds)**
+
+    - **Text cells** (like this one) explain ideas — you only read them.
+    - **Code cells** do the work behind the scenes.
+    - **Widgets** are the drop-downs, sliders, and buttons you can click.
+      When you change a widget, marimo automatically re-runs the cells that need it.
+    - You do **not** need to re-type any code to follow the demo.
     """)
     return
 
@@ -30,24 +61,45 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ---
+    ### Setup: load tools and secret keys
+
+    Before contacting an LLM, we load several packages and read your
+    secret API keys from a `.env` file (so keys never appear in the code).
     """)
     return
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import os
-    import uuid
-    import httpx
+    import marimo as mo  # notebook helpers: text display + widgets
+    import os  # read secret API keys from the environment
+    import uuid  # create a random session ID for this run
+    import httpx  # talk to websites/APIs over the internet
     from dotenv import load_dotenv
 
+    # Load keys from the `.env` file in the notebook folder.
     load_dotenv(mo.notebook_dir() / ".env")
     return httpx, mo, os, uuid
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Step 0: Where can we send our question?
+
+    An LLM **provider** is simply a company that rents out AI models over the internet.
+
+    - Each provider has an internet address (`base_url`) — like a shop address.
+    - Each provider needs its own secret password (`api_key_env`) stored in `.env`.
+    - All providers below speak the same “OpenAI-style” language,
+      so we can switch providers without rewriting our code.
+    """)
+    return
+
+
 @app.cell
 def _():
+    # A short menu of AI shops we can call. Keys are nicknames shown in the widget.
     PROVIDERS = {
         "Ollama Cloud": {
             "base_url": "https://ollama.com/v1",
@@ -65,11 +117,28 @@ def _():
     return (PROVIDERS,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Behind the scenes: two helper messengers
+
+    The next code cell defines two assistants (you never call them directly):
+
+    - `fetch_models(...)` — asks “what AI models do you have today?”
+    - `chat_complete(...)` — sends your prompt and returns the AI’s reply.
+
+    Think of them as envelopes + postmen: they format the request,
+    handle network hiccups, and unwrap the answer.
+    """)
+    return
+
+
 @app.cell
 def _(httpx, uuid):
-    SESSION_ID = uuid.uuid4().hex
-    USER_AGENT = "marimo-llm-example/0.1"
+    SESSION_ID = uuid.uuid4().hex  # random ID so the provider can group our calls
+    USER_AGENT = "marimo-llm-example/0.1"  # polite name tag identifying our notebook
 
+    # Turn an HTTP error into a short, readable message.
     def check_response(r: httpx.Response) -> None:
         if not r.is_error:
             return
@@ -84,12 +153,13 @@ def _(httpx, uuid):
             pass
         raise RuntimeError(f"HTTP {r.status_code}: {detail}")
 
+    # Ask a provider for its current model list.
     async def fetch_models(
         base_url: str, api_key: str, timeout: float = 30.0
     ) -> list[str]:
         headers = {"User-Agent": USER_AGENT}
         if api_key:
-            headers["Authorization"] = f"Bearer {api_key}"
+            headers["Authorization"] = f"Bearer {api_key}"  # show password at the door
         async with httpx.AsyncClient(timeout=timeout) as client:
             r = await client.get(
                 f"{base_url.rstrip('/')}/models", headers=headers
@@ -97,6 +167,7 @@ def _(httpx, uuid):
         check_response(r)
         return [m["id"] for m in r.json().get("data", [])]
 
+    # Send one chat-style prompt and return the text answer.
     async def chat_complete(
         base_url: str,
         api_key: str,
@@ -115,9 +186,9 @@ def _(httpx, uuid):
             headers["Authorization"] = f"Bearer {api_key}"
         payload = {
             "model": model,
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
+            "messages": messages,  # e.g. [{"role": "user", "content": "..."}]
+            "temperature": temperature,  # creativity dial (low = factual)
+            "max_tokens": max_tokens,  # max length of the reply
         }
         try:
             async with httpx.AsyncClient(timeout=timeout) as client:
@@ -144,6 +215,7 @@ def _(httpx, uuid):
         content = (msg.get("content") or "").strip()
         if content:
             return content
+        # Some reasoning models spend the budget thinking; surface that thinking.
         reasoning = (
             msg.get("reasoning") or msg.get("reasoning_content") or ""
         ).strip()
@@ -157,8 +229,21 @@ def _(httpx, uuid):
     return chat_complete, fetch_models
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ---
+    ### Part 1 — Ask the AI one question
+
+    **Step 1: Choose a provider** (which AI shop to call).
+    If you are following the workshop, keep the default.
+    """)
+    return
+
+
 @app.cell
 def _(PROVIDERS, mo):
+    # Drop-down menu of providers defined above.
     provider_name = mo.ui.dropdown(
         options=list(PROVIDERS.keys()),
         value="Ollama Cloud",
@@ -167,15 +252,28 @@ def _(PROVIDERS, mo):
 
     print("For example, use Ollama Cloud")
 
-    provider_name
-
+    provider_name  # display the widget
     return (provider_name,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Step 2: Check the connection.**
+
+    The next cell quietly looks up your secret key, asks the provider
+    for its model list, and reports back:
+
+    - `set` = key found, `MISSING` = check your `.env` file.
+    - A number like “20 model(s) available” means the internet call worked.
+    """)
+    return
 
 
 @app.cell
 async def _(PROVIDERS, fetch_models, mo, os, provider_name):
-    provider = PROVIDERS[provider_name.value]
-    api_key = os.environ.get(provider["api_key_env"], "")
+    provider = PROVIDERS[provider_name.value]  # details of the chosen shop
+    api_key = os.environ.get(provider["api_key_env"], "")  # secret password
     model_error = ""
     try:
         models = await fetch_models(provider["base_url"], api_key)
@@ -191,8 +289,22 @@ async def _(PROVIDERS, fetch_models, mo, os, provider_name):
     else:
         lines.append(f"**{len(models)} model(s) available**")
     status = mo.md("\n\n".join(lines))
-    status
+    status  # display the status box
     return api_key, models, provider
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Step 3: Tune your question.**
+
+    - **Model** — which AI brain to use (names/codes come from the provider).
+    - **Temperature** — creativity: 0 = strict and factual, 2 = wild and random.
+      For research, keep it low.
+    - **Max tokens** — maximum reply length (a token ≈ half of a word).
+    - **Prompt** — your question in plain English. Try editing it!
+    """)
+    return
 
 
 @app.cell
@@ -203,7 +315,7 @@ def _(mo, models):
         label="Model",
     )
     temperature = mo.ui.slider(
-        start=0.0, stop=2.0, step=0.1, value=0.1, label="Temperature"
+        start=0.0, stop=2.0, step=0.1, value=1, label="Temperature"
     )
     max_tokens = mo.ui.number(
         start=1, stop=4096, step=1, value=512, label="Max tokens"
@@ -217,14 +329,26 @@ def _(mo, models):
 
     print("For example, use Ollama Cloud: gpt-oss:120b")
 
-    widgets
+    widgets  # display all four input boxes stacked vertically
     return max_tokens, model, prompt, temperature
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Step 4: Run it.**
+
+    Click **Run inference** (“inference” just means “ask the AI”).
+    The answer appears in the next cell. Nothing runs until you click —
+    so you can change the prompt first without cost or hurry.
+    """)
+    return
 
 
 @app.cell
 def _(mo):
     run_button = mo.ui.run_button(label="Run inference")
-    run_button
+    run_button  # display the button
     return (run_button,)
 
 
@@ -242,12 +366,13 @@ async def _(
     run_button,
     temperature,
 ):
+    # Three cases: not clicked yet / no model / ready to ask the AI.
     if not run_button.value:
         response_md = mo.md("*Click 'Run inference' to start.*")
     elif not models or not model.value:
         response_md = mo.md("*No model available — check provider / API key above.*")
     else:
-        messages = [{"role": "user", "content": prompt.value}]
+        messages = [{"role": "user", "content": prompt.value}]  # chat-style envelope
         try:
             result = await chat_complete(
                 base_url=provider["base_url"],
@@ -264,14 +389,26 @@ async def _(
             )
         except Exception as e:
             response_md = mo.md(f"**ERROR:** `{type(e).__name__}: {e}`")
-    response_md
+    response_md  # display the answer or hint text
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Optional: are all providers reachable?**
+
+    If your key is missing or a service is down, the button below tests
+    every provider at once and lists their models. Useful for troubleshooting,
+    but safe to skip.
+    """)
     return
 
 
 @app.cell
 def _(mo):
     probe_button = mo.ui.run_button(label="Probe all providers")
-    probe_button
+    probe_button  # display the button
     return (probe_button,)
 
 
@@ -280,7 +417,7 @@ async def _(PROVIDERS, fetch_models, mo, os, probe_button):
     if not probe_button.value:
         probe_md = mo.md("*Click 'Probe all providers' to test reachability.*")
     else:
-        sections = {}
+        sections = {}  # one collapsible section per provider
         for name, p in PROVIDERS.items():
             key = os.environ.get(p["api_key_env"], "")
             if not key:
@@ -297,7 +434,7 @@ async def _(PROVIDERS, fetch_models, mo, os, probe_button):
                 mo.md(f"```text\n{listing}\n```"),
             ])
         probe_md = mo.accordion(sections)
-    probe_md
+    probe_md  # display hints or the accordion of results
     return
 
 
@@ -309,6 +446,14 @@ def _(mo):
 
     ## Application of LLM Access via API:
     ## Summarizing and Classifying Crypto Exposure in SEC 10-K Filings
+
+    **From one question to many documents.**
+    In Part 1 you asked a single question by hand. Real research often means
+    repeating the same judgment over *hundreds* of documents — too tedious to do manually.
+
+    **Our example research task:**
+    US listed firms file annual reports (Form 10-K) with financial statements and many notes to the statements. We pre-screened and extracted the notes likely to contain crypto-related keywords and ask an LLM to summarize each note, assign a crypto category,
+    and score how material the crypto content is — like a tireless research assistant.
     """)
     return
 
@@ -318,14 +463,32 @@ def _(mo):
     mo.md("""
     ---
 
-    Read the extracted notes from a single parquet file, then summarize and classify each note with selected provider/model. Output tokens are set to 4096 because reasoning models otherwise spend the budget on thinking and truncate the JSON. Each note gets up to 2 attempts (`RETRY_MAX_ATTEMPTS`) with an escalating token budget.
+    **What happens next (roadmap):**
+
+    1. Define the categories and the instruction (`CODING_PROMPT`) sent to the AI.
+    2. Load the notes from a table file (`4MinExample_Notes.parquet` — think Excel for big data).
+    3. Send each note to the AI, clean up the JSON answer, and save results to `4MinExample_Coded.parquet`.
+
+    Output tokens are set to 4096 because reasoning models otherwise spend the budget on thinking and truncate the JSON. Each note gets up to 2 attempts (`CODING_MAX_ATTEMPTS`) with an escalating token budget.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Settings for the batch job: what to ask, and how
+
+    - `NOTE_CATEGORIES` — the fixed labels the AI must choose from (like sorting mail into pigeonholes).
+    - `CODING_PROMPT` — a detailed instruction with placeholders for each note’s title and text.
+    - `MAX_OUTPUT_TOKENS`, `CODING_TEMPERATURE`, etc. — length, creativity, and speed controls.
+      Beginners: you can leave these as-is; just notice they exist.
     """)
     return
 
 
 @app.cell
 def _():
-
     NOTE_CATEGORIES = [
         "custody",
         "trading/exchange",
@@ -338,6 +501,11 @@ def _():
         "risk/disclosure-only",
         "other",
     ]
+    return (NOTE_CATEGORIES,)
+
+
+@app.cell
+def _():
 
     CODING_PROMPT = """You are a financial analyst summarizing crypto disclosures.
     For the given financial-statement note (title + text), return ONLY JSON:
@@ -403,41 +571,71 @@ def _():
     NOTE TEXT (truncated {chars} chars):
     {body}
     """
-
-    CODING_NOTES_PARQUET = "4MinExample_Notes.parquet"
-    CODING_OUTPUT_PARQUET = "4MinExample_Coded.parquet"
-    MAX_NOTE_CHARS = 262000
-    MAX_OUTPUT_TOKENS = 4096
-    CODING_MAX_ATTEMPTS = 2
-    CODING_TEMPERATURE = 0.5
-    CODING_CONCURRENCY = 1 # 2  # 4  # Use 4 workers only for paid endpoints
+    return (CODING_PROMPT,)
 
 
+@app.cell
+def _():
 
+    CODING_NOTES_PARQUET = "4MinExample_Notes.parquet"  # input table of notes
+    CODING_OUTPUT_PARQUET = "4MinExample_Coded.parquet"  # where coded results are saved
+    MAX_NOTE_CHARS = 262000  # truncate very long notes to fit the model
+    MAX_OUTPUT_TOKENS = 4096  # generous reply length so JSON is not cut off
+    CODING_MAX_ATTEMPTS = 2  # retry once with doubled budget if parsing fails
+    CODING_TEMPERATURE = 0.5  # a little creativity, but still consistent
+    CODING_CONCURRENCY = 1 # 2  # 4  # Use 4 workers in parallel only for paid endpoints
     return (
         CODING_CONCURRENCY,
         CODING_MAX_ATTEMPTS,
         CODING_NOTES_PARQUET,
         CODING_OUTPUT_PARQUET,
-        CODING_PROMPT,
         CODING_TEMPERATURE,
         MAX_NOTE_CHARS,
         MAX_OUTPUT_TOKENS,
-        NOTE_CATEGORIES,
     )
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Load the input table
+
+    A **parquet file** is just a fast, compact spreadsheet for large datasets.
+    Here each row = one note (firm `ticker` + `title` + full text).
+    We hide the long `fullnote` column when previewing so the table stays readable.
+    """)
+    return
 
 
 @app.cell
 def _(CODING_NOTES_PARQUET):
-    import pandas as pd
+    import pandas as pd  # standard table-handling toolbox
 
-    notes_df = pd.read_parquet(CODING_NOTES_PARQUET)
+    notes_df = pd.read_parquet(CODING_NOTES_PARQUET)  # read rows into a DataFrame
     print(
         f"{len(notes_df)} notes | {notes_df['ticker'].nunique()} firms | "
         f"{CODING_NOTES_PARQUET}"
     )
-    notes_df.drop(columns=["fullnote"])
+    notes_df.drop(columns=["fullnote"])  # preview without the long text column
     return notes_df, pd
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Cleaning and batch-sending: what the next code cell does
+
+    LLMs sometimes add chatty wrappers (```json fences, thinking tags) around the JSON we asked for.
+    The next cell therefore:
+
+    - strips wrappers and fixes stray backslashes,
+    - checks the category is one of our allowed labels and scores are 0–1,
+    - retries with a bigger token budget if the answer is broken,
+    - sends notes one-by-one (`llm_code_notes`) with a progress printout.
+
+    You don’t need to memorize this — just know *why* it exists: to turn messy AI text into tidy table columns.
+    """)
+    return
 
 
 @app.cell
@@ -448,30 +646,33 @@ def _(
     NOTE_CATEGORIES,
     chat_complete,
 ):
-    import asyncio
-    import json
-    import re
+    import asyncio  # run network calls efficiently
+    import json  # parse the AI's JSON answer
+    import re  # small text clean-ups with patterns
 
+    # Remove <thought>...</thought> wrappers some models add.
     def thought_strip(text: str) -> str:
         return re.sub(
             r"<thought[\s\S]*?</thought>", "", text or "", flags=re.IGNORECASE
         ).strip()
 
+    # Fix lone backslashes (e.g. \$) that would otherwise break JSON parsing.
     def repair_json_escapes(s: str) -> str:
         return re.sub(r"\\([^\"\\/bfnrtu])", r"\1", s)
 
+    # Extract {...} from the reply and validate category + scores.
     def parse_coding_json(raw: str) -> dict:
         cand = thought_strip(raw or "").strip()
-        cand = re.sub(r"^```(?:json)?\s*", "", cand.strip())
-        cand = re.sub(r"\s*```$", "", cand.strip())
+        cand = re.sub(r"^```(?:json)?\s*", "", cand.strip())  # drop opening fence
+        cand = re.sub(r"\s*```$", "", cand.strip())  # drop closing fence
         start, end = cand.find("{"), cand.rfind("}")
         if start == -1 or end <= start:
             raise ValueError(f"Unparseable LLM JSON: {cand[:200]}")
         data = json.loads(repair_json_escapes(cand[start:end + 1]))
         cat = str(data.get("category", "other")).strip().lower()
-        valid = {c.lower(): c for c in NOTE_CATEGORIES}
+        valid = {c.lower(): c for c in NOTE_CATEGORIES}  # allowed labels
         if cat not in valid:
-            for k in valid:
+            for k in valid:  # accept close variants, else fall back to "other"
                 if k in cat or cat in k:
                     cat = k
                     break
@@ -492,22 +693,23 @@ def _(
             "reasoning": str(data.get("reasoning", "")).strip(),
         }
 
+    # Code one note: trim long text, ask the AI, retry with bigger budget if needed.
     async def code_note(
         row, *, base_url, api_key, model, temperature, max_tokens
     ) -> dict:
         body = str(row.get("fullnote") or "").replace("\\$", "$")
         if len(body) > MAX_NOTE_CHARS:
             body = (
-                body[: int(0.75 * MAX_NOTE_CHARS)]
+                body[: int(0.75 * MAX_NOTE_CHARS)]  # keep head ...
                 + f"\n...[{len(body) - MAX_NOTE_CHARS} characters TRUNCATED]...\n"
-                + body[-int(0.25 * MAX_NOTE_CHARS):]
+                + body[-int(0.25 * MAX_NOTE_CHARS):]  # ... and tail
             )
         prompt = CODING_PROMPT.format(
             title=str(row.get("title", "")), body=body, chars=MAX_NOTE_CHARS
         )
         last_error = "no attempts made"
         for attempt in range(CODING_MAX_ATTEMPTS):
-            budget = max_tokens * (2 ** attempt)
+            budget = max_tokens * (2 ** attempt)  # double budget on retry
             try:
                 raw = await chat_complete(
                     base_url=base_url,
@@ -548,6 +750,7 @@ def _(
                         flush=True,
                     )
                     await asyncio.sleep(3.0)
+        # All attempts failed: keep the row, but mark it as an error.
         return {
             **row,
             "llm_summary": "",
@@ -563,6 +766,7 @@ def _(
             "sanity_check": "",
         }
 
+    # Loop over all rows with limited parallelism (1 = one at a time, polite to free tiers).
     async def llm_code_notes(
         rows: list,
         *,
@@ -603,8 +807,19 @@ def _(
     return (llm_code_notes,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Choose the AI for the batch job
+
+    Same idea as Part 1, but you can change to a different model for the full coding run.
+    """)
+    return
+
+
 @app.cell
 def _(PROVIDERS, mo):
+    # Drop-down for the batch-coding provider (independent from Part 1).
     coding_provider_name = mo.ui.dropdown(
         options=list(PROVIDERS.keys()),
         value="Ollama Cloud",
@@ -612,8 +827,7 @@ def _(PROVIDERS, mo):
         searchable=True,
         full_width=True,
     )
-    coding_provider_name
-
+    coding_provider_name  # display the widget
     return (coding_provider_name,)
 
 
@@ -622,7 +836,7 @@ async def _(PROVIDERS, coding_provider_name, fetch_models, mo, os):
     coding_provider = PROVIDERS[coding_provider_name.value]
     coding_api_key = os.environ.get(coding_provider["api_key_env"], "")
 
-    coding_models = []
+    coding_models = []  # fill with live model list, or leave empty on error
     coding_model_error = ""
     try:
         coding_models = await fetch_models(
@@ -650,15 +864,29 @@ async def _(PROVIDERS, coding_provider_name, fetch_models, mo, os):
             )
         ),
         coding_model,
-    ])
-
+    ])  # display key status + model menu stacked vertically
     return coding_api_key, coding_model, coding_provider
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Run the batch coding and see results
+
+    Click **Run LLM coding**. The notebook will:
+
+    1. send each note to the chosen AI,
+    2. save all answers to `4MinExample_Coded.parquet`,
+    3. show a short summary (how many notes, mean materiality, category counts)
+       plus a preview table — new columns starting with `llm_` hold the AI’s work.
+    """)
+    return
 
 
 @app.cell
 def _(mo):
     run_coding = mo.ui.run_button(label="Run LLM coding")
-    run_coding
+    run_coding  # display the button
     return (run_coding,)
 
 
@@ -687,6 +915,7 @@ async def _(
             "*No coding model selected — pick one in the coding parameters above.*"
         )
     else:
+        # Send all notes to the LLM (this is the slow, API-calling step).
         coded_rows = await llm_code_notes(
             notes_df.to_dict("records"),
             base_url=coding_provider["base_url"],
@@ -698,10 +927,12 @@ async def _(
         )
         coded_df = pd.DataFrame(coded_rows)
 
+        # Save to disk so results persist after the notebook closes.
         coded_path = mo.notebook_dir() / CODING_OUTPUT_PARQUET
         coded_df.to_parquet(coded_path, index=False)
         print(f"wrote {len(coded_df)} rows -> {coded_path}")
 
+        # Make excerpts readable: list -> newline-separated text.
         display_df = coded_df.drop(columns=["fullnote"]).assign(
             llm_excerpts=lambda d: d["llm_excerpts"].apply(
                 lambda v: "\n".join(map(str, v))
@@ -710,6 +941,7 @@ async def _(
             )
         )
 
+        # Small summary statistics for a quick sanity check.
         n_llm = int(coded_df["scorer"].astype(str).str.startswith("llm:").sum())
         n_invalid = int((coded_df["sanity_check"] == "invalid").sum())
         counts = coded_df["llm_category"].value_counts()
@@ -724,8 +956,23 @@ async def _(
 
         coding_output = mo.vstack([summary_md, display_df])
 
-    coding_output
+    coding_output  # display hints, or summary + results table
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ---
+    ### Takeaway
+
+    You just saw the full pattern researchers reuse everywhere:
+
+    **collect text → ask the AI with a clear instruction → clean the answers → save a coded table.**
+
+    Try changing the Part 1 prompt, or the category list in Part 2, and re-run.
+    That “tweak-and-re-run” loop is the core AI-assisted research skill from this workshop.
+    """)
     return
 
 
