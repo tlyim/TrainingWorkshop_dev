@@ -5,9 +5,24 @@
 
 # Training Workshop on Data Science and AI Tools for Beginners
 
-**30 September 2026 · Bayes Business School, City St George's, University of London**
+**30 September 2026 · Bayes Business School, City St George's, University of London**, 106 Bunhill Row, London **EC1Y 8TZ**
 
-_(Note: See the **application procedure and deadline** at the bottom of this page.)_
+<!-- _(Note: See the **application procedure and deadline** at the bottom of this page.)_ -->
+
+---
+
+- **09:30-09:45 Arrival** 
+  - Collect your name badge from a desk on G/F
+  - Grab a coffee/tea and some pastries on 6/F before the Workshop starts
+- **09:45-11:00 GitHub ecosystem; Code examples in marimo**
+  - 11:00-11:30 Morning coffee break
+- **11:30-12:45 Getting AI assistance**
+  - 12:45-13:45 Sandwich lunch
+- **13:45-15:30 GPU-accelerated NLP**
+  - 15:30-16:00 Afternoon coffee break
+- **16:00-17:45 R ecosystem; Q&A**
+
+---
 
 ## Why These Tools Matter
 
