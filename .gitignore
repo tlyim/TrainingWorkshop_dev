@@ -245,6 +245,17 @@ html
 !img/*.*
 !docs/img/*.*
 
+
+*.js
+!worker.js
+
+# GitHub Pages: commit the WASM export (docs/) including its assets
+# (the *.js / *.png rules above would otherwise exclude the marimo bundles).
+!docs/
+!docs/**
+docs/_build/
+
+
 public/**/*.json
 public/crawl/**
 wordcloud_output/**
