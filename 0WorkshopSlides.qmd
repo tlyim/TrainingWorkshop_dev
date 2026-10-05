@@ -1,5 +1,19 @@
 ---
 title: "Data Science and AI Tools<br>for Beginners"
+# date: 2026-09-30    # Don't use: Can't control size
+author:
+  # - name: _**Andrew Yim**_ 
+  - name: _**Andrew Yim**_[(2026-09-30)]{style="font-size:75%;display:block;margin-top:15px;"}  # Need display:block for margin-top to work. <br> not needed anymore
+  # - name: _**Andrew Yim**_<br>[(2026-09-30)]{style="font-size:75%;display:inline-block;margin-top:15px;"}
+#     id: AY
+#     orcid: 0000-0002-8063-6572
+#     email: a.yim@citystgeorges.ac.uk
+#     affiliation: 
+#       - name: City St. George's, University of London
+#         url: https://www.bayes.citystgeorges.ac.uk/
+# abstract: > 
+#   First line
+#   Second line ...
 title-slide-attributes:
   data-background-image: img/BayesCSG_BunhillRow.jpg
 #  data-background-size: contain # default is cover
