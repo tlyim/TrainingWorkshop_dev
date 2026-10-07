@@ -24,6 +24,7 @@ mv -n /tmp/tw_clone/* .
 rm -rf /tmp/tw_clone
 '
 git remote remove origin
+git config --global --unset 'credential.https://github.com.username'
 ```
 
 - Put the Studio into sleep, then restart it to activate the first-time `on_start.sh`

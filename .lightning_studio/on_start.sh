@@ -326,8 +326,16 @@ PY
 # Unable to write extensions.autoUpdate to Workspace Settings. This setting can be written only into User settings.
 #settings["extensions.autoUpdate"] = True
 
-
-git config --global user.name "Tl Yim (Lightning.ai)"
+# git config --global user.name "(from Lightning.ai)"
+# if [[ "${LIGHTNING_USERNAME:-}" == *tlyim* ]]; then
+#   git_email="email_to_be_set@correctly.com"
+#   if [ -n "$git_email" ]; then
+#     git config --global user.email "$git_email"
+#   else
+#     echo "WARNING: git user.email not set" >&2
+#   fi
+# fi
+git config --global user.name "(Lightning.ai)"
 if [[ "${LIGHTNING_USERNAME:-}" == *tlyim* ]]; then
   git_email="$(curl -sf https://gist.githubusercontent.com/tlyim/ebbea2d6ac7e91a8f24505000df00271/raw/email_alias.txt || true)"
   if [ -n "$git_email" ]; then

@@ -280,3 +280,4 @@ docArchive
 wordcloud_output
 
 .cupy/
+.lesshst
