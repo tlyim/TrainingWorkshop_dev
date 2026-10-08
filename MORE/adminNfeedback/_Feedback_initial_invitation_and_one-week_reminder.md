@@ -30,13 +30,15 @@ https://forms.cloud.microsoft/e/Y1jFs8ckV5
 
 ---
 
-Reminder: Workshop feedback survey 
+Reminder: Only 10 minutes - Workshop feedback survey
 
 Dear all,
 
-A quick reminder about the feedback survey for the Data Science and AI Tools workshop. If you have already completed it, thank you, and please ignore this message.
+It's been a week since your participation in the Data Science and AI Tools workshop for Beginners!
 
-If not, it takes about 10 minutes, is fully anonymous, and needs no login:
+A quick reminder about the feedback survey. If you have already completed it, thank you, and please ignore this message.
+
+If not, it takes only about 10 minutes. It is fully anonymous (unless you voluntarily leave your name), and needs no login:
 
 https://forms.cloud.microsoft/e/Y1jFs8ckV5
 

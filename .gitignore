@@ -240,14 +240,9 @@ devbox.lock
 html
 
 
-*Zone.Identifier
 *.png
 !img/*.*
 !docs/img/*.*
-
-
-*.js
-!worker.js
 
 # GitHub Pages: commit the WASM export (docs/) including its assets
 # (the *.js / *.png rules above would otherwise exclude the marimo bundles).
@@ -255,6 +250,10 @@ html
 !docs/**
 docs/_build/
 
+*.js
+!worker.js
+
+*Zone.Identifier
 
 public/**/*.json
 public/crawl/**

@@ -5,107 +5,22 @@
 
 # Training Workshop on Data Science and AI Tools for Beginners
 
-_**<span style="color:blue;">Held on</span>**_ 30 September 2026 · **Bayes Business School, City St George's, University of London**, 106 Bunhill Row, London **EC1Y 8TZ**
+**30 September 2026 · Bayes Business School, City St George's, University of London**, 106 Bunhill Row, London **EC1Y 8TZ**
 
 <!-- _(Note: See the **application procedure and deadline** at the bottom of this page.)_ -->
-
----
-
-## What participants say
-
-
-<style>
-.testimonial-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-}
-.testimonial {
-  background: rgba(128, 128, 128, 0.08);
-  border-left: 4px solid #2a6fb0;
-  border-radius: 6px;
-  padding: 0.9rem 1.1rem;
-  font-size: 0.95em;
-}
-.testimonial p { margin: 0 0 0.6rem 0; }
-.testimonial .who { margin: 0; font-size: 0.85em; opacity: 0.7; }
-details.testimonial-long {
-  background: rgba(128, 128, 128, 0.08);
-  border-left: 4px solid #2a6fb0;
-  border-radius: 6px;
-  padding: 0.6rem 1.1rem;
-  margin: 0.6rem 0;
-  font-size: 0.95em;
-}
-details.testimonial-long summary {
-  cursor: pointer;
-  font-weight: 600;
-  list-style: none;
-}
-details.testimonial-long summary::-webkit-details-marker { display: none; }
-details.testimonial-long summary::before {
-  content: "+";
-  display: inline-block;
-  width: 1.2em;
-  font-weight: 700;
-  color: #2a6fb0;
-}
-details.testimonial-long[open] summary::before { content: "\2212"; }
-details.testimonial-long p { margin: 0.7rem 0 0.3rem 0; }
-details.testimonial-long .who { font-size: 0.85em; opacity: 0.7; }
-</style>
-
-
-<div class="testimonial-grid">
-
-<div class="testimonial">
-<p><i>Extremely well set up and helpful, would have liked more time on the day or spread over a day and a half</i></p>
-</div>
-
-<div class="testimonial">
-<p><i>"It is a great opportunity to systematically get to know the basics of git, codespace, and AI-assisted coding</i> 😃<i>"</i></p>
-</div>
-
-<div class="testimonial">
-<p><i>"The broad introduction to different coding platforms was very useful for beginners."</i></p>
-</div>
-
-<div class="testimonial">
-<p><i>"I found the workshop very useful, especially as someone with no formal background in data science or AI. I appreciate the time and effort that went into making the workshop accessible for beginners."</i></p>
-</div>
-
-</div>
-
-
-<details class="testimonial-long">
-<summary><i>"The workshkop made me realise that coding, NLP and web crawling are not as difficult or inaccessible as they may initially seem. ...</i></summary>
-
-_With the support of AI, and Dr Yim’s introduction to a range of useful tools and platforms, I felt as though I was “standing on the shoulders of giants” rather than starting from scratch. Most importantly, the workshop showed me that learning these skills is really about practice. I came away feeling much more confident that, with continued practice, I can learn to use these methods effectively in my own research."_
-</details>
-
-<details class="testimonial-long">
-<summary><i>"I would definitely recommend joining the workshop, ...</i></summary>
-
-_especially if you are a PhD student who is curious about data science, AI, or coding but has not had formal training in these areas. The workshop is beginner-friendly and gives you a chance to try the tools yourself rather than just learning about them in theory. It gave me the confidence to continue exploring them after the workshop. You do not need to be a computer scientist or have previous coding experience. Come with an open mind and think about one or two ways these tools might be useful for your own PhD."_
-</details>
 
 ---
 
 - **09:30-09:45 Arrival** 
   - Collect your name badge from a desk on G/F
   - Grab a coffee/tea and some pastries before the Workshop starts
-- **09:45-11:00 GitHub ecosystem; Code examples in marimo**
-  - Version control; Web scraping/crawling in action: handling bot detection/cookie banners, collecting URLs; Extracting pages from PDF (with OCR where needed)
+- **09:45-11:00 GitHub ecosystem; marimo**
   - 11:00-11:30 Morning coffee break
 - **11:30-12:45 Getting AI assistance**
-  - GitHub Copilot: inline autocompletion, Ask/Plan/Agent mode; Other agentic tools; Accessing LLMs via API
   - 12:45-13:45 Sandwich lunch
 - **13:45-15:30 GPU-accelerated NLP**
-  - Lightning.ai; Text analysis with stop words, lemmatization and bigrams, illustrated with risk factors in company filings
   - 15:30-16:00 Afternoon coffee break
-- **16:00-17:45 R ecosystem; Q&A for your research**
-  - Strengths of R; Identifying useful open-source packages (e.g., Polars)
+- **16:00-17:45 R ecosystem; Q&A**
 
 ---
 
