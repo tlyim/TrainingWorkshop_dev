@@ -1,0 +1,255 @@
+---
+title: "Data Science and AI Tools<br>for Beginners"
+subtitle: "Workshop Teaser"
+# date: 2026-09-30    # Don't use: Can't control size
+author:
+  # - name: _**Andrew Yim**_ 
+  - name: _**Andrew Yim**_[(Next date TBC)]{style="font-size:75%;display:block;margin-top:15px;"}  # Need display:block for margin-top to work. <br> not needed anymore
+  # - name: _**Andrew Yim**_<br>[(Next date TBC)]{style="font-size:75%;display:inline-block;margin-top:15px;"}
+#     id: AY
+#     orcid: 0000-0002-8063-6572
+#     email: a.yim@citystgeorges.ac.uk
+#     affiliation: 
+#       - name: City St. George's, University of London
+#         url: https://www.bayes.citystgeorges.ac.uk/
+# abstract: > 
+#   First line
+#   Second line ...
+title-slide-attributes:
+  data-background-image: img/BayesCSG_BunhillRow.jpg
+#  data-background-size: contain # default is cover
+  data-background-opacity: "0.2"   # "0.5"
+#date: "2026-09-30"
+execute:
+  echo: false  # set notebook-wide default; overridable in each chunk
+  output: true # means show code output in output; use '#| output: true' at the start of a chunk to override
+format:
+  revealjs:
+#    logo: "assets/BayesCSG_logoNoBkgd.png"
+    embed-resources: true
+    navigation-mode: linear  # vertical   # grid   
+#    controls-layout: bottom-right
+    controls-tutorial: true
+    #width: 1600
+    #height: 900
+    html-math-method: katex  # override Plotly.js's requirement to use mathjax
+    theme: [beige, custom.scss] # night # moon # sky # dark # solarized # simple # default # 
+    #=====================================================
+    # custom.scss vs. custom.css
+    #   custom.scss: Modifies the theme while it is being built by changing its core variables; 
+    #                use Quarto's internal variables (like $presentation-font-size-root)
+    #   custom.css: Forces a change after the theme is built by overriding existing styles.	
+    #=====================================================
+    center: true  # This forces vertical centering
+    transition: slide # convex # concave # zoom # 
+    background-transition: fade # none # slide # convex # concave # zoom # 
+    transition-speed: default # fast # slow # 
+#    template-partials:
+#      - title-slide.html
+    include-in-header: 
+      text: |
+        <style>
+
+        </style>
+#lightbox: true
+editor:
+  markdown:
+    wrap: 72  # none to turn off global wrapping default
+  references: 
+    location: document # section # block  #
+    prefix: "mydoc"
+---
+
+# English is the new programming language {.smaller}
+
+- Your productivity is limited only by ***how clearly*** you can explain your problem to AI
+
+:::: {.fragment .fade-up}
+<div style="text-align: center;">[**One day. Hands-on. No coding experience needed.**]{style="color:green;"}</div>
+::::
+
+
+
+# Three walls every researcher hits {.smaller}
+
+::::: columns
+::: {.column width="33%"}
+**1. The website that says no**
+
+You open a page and it decides you are a ***robot***
+:::
+
+::: {.column width="33%"}
+**2. The pop-up in the way**
+
+A banner sits between you and the ***data*** you came for
+:::
+
+::: {.column width="33%"}
+**3. The PDF you cannot search**
+
+Hundreds of reports, and some are just ***scanned images***
+:::
+:::::
+
+:::: {.fragment .fade-up}
+<div style="text-align: center;">[We get past all three, **live in the room**]{style="color:green;"}</div>
+::::
+
+
+
+## Sneak peek: sustainability reports at scale {.smaller}
+
+::::: columns
+::: {.column width="30%"}
+**Step 1**  
+Get in  
+*past the gatekeepers*
+:::
+
+::: {.column width="5%"}
+→
+:::
+
+::: {.column width="30%"}
+**Step 2**  
+Find every report  
+*across a whole company website*
+:::
+
+::: {.column width="5%"}
+→
+:::
+
+::: {.column width="30%"}
+**Step 3**  
+Keep the pages that matter  
+*even when the PDF is a scan*
+:::
+:::::
+
+:::: {.fragment .fade-up}
+<div style="text-align: center;">**How?** You will watch the full pipeline run --- then take the code home</div>
+::::
+
+
+
+# A question we settle together {.smaller}
+
+- If AI can plan and write the code for me,
+  - ***why learn to code at all?***
+
+:::: {.fragment .fade-up}
+<div style="text-align: center;">The honest answer is more practical than you might expect</div>
+::::
+
+
+
+## Meet your AI research partner {.smaller}
+
+::::: columns
+::: {.column width="33%"}
+**Ask**
+
+Get answers, explanations and quick help
+:::
+
+::: {.column width="33%"}
+**Plan**
+
+Agree on an approach before anything changes
+:::
+
+::: {.column width="33%"}
+**Agent**
+
+Let AI write, run and fix code for you
+:::
+:::::
+
+- ***Which mode when?*** One common mix-up wastes hours --- we show you the fix
+- Plus: call a large language model from your own code to *categorise notes at scale*
+
+
+
+## From pages to patterns {.smaller}
+
+- What **risks** did the ***Magnificent 7*** warn investors about in 2015, and how does that compare with 2025?
+  - **Bigram clouds**: word pairs, sized by importance
+  - **GPU power**: see a heavy text job speed up
+
+:::: {.fragment .fade-up}
+<div style="text-align: center;">We build it together. ***You see the answer.***</div>
+::::
+
+
+
+## Where this fits in your research workflow {.smaller data-state="wide"}
+
+::: {style="margin-top:100px;"}
+<!-- Must not wrap mermaid code, or it will not render properly -->
+:::
+
+```{mermaid}
+---
+config:
+  themeVariables:
+    fontSize: 9px
+---
+flowchart LR
+C["Data 
+  Collection"] 
+  C --> D[Data 
+  Preparation 
+  & Cleaning]
+  D --> E[Model 
+  Development]
+  E --> F[Analysis 
+  & Results]
+  F --> G[Robustness 
+  Tests]
+  G --> H[Conclusion 
+  & Implications]
+
+  style C fill:#E3A83B,stroke:#05386B
+  style D fill:#E3A83B,stroke:#05386B
+  style E fill:#d4f1f9,stroke:#05386B
+  style F fill:#d4f1f9,stroke:#05386B
+  style G fill:#d4f1f9,stroke:#05386B
+  style H fill:#d4f1f9,stroke:#05386B
+```
+
+
+
+## Arrive ready {.smaller}
+
+- A short **self-learning pack** gets you ready before the day:
+  - Python basics in **Jupyter**
+  - **Markdown**
+  - **GitHub Codespaces**
+- *Nothing to install* --- everything runs in your browser
+
+
+
+## What past participants say {.smaller}
+
+- *"I felt as though I was 'standing on the shoulders of giants' rather than starting from scratch."*
+
+- *"The workshop is beginner-friendly and gives you a chance to try the tools yourself rather than just learning about them in theory."*
+
+
+
+# Join the next workshop {.smaller}
+
+- **1 day**, hands-on, learn by doing
+- **Free**, sandwich lunch included
+- **25 places** --- small group, real support
+- **Bring your laptop** --- no installs
+
+:::: {.fragment .fade-up}
+<div style="text-align: center; font-size:75%;">
+**Date:** [next date TBC] · **Apply by:** [deadline TBC]  
+Email your CV and a short note on your research to <a.yim@citystgeorges.ac.uk>  
+Bayes Business School, 106 Bunhill Row, London EC1Y 8TZ
+</div>
+::::

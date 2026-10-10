@@ -109,42 +109,6 @@ _especially if you are a PhD student who is curious about data science, AI, or c
 
 ---
 
-## A taste of what's inside
-
-<style>
-.slide-embed {
-  position: relative;
-  width: 100%;
-  padding-bottom: 66.67%;   /* Quarto revealjs default 1050x700 = 3:2; use 56.25% if you set width: 1600, height: 900 */
-  margin: 1rem 0 0.5rem 0;
-  border: 1px solid rgba(128, 128, 128, 0.4);
-  border-radius: 6px;
-  overflow: hidden;
-}
-.slide-embed iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-</style>
-
-<!--
-Note: sandbox="" will be added by Markdown Preview Enhanced extension (after `allowfullscreen` in the html file rendered).
-sandbox="" must be edited out, or the embedded frame will not work.
-patch-docs_indexHTML.sh has been revised to do this on docs/index.html.
--->
-
-<div class="slide-embed">
-<!-- <iframe src="./WorkshopTeaser.html" title="Workshop teaser slides" loading="lazy" allowfullscreen></iframe> -->
-<iframe src="https://drayim.github.io/TrainingWorkshop/WorkshopTeaser.html" title="Workshop teaser slides" loading="lazy" allowfullscreen></iframe>
-</div>
-
-<p style="font-size:0.85em; opacity:0.7;">Click the slides, then use the arrow keys to move through them, or press <b>F</b> for fullscreen. <a href="WorkshopTeaser.html" target="_blank">Open in a new tab</a>.</p>
-
----
-
 ## Why These Tools Matter
 
 This workshop introduces a connected toolkit for modern research. Here's what you'll explore and how each piece fits together:
